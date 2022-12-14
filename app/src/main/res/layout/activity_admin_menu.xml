@@ -22,7 +22,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.077"
-        android:fontFamily="@font/Game_Played"/>
+        android:fontFamily="@font/game_played"/>
 
     <Button
         android:id="@+id/buttonStock"
@@ -33,7 +33,7 @@
         android:paddingStart="10dp"
         android:paddingEnd="10dp"
         android:text="STOCK"
-        android:fontFamily="@font/Game_Played"
+        android:fontFamily="@font/game_played"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -51,7 +51,7 @@
         android:paddingStart="10dp"
         android:paddingEnd="10dp"
         android:text="ACCOUNTS"
-        android:fontFamily="@font/Game_Played"
+        android:fontFamily="@font/game_played"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -69,7 +69,7 @@
         android:paddingStart="10dp"
         android:paddingEnd="10dp"
         android:text="HISTORY"
-        android:fontFamily="@font/Game_Played"
+        android:fontFamily="@font/game_played"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -87,7 +87,7 @@
         android:paddingStart="10dp"
         android:paddingEnd="10dp"
         android:text="LOG OUT"
-        android:fontFamily="@font/Game_Played"
+        android:fontFamily="@font/game_played"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
