@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#0F334A"
-    tools:context=".admin_menu">
+    tools:context=".adminMenu">
 
     <TextView
         android:id="@+id/home"
