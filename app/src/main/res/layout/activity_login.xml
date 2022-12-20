@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_color"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:id="@+id/TextLogin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="35dp"
+        android:layout_marginTop="140dp"
+        android:layout_marginEnd="35dp"
+        android:fontFamily="@font/game_played"
+        android:text="R-GAMESHOP"
+        android:textColor="@color/border_color"
+        android:textSize="50sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/editTextUsername"
+        android:layout_width="302dp"
+        android:layout_height="55dp"
+        android:layout_marginStart="57dp"
+        android:layout_marginTop="70dp"
+        android:layout_marginEnd="57dp"
+        android:background="@drawable/edittext_bg"
+        android:ems="10"
+        android:fontFamily="@font/oswald_regular"
+        android:hint="Username"
+        android:inputType="textPersonName"
+        android:padding="10dp"
+        android:textColor="@color/border_color"
+        android:textColorHint="@color/border_color"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/TextLogin" />
+
+    <EditText
+        android:id="@+id/editTextPassword"
+        android:layout_width="302dp"
+        android:layout_height="55dp"
+        android:layout_marginStart="57dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="57dp"
+        android:background="@drawable/edittext_bg"
+        android:ems="10"
+        android:fontFamily="@font/oswald_regular"
+        android:hint="Password"
+        android:inputType="textPassword"
+        android:padding="10dp"
+        android:textColor="@color/border_color"
+        android:textColorHint="@color/border_color"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.4"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextUsername" />
+
+    <Button
+        android:id="@+id/buttonLogin"
+        android:layout_width="147dp"
+        android:layout_height="52dp"
+        android:layout_marginStart="133dp"
+        android:layout_marginTop="55dp"
+        android:layout_marginEnd="133dp"
+        android:text="LOG IN"
+        android:backgroundTint="@color/border_color"
+        android:textColor="@color/background_color"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextPassword" />
+
+    <Button
+        android:id="@+id/buttonToSignUp"
+        android:layout_width="147dp"
+        android:layout_height="52dp"
+        android:layout_marginStart="133dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginEnd="133dp"
+        android:text="SIGN UP"
+        android:backgroundTint="@color/border_color"
+        android:textColor="@color/background"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonLogin"
+        android:onClick="onClickButtonToSignUp"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
