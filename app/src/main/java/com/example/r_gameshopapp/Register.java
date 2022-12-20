@@ -1,4 +1,4 @@
-package com.example.the_ui;
+package com.example.r_gameshopapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
