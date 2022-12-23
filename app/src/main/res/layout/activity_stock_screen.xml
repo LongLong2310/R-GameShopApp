@@ -31,7 +31,8 @@
             android:layout_height="match_parent"
             android:background="@color/border_color" />
 
-        <SearchView
+        <android.widget.SearchView
+            android:id="@+id/simpleSearchView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:queryHint=""

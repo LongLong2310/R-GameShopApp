@@ -19,7 +19,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".admin_menu"
+            android:name=".adminMenu"
             android:exported="false" >
             <meta-data
                 android:name="android.app.lib_name"

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#0F334A"
-    tools:context=".admin_menu">
+    tools:context=".adminMenu">
 
     <TextView
         android:id="@+id/home"
@@ -24,11 +24,10 @@
         app:layout_constraintVertical_bias="0.077"
         android:fontFamily="@font/game_played"/>
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/buttonStock"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="#4CAF50"
         android:drawableTop="@drawable/stock_small"
         android:paddingStart="10dp"
         android:paddingEnd="10dp"
@@ -40,13 +39,15 @@
         app:layout_constraintHorizontal_bias="0.083"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.242" />
+        app:layout_constraintVertical_bias="0.242"
+        android:background="@drawable/customer_border"
+        android:textColor="@android:color/white"/>
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/buttonAccount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="#4CAF50"
+        android:background="@drawable/customer_border"
         android:drawableTop="@drawable/account_small"
         android:paddingStart="10dp"
         android:paddingEnd="10dp"
@@ -58,13 +59,14 @@
         app:layout_constraintHorizontal_bias="0.933"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.241" />
+        app:layout_constraintVertical_bias="0.241"
+        android:textColor="@android:color/white"/>
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/buttonHistory"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="#4CAF50"
+        android:background="@drawable/customer_border"
         android:drawableTop="@drawable/history_small"
         android:paddingStart="10dp"
         android:paddingEnd="10dp"
@@ -76,13 +78,14 @@
         app:layout_constraintHorizontal_bias="0.082"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.779" />
+        app:layout_constraintVertical_bias="0.779"
+        android:textColor="@android:color/white"/>
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/buttonLogout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="#4CAF50"
+        android:background="@drawable/customer_border"
         android:drawableTop="@drawable/logout_small"
         android:paddingStart="10dp"
         android:paddingEnd="10dp"
@@ -94,5 +97,6 @@
         app:layout_constraintHorizontal_bias="0.932"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.779" />
+        app:layout_constraintVertical_bias="0.779"
+        android:textColor="@android:color/white"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
