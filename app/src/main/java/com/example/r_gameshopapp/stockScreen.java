@@ -239,7 +239,7 @@ public class stockScreen extends AppCompatActivity {
             return;
         }
         dbManager.updateStock(
-                cursor.getColumnIndex(DatabaseHelper.STOCK),
+                cursor.getInt(0),
                 tName.getText().toString(),
                 tType.getText().toString(),
                 Integer.parseInt(tStockNum.getText().toString()),
