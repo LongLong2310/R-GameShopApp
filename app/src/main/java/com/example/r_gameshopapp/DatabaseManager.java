@@ -1,4 +1,4 @@
-package com.example.r_gameshopapp.ui;
+package com.example.r_gameshopapp;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -25,12 +25,11 @@ public class DatabaseManager {
         dbHelper.close();
     }
 
-    public void insertStock(int id, String name, String type, int price, int stock){
+    public void insertStock(String name, String type, int stock, double price){
         ContentValues contentValue = new ContentValues();
-        contentValue.put(DatabaseHelper.ID, id);
         contentValue.put(DatabaseHelper.NAME, name);
         contentValue.put(DatabaseHelper.TYPE, type);
-        contentValue.put(DatabaseHelper.PRICE, price);
+        contentValue.put(DatabaseHelper.PRICE, "$" + price);
         contentValue.put(DatabaseHelper.STOCK, stock);
         database.insert(DatabaseHelper.TABLE_NAME_S, null, contentValue);
     }
@@ -75,11 +74,11 @@ public class DatabaseManager {
         return i;
     }
 
-    public int updateStock(long _id,String name, String type, int price, int stock) {
+    public int updateStock(long _id,String name, String type, int stock, double price) {
         ContentValues contentValue = new ContentValues();
         contentValue.put(DatabaseHelper.NAME, name);
         contentValue.put(DatabaseHelper.TYPE, type);
-        contentValue.put(DatabaseHelper.PRICE, price);
+        contentValue.put(DatabaseHelper.PRICE, "$" + price);
         contentValue.put(DatabaseHelper.STOCK, stock);
         int i = database.update(DatabaseHelper.TABLE_NAME_S,
                 contentValue,
@@ -208,5 +207,22 @@ public class DatabaseManager {
         }
         cursor.close();
         return total;
+    }
+
+    public Cursor selectAllStock(){
+        String [] columns = new String[] {
+                DatabaseHelper.ID,
+                DatabaseHelper.NAME,
+                DatabaseHelper.TYPE,
+                DatabaseHelper.STOCK,
+                DatabaseHelper.PRICE
+        };
+        Cursor cursor = database.query(DatabaseHelper.TABLE_NAME_S, columns,
+                null, null, null, null, null);
+
+        if (cursor != null){
+            cursor.moveToFirst();
+        }
+        return cursor;
     }
 }
