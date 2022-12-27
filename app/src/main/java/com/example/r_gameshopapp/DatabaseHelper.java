@@ -1,4 +1,4 @@
-package com.example.r_gameshopapp.ui;
+package com.example.r_gameshopapp;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
