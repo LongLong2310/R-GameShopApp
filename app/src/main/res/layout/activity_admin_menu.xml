@@ -43,7 +43,8 @@
                         android:textStyle="bold"
                         android:textColor="#51C5D5"
                         android:layout_marginLeft="70dp"
-                        android:scaleType="centerCrop"/>
+                        android:scaleType="centerCrop"
+                        android:layout_weight="1"/>
 
                 </TableRow>
 
@@ -71,7 +72,8 @@
 
                     <TableRow
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent" >
+                        android:layout_height="match_parent"
+                       >
 
                         <androidx.appcompat.widget.AppCompatButton
                             android:id="@+id/buttonStock"
@@ -87,14 +89,15 @@
                             android:layout_marginRight="20dp"
                             android:scaleType="centerCrop"
                             android:background="@drawable/customer_border"
-                            android:textColor="@android:color/white"/>
+                            android:textColor="@android:color/white"
+                            android:layout_weight=".5"/>
 
                         <androidx.appcompat.widget.AppCompatButton
                             android:id="@+id/buttonAccount"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="20dp"
-                            android:layout_marginRight="30dp"
+                            android:layout_marginRight="20dp"
                             android:background="@drawable/customer_border"
                             android:drawableTop="@drawable/account_small"
                             android:fontFamily="@font/game_played"
@@ -103,13 +106,15 @@
                             android:scaleType="centerCrop"
                             android:text="ACCOUNTS"
                             android:textColor="@android:color/white"
-                            android:textSize="24sp" />
+                            android:textSize="24sp"
+                            android:layout_weight=".5"/>
 
                     </TableRow>
 
                     <TableRow
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent" >
+                        android:layout_height="match_parent"
+                        >
 
                         <androidx.appcompat.widget.AppCompatButton
                             android:id="@+id/buttonHistory"
@@ -125,7 +130,8 @@
                             android:layout_marginLeft="20dp"
                             android:layout_marginRight="20dp"
                             android:scaleType="centerCrop"
-                            android:textColor="@android:color/white"/>
+                            android:textColor="@android:color/white"
+                            android:layout_weight=".5"/>
 
                         <androidx.appcompat.widget.AppCompatButton
                             android:id="@+id/buttonLogout"
@@ -134,14 +140,15 @@
                             android:background="@drawable/customer_border"
                             android:drawableTop="@drawable/logout_small"
                             android:layout_marginLeft="20dp"
-                            android:layout_marginRight="30dp"
+                            android:layout_marginRight="20dp"
                             android:paddingStart="10dp"
                             android:paddingEnd="10dp"
                             android:text="LOG OUT"
                             android:fontFamily="@font/game_played"
                             android:textSize="24sp"
                             android:scaleType="centerCrop"
-                            android:textColor="@android:color/white"/>
+                            android:textColor="@android:color/white"
+                            android:layout_weight=".5"/>
                     </TableRow>
 
 
