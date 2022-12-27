@@ -5,98 +5,150 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#0F334A"
-    tools:context=".adminMenu">
+    tools:context=".MainActivity">
 
-    <TextView
-        android:id="@+id/home"
-        android:layout_width="99dp"
-        android:layout_height="33dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:gravity="center_horizontal|top"
-        android:text="ADMIN"
-        android:textSize="24sp"
-        android:textColor="#51C5D5"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.077"
-        android:fontFamily="@font/game_played"/>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="124dp">
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/buttonStock"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:drawableTop="@drawable/stock_small"
-        android:paddingStart="10dp"
-        android:paddingEnd="10dp"
-        android:text="STOCK"
-        android:fontFamily="@font/game_played"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.083"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.242"
-        android:background="@drawable/customer_border"
-        android:textColor="@android:color/white"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/buttonAccount"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/customer_border"
-        android:drawableTop="@drawable/account_small"
-        android:paddingStart="10dp"
-        android:paddingEnd="10dp"
-        android:text="ACCOUNTS"
-        android:fontFamily="@font/game_played"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.933"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.241"
-        android:textColor="@android:color/white"/>
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="201dp"
+                android:padding="15dp">
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/buttonHistory"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/customer_border"
-        android:drawableTop="@drawable/history_small"
-        android:paddingStart="10dp"
-        android:paddingEnd="10dp"
-        android:text="HISTORY"
-        android:fontFamily="@font/game_played"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.082"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.779"
-        android:textColor="@android:color/white"/>
+                <TableRow
+                    android:layout_width="wrap_content"
+                    android:layout_height="227dp"
+                    android:layout_marginTop="35dp">
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/buttonLogout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/customer_border"
-        android:drawableTop="@drawable/logout_small"
-        android:paddingStart="10dp"
-        android:paddingEnd="10dp"
-        android:text="LOG OUT"
-        android:fontFamily="@font/game_played"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.932"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.779"
-        android:textColor="@android:color/white"/>
+
+                    <TextView
+                        android:id="@+id/textView"
+                        android:layout_width="314dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginRight="10dp"
+                        android:gravity="center_horizontal|top"
+                        android:paddingRight="50dp"
+                        android:text="ADMIN"
+                        android:fontFamily="@font/game_played"
+                        android:background="#0F334A"
+                        android:textSize="40sp"
+                        android:textStyle="bold"
+                        android:textColor="#51C5D5"
+                        android:layout_marginLeft="70dp"
+                        android:scaleType="centerCrop"/>
+
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"></LinearLayout>
+                </TableRow>
+
+
+            </TableLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TableLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" >
+
+                        <androidx.appcompat.widget.AppCompatButton
+                            android:id="@+id/buttonStock"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:drawableTop="@drawable/stock_small"
+                            android:paddingStart="10dp"
+                            android:paddingEnd="10dp"
+                            android:text="STOCK"
+                            android:fontFamily="@font/game_played"
+                            android:textSize="24sp"
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginRight="20dp"
+                            android:scaleType="centerCrop"
+                            android:background="@drawable/customer_border"
+                            android:textColor="@android:color/white"/>
+
+                        <androidx.appcompat.widget.AppCompatButton
+                            android:id="@+id/buttonAccount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginRight="30dp"
+                            android:background="@drawable/customer_border"
+                            android:drawableTop="@drawable/account_small"
+                            android:fontFamily="@font/game_played"
+                            android:paddingStart="10dp"
+                            android:paddingEnd="10dp"
+                            android:scaleType="centerCrop"
+                            android:text="ACCOUNTS"
+                            android:textColor="@android:color/white"
+                            android:textSize="24sp" />
+
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" >
+
+                        <androidx.appcompat.widget.AppCompatButton
+                            android:id="@+id/buttonHistory"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/customer_border"
+                            android:drawableTop="@drawable/history_small"
+                            android:paddingStart="10dp"
+                            android:paddingEnd="10dp"
+                            android:text="HISTORY"
+                            android:fontFamily="@font/game_played"
+                            android:textSize="24sp"
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginRight="20dp"
+                            android:scaleType="centerCrop"
+                            android:textColor="@android:color/white"/>
+
+                        <androidx.appcompat.widget.AppCompatButton
+                            android:id="@+id/buttonLogout"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/customer_border"
+                            android:drawableTop="@drawable/logout_small"
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginRight="30dp"
+                            android:paddingStart="10dp"
+                            android:paddingEnd="10dp"
+                            android:text="LOG OUT"
+                            android:fontFamily="@font/game_played"
+                            android:textSize="24sp"
+                            android:scaleType="centerCrop"
+                            android:textColor="@android:color/white"/>
+                    </TableRow>
+
+
+                </TableLayout>
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
