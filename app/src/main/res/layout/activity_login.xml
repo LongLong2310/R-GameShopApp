@@ -73,8 +73,10 @@
         android:textColor="@color/background_color"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+
         app:layout_constraintTop_toBottomOf="@+id/editTextPassword"
         android:onClick="login"/>
+
 
     <Button
         android:id="@+id/buttonToSignUp"
