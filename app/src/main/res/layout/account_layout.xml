@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:layout_margin="15dp"
     android:background="@drawable/customer_border"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -20,11 +20,11 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:layout_marginLeft="5dp"
+            android:layout_marginTop="10dp"
             android:layout_marginRight="6dp"
             android:fontFamily="@font/oswald_bold"
             android:padding="3dp"
             android:text="ID:"
-            android:layout_marginTop="10dp"
             android:textColor="@color/white"
             android:visibility="visible" />
 
@@ -33,52 +33,41 @@
             android:layout_width="25dp"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
+            android:layout_marginTop="10dp"
             android:layout_marginRight="6dp"
             android:layout_toRightOf="@+id/lId"
             android:fontFamily="@font/oswald_bold"
             android:padding="3dp"
             android:textAlignment="textEnd"
             android:textColor="@color/white"
-            android:layout_marginTop="10dp"
             android:visibility="visible" />
 
         <TextView
-            android:id="@+id/lStockNumber"
+            android:id="@+id/lBalanceNumber"
             android:layout_width="59dp"
             android:layout_height="28dp"
-            android:layout_below="@+id/lType"
+            android:layout_below="@+id/lName"
             android:layout_marginLeft="4dp"
             android:layout_marginRight="6dp"
-            android:layout_toRightOf="@+id/lStock"
+            android:layout_toRightOf="@+id/Balance"
             android:fontFamily="@font/oswald_bold"
-            android:padding="3dp"
+            android:padding="6dp"
             android:textAlignment="textStart"
             android:textColor="@color/white"
             android:visibility="visible" />
 
-        <TextView
-            android:id="@+id/lType"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/lId"
-            android:layout_alignParentLeft="true"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="6dp"
-            android:fontFamily="@font/oswald_bold"
-            android:padding="3dp"
-            android:textColor="@color/white"
-            android:visibility="visible" />
+
 
         <TextView
-            android:id="@+id/lPrice"
+            android:id="@+id/lPassword"
             android:layout_width="253dp"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/lType"
+            android:layout_below="@+id/lIdNumber"
             android:layout_marginLeft="20dp"
-            android:layout_marginTop="1dp"
-            android:layout_toRightOf="@+id/lStockNumber"
+            android:layout_marginTop="2dp"
+            android:layout_toRightOf="@+id/lBalanceNumber"
             android:ellipsize="end"
-            android:fontFamily="@font/oswald_bold"
+            android:fontFamily="@font/game_played"
             android:maxLines="3"
             android:padding="3dp"
             android:textAlignment="textEnd"
@@ -86,16 +75,16 @@
             android:visibility="visible" />
 
         <TextView
-            android:id="@+id/lStock"
+            android:id="@+id/Balance"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/lType"
+            android:layout_below="@+id/lIdNumber"
             android:layout_alignParentLeft="true"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="6dp"
             android:fontFamily="@font/oswald_bold"
             android:padding="3dp"
-            android:text="Stock: "
+            android:text="Balance: "
             android:textColor="@color/white"
             android:visibility="visible" />
 
@@ -103,14 +92,14 @@
             android:id="@+id/lName"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/lStockNumber"
+            android:layout_marginTop="10dp"
+            android:layout_toRightOf="@+id/lIdNumber"
             android:fontFamily="@font/game_played"
             android:maxLines="1"
             android:padding="3dp"
+            android:textAlignment="textEnd"
             android:textColor="@color/white"
             android:textSize="17sp"
-            android:layout_marginTop="10dp"
-            android:textAlignment="textEnd"
             android:textStyle="bold" />
     </RelativeLayout>
 
