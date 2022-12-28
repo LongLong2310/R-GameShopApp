@@ -31,7 +31,7 @@ public class Login extends AppCompatActivity {
             Toast.makeText(this, "wrong password or username", Toast.LENGTH_SHORT).show();
         }
     }
-        public void onClickButtonToSignUp(View view) {
+      
 
     public void onClickButtonToSignUp(View view) {
 
