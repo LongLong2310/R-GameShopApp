@@ -29,6 +29,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String STOCK = "stock";
     public static final String TYPE = "type";
 
+    //Cart
+    public static final String DATE = "date";
+    public static final String TID = "tid";
+
     //create query
     private static final String CREATE_TABLE_CART =
             "create table " + TABLE_NAME_C + " (" +
@@ -36,13 +40,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     NAME + " TEXT NOT NULL," +
                     CID + " INTEGER," +
                     PRICE + " INTEGER," +
+                    DATE + " STRING," +
+                    TID + " INTEGER," +
                     AMOUNT + " INTEGER);";
+
     private static final String CREATE_TABLE_HISTORY =
             "create table " + TABLE_NAME_H + " (" +
                     ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                     NAME + " TEXT NOT NULL," +
                     CID + " INTEGER," +
                     PRICE + " INTEGER," +
+                    DATE + " STRING," +
+                    TID + " INTEGER," +
                     AMOUNT + " INTEGER);";
 
     private static final String CREATE_TABLE_STOCK =

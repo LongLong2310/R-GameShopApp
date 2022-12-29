@@ -225,4 +225,20 @@ public class DatabaseManager {
         }
         return cursor;
     }
+
+    public Cursor selectAllHistory(){
+        String [] columns = new String[] {
+                DatabaseHelper.TID,
+                DatabaseHelper.DATE,
+                DatabaseHelper.CID,
+                DatabaseHelper.AMOUNT
+        };
+        Cursor cursor = database.query(DatabaseHelper.TABLE_NAME_H, columns,
+                null, null, null, null, null);
+
+        if (cursor != null){
+            cursor.moveToFirst();
+        }
+        return cursor;
+    }
 }
