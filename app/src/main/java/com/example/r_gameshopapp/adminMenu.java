@@ -37,6 +37,8 @@ public class adminMenu extends AppCompatActivity {
         buttonA.setOnClickListener((View.OnClickListener)(new View.OnClickListener() {
             public final void onClick(View it) {
                 Toast.makeText((Context)adminMenu.this, "Account", Toast.LENGTH_SHORT).show();
+                Intent i = new Intent(adminMenu.this, accountScreen.class);
+                startActivity(i);
             }
         }));
         buttonL.setOnClickListener((View.OnClickListener)(new View.OnClickListener() {
