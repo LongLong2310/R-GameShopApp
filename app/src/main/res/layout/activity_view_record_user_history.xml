@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="15dp"
+    android:background="@drawable/customer_border"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="10dp">
+
+        <TextView
+            android:id="@+id/lTransactionId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="6dp"
+            android:fontFamily="@font/oswald_bold"
+            android:padding="3dp"
+            android:text="Transaction ID:"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/white"
+            android:visibility="visible" />
+
+        <TextView
+            android:id="@+id/lTransactionIdNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginRight="6dp"
+            android:layout_toRightOf="@+id/lTransactionId"
+            android:fontFamily="@font/oswald_bold"
+            android:padding="3dp"
+            android:textAlignment="textEnd"
+            android:textColor="@color/white"
+            android:layout_marginTop="10dp"
+            android:visibility="visible" />
+
+        <TextView
+            android:id="@+id/lDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/lTransactionId"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="6dp"
+            android:fontFamily="@font/oswald_bold"
+            android:padding="3dp"
+            android:textColor="@color/white"
+            android:text="Date: "
+            android:visibility="visible" />
+        <TextView
+            android:id="@+id/lDateNum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/lTransactionIdNumber"
+            android:layout_toRightOf="@+id/lDate"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="6dp"
+            android:fontFamily="@font/oswald_bold"
+            android:padding="3dp"
+            android:textColor="@color/white"
+            android:text="Date: "
+            android:visibility="visible" />
+
+        <TextView
+            android:id="@+id/lTotalPrice"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/lDateNum"
+            android:layout_toRightOf="@+id/lCusIDNum"
+            android:ellipsize="end"
+            android:fontFamily="@font/oswald_bold"
+            android:maxLines="3"
+            android:padding="3dp"
+            android:textAlignment="textEnd"
+            android:textColor="@color/white"
+            android:visibility="visible" />
+
+        <TextView
+            android:id="@+id/lCusID"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/lDate"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="6dp"
+            android:fontFamily="@font/oswald_bold"
+            android:padding="3dp"
+            android:textColor="@color/white"
+            android:text="Customer ID: "
+            android:visibility="visible" />
+
+        <TextView
+            android:id="@+id/lCusIDNum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/lDate"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="6dp"
+            android:layout_toRightOf="@+id/lCusID"
+            android:fontFamily="@font/oswald_bold"
+            android:padding="3dp"
+            android:textColor="@color/white"
+            android:visibility="visible" />
+
+    </RelativeLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
