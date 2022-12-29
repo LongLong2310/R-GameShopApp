@@ -13,9 +13,12 @@ import java.util.ArrayList;
 public class GridAdapter extends ArrayAdapter {
     Context context;
     String[] itemName;
+    int[] itemStock;
+    String[] itemCategory;
+    int[] itemPrice;
     int[] image;
 
-    ArrayList<Item> itemList = new ArrayList<Item>();
+    ArrayList<Item> itemList = new ArrayList<>();
 
     public GridAdapter(Context context, int textViewResourceId, ArrayList objects) {
         super(context, textViewResourceId, objects);
@@ -33,10 +36,17 @@ public class GridAdapter extends ArrayAdapter {
         View v = convertView;
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         v = inflater.inflate(R.layout.activity_main_item, null);
-        TextView textView = (TextView) v.findViewById(R.id.item_name);
-        ImageView imageView = (ImageView) v.findViewById(R.id.grid_image);
-        textView.setText(itemList.get(position).getitemName());
-        imageView.setImageResource(itemList.get(position).getitemImage());
+        TextView itemNameView = (TextView) v.findViewById(R.id.item_name);
+        TextView itemStockView = (TextView) v.findViewById(R.id.item_stock);
+        TextView itemCategoryView = (TextView) v.findViewById(R.id.item_category);
+        TextView itemPriceView = (TextView) v.findViewById(R.id.item_price);
+        ImageView itemImageView = (ImageView) v.findViewById(R.id.item_image);
+
+        itemNameView.setText(itemList.get(position).getitemName());
+        itemStockView.setText(itemList.get(position).getiemStock());
+        itemCategoryView.setText(itemList.get(position).getitemCategory());
+        itemPriceView.setText("$" + itemList.get(position).getitemPrice());
+        itemImageView.setImageResource(itemList.get(position).getitemImage());
         return v;
 
     }
