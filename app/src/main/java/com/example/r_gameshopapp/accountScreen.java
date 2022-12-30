@@ -217,7 +217,7 @@ public class accountScreen extends AppCompatActivity {
             dialog.show();
             return;
         }
-        if ( !isNumeric(tCash.getText().toString())|| dbManager.checkUser(tName.getText().toString())==true) {
+        if ( !isNumeric(tCash.getText().toString())|| ((dbManager.checkUser(tName.getText().toString())==true) && (!tName.getText().toString().equals(cursor.getString(1))))) {
             AlertDialog dialog = new
                     AlertDialog.Builder(accountScreen.this).create();
             dialog.setTitle("Invalid input");
