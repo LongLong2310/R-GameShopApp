@@ -18,7 +18,7 @@ import android.widget.Spinner;
 
 import java.util.ArrayList;
 
-public class stockScreen extends AppCompatActivity {
+public class accountScreen extends AppCompatActivity {
     private Cursor cursor;
     private DatabaseManager dbManager;
     private ImageButton addButton;
@@ -26,16 +26,14 @@ public class stockScreen extends AppCompatActivity {
     private String[] from = new String[]{
             DatabaseHelper.ID,
             DatabaseHelper.NAME,
-            DatabaseHelper.TYPE,
-            DatabaseHelper.STOCK,
-            DatabaseHelper.PRICE
+            DatabaseHelper.PASS,
+            DatabaseHelper.CASH
     };
     private int[] to = new int[]{
             R.id.lIdNumber,
             R.id.lName,
-            R.id.lType,
-            R.id.lStockNumber,
-            R.id.lPrice
+            R.id.lPassword,
+            R.id.lBalanceNumber
     };
     private Spinner spinnerFilter;
 
@@ -43,7 +41,7 @@ public class stockScreen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         dbManager = new DatabaseManager(this);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_stock_screen);
+        setContentView(R.layout.activity_account_screen);
         spinnerFilter = (Spinner) findViewById(R.id.spinnerFilter);
         ArrayList<String> arrayList = new ArrayList<>();
         arrayList.add("Name");
@@ -51,7 +49,7 @@ public class stockScreen extends AppCompatActivity {
         arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerFilter.setAdapter(arrayAdapter);
 
-        showStockList();
+        showAccountList();
 
         addButton = (ImageButton) findViewById(R.id.add_button);
         addButton.setOnClickListener(new View.OnClickListener() {
@@ -68,7 +66,7 @@ public class stockScreen extends AppCompatActivity {
     @Override
     protected void onResume(){
         super.onResume();
-        showStockList();
+        showAccountList();
     }
 
     //One method to set visibility for our widgets
@@ -86,15 +84,14 @@ public class stockScreen extends AppCompatActivity {
         setVisible(R.id.list, true);
     }
 
-    public void onAddStock(View view) {
+    public void onAddAccount(View view) {
         EditText tName= findViewById(R.id.tName);
-        EditText tType = findViewById(R.id.tType);
-        EditText tStockNum = findViewById(R.id.tStockNum);
-        EditText tPrice = findViewById(R.id.tPrice);
-        if (tName.getText().toString().equals("") || tType.getText().toString().equals("") ||
-                tStockNum.getText().toString().equals("") || tPrice.getText().toString().equals("")){
+        EditText tPass = findViewById(R.id.tPass);
+        EditText tCash = findViewById(R.id.tCash);
+        if (tName.getText().toString().equals("") || tPass.getText().toString().equals("") ||
+                tCash.getText().toString().equals("") ){
             AlertDialog dialog = new
-                    AlertDialog.Builder(stockScreen.this).create();
+                    AlertDialog.Builder(accountScreen.this).create();
             dialog.setTitle("Invalid input");
             dialog.setMessage("The input cannot be empty");
             dialog.setButton(AlertDialog.BUTTON_POSITIVE,
@@ -103,46 +100,44 @@ public class stockScreen extends AppCompatActivity {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             setVisible(R.id.addLayout, false);
-                            showStockList();
+                            showAccountList();
                         }
                     });
             dialog.show();
             return;
         }
-        if (!isNumeric(tStockNum.getText().toString()) || !isNumeric(tPrice.getText().toString())) {
+        if ( !isNumeric(tCash.getText().toString()) ||dbManager.checkUser(tName.getText().toString())==true) {
             AlertDialog dialog = new
-                    AlertDialog.Builder(stockScreen.this).create();
+                    AlertDialog.Builder(accountScreen.this).create();
             dialog.setTitle("Invalid input");
-            dialog.setMessage("The stock or price must be number");
+            dialog.setMessage("The balance must be number and name must be unique");
             dialog.setButton(AlertDialog.BUTTON_POSITIVE,
                     "Ok",
                     new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             setVisible(R.id.addLayout, false);
-                            showStockList();
+                            showAccountList();
                         }
                     });
             dialog.show();
             return;
         }
-        dbManager.insertStock(
+        dbManager.insertAccount(
                 tName.getText().toString(),
-                tType.getText().toString(),
-                Integer.parseInt(tStockNum.getText().toString()),
-                Double.parseDouble(tPrice.getText().toString()));
+                tPass.getText().toString(),
+                Double.parseDouble(tCash.getText().toString()));
         tName.setText("");
-        tType.setText("");
-        tStockNum.setText("");
-        tPrice.setText("");
+        tPass.setText("");
+        tCash.setText("");
         setVisible(R.id.addLayout,false);
-        showStockList();
+        showAccountList();
     }
 
-    private void showStockList() {
+    private void showAccountList() {
         setVisible(R.id.addLayout, false);
         dbManager.open();
-        cursor = dbManager.selectAllStock();
+        cursor = dbManager.selectAllAccount();
         if (cursor.getCount() == 0){
 //            setVisible(R.id.noRecordText, true);
             setVisible(R.id.list, false);
@@ -151,7 +146,7 @@ public class stockScreen extends AppCompatActivity {
             ListView listView = (ListView) findViewById(R.id.list);
             setVisible(R.id.list, true);
             SimpleCursorAdapter adapter = new SimpleCursorAdapter(
-                    this, R.layout.activity_view_record, cursor, from, to, 0);
+                    this, R.layout.account_layout, cursor, from, to, 0);
             adapter.notifyDataSetChanged();
             listView.setAdapter(adapter);
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -159,17 +154,17 @@ public class stockScreen extends AppCompatActivity {
                 public void onItemClick(AdapterView<?> parent, View view, int
                         position, long id) {
                     AlertDialog dialog = new
-                            AlertDialog.Builder(stockScreen.this).create();
-                    dialog.setTitle(cursor.getString(2));
-                    dialog.setMessage("Do you want to delete or update this stock?");
+                            AlertDialog.Builder(accountScreen.this).create();
+                    dialog.setTitle(cursor.getString(1));
+                    dialog.setMessage("Do you want to delete or update this account?");
                     dialog.setButton(AlertDialog.BUTTON_POSITIVE,
                             "Delete",
                             new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int
                                         which) {
-                                    dbManager.deleteStock(cursor.getInt(0));
-                                    showStockList();
+                                    dbManager.deleteAccount(cursor.getInt(0));
+                                    showAccountList();
                                 }
                             });
                     dialog.setButton(AlertDialog.BUTTON_NEGATIVE,
@@ -199,16 +194,15 @@ public class stockScreen extends AppCompatActivity {
         dbManager.close();
     }
 
-    public void onUpdateStock(View view) {
+    public void onUpdateAccount(View view) {
         EditText tName= findViewById(R.id.tNameUpdate);
-        EditText tType = findViewById(R.id.tTypeUpdate);
-        EditText tStockNum = findViewById(R.id.tStockNumUpdate);
-        EditText tPrice = findViewById(R.id.tPriceUpdate);
+        EditText tPass = findViewById(R.id.tPassUpdate);
+        EditText tCash = findViewById(R.id.tCashUpdate);
 
-        if (tName.getText().toString().equals("") || tType.getText().toString().equals("") ||
-                tStockNum.getText().toString().equals("") || tPrice.getText().toString().equals("")){
+        if (tName.getText().toString().equals("") || tPass.getText().toString().equals("") ||
+                tCash.getText().toString().equals("")){
             AlertDialog dialog = new
-                    AlertDialog.Builder(stockScreen.this).create();
+                    AlertDialog.Builder(accountScreen.this).create();
             dialog.setTitle("Invalid input");
             dialog.setMessage("The input cannot be empty");
             dialog.setButton(AlertDialog.BUTTON_POSITIVE,
@@ -217,41 +211,39 @@ public class stockScreen extends AppCompatActivity {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             setVisible(R.id.updateLayout, false);
-                            showStockList();
+                            showAccountList();
                         }
                     });
             dialog.show();
             return;
         }
-        if (!isNumeric(tStockNum.getText().toString()) || !isNumeric(tPrice.getText().toString())) {
+        if ( !isNumeric(tCash.getText().toString())|| ((dbManager.checkUser(tName.getText().toString())==true) && (!tName.getText().toString().equals(cursor.getString(1))))) {
             AlertDialog dialog = new
-                    AlertDialog.Builder(stockScreen.this).create();
+                    AlertDialog.Builder(accountScreen.this).create();
             dialog.setTitle("Invalid input");
-            dialog.setMessage("The stock or price must be number");
+            dialog.setMessage("The balance must be number and name must be unique");
             dialog.setButton(AlertDialog.BUTTON_POSITIVE,
                     "Ok",
                     new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             setVisible(R.id.updateLayout, false);
-                            showStockList();
+                            showAccountList();
                         }
                     });
             dialog.show();
             return;
         }
-        dbManager.updateStock(
+        dbManager.updateAccount(
                 cursor.getInt(0),
                 tName.getText().toString(),
-                tType.getText().toString(),
-                Integer.parseInt(tStockNum.getText().toString()),
-                Double.parseDouble(tPrice.getText().toString()));
+                tPass.getText().toString(),
+                Double.parseDouble(tCash.getText().toString()));
         tName.setText("");
-        tType.setText("");
-        tStockNum.setText("");
-        tPrice.setText("");
+        tPass.setText("");
+        tCash.setText("");
         setVisible(R.id.updateLayout,false);
-        showStockList();
+        showAccountList();
     }
 
     public static boolean isNumeric(String strNum) {
