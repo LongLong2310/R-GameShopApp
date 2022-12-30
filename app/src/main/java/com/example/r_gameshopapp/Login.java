@@ -9,11 +9,12 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class Login extends AppCompatActivity {
-
+    private DatabaseManager dbManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        dbManager = new DatabaseManager(this);
     }
 
 
@@ -25,8 +26,17 @@ public class Login extends AppCompatActivity {
             startActivity(i);
 
         } else {
-            Toast.makeText(this, "wrong password or username", Toast.LENGTH_SHORT).show();
+            if (dbManager.checkUser(username.getText().toString(),password.getText().toString())) {
+                Toast.makeText(this, "Welcome user " +username.getText().toString(), Toast.LENGTH_SHORT).show();
+
+            } else {
+                Toast.makeText(this, "wrong password or username", Toast.LENGTH_SHORT).show();
+            }
         }
+    }
+    protected void onDestroy(){
+        super.onDestroy();
+        dbManager.close();
     }
         public void onClickButtonToSignUp(View view) {
         Intent i = new Intent(Login.this, Register.class);

@@ -294,10 +294,9 @@ public class DatabaseManager {
         String[] columns = {
                 DatabaseHelper.ID
         };
-        if (dbHelper == null) {
             dbHelper = new DatabaseHelper(context);
             database = dbHelper.getWritableDatabase();
-        }
+
         // selection criteria
         String selection = DatabaseHelper.NAME + " = ?" + " AND " + DatabaseHelper.PASS + " = ?";
         // selection arguments
@@ -317,10 +316,11 @@ public class DatabaseManager {
                 null);                      //The sort order
         int cursorCount = cursor.getCount();
         cursor.close();
-        if (dbHelper != null) database.close();
+         database.close();
         if (cursorCount > 0) {
             return true;
         }
         return false;
     }
 }
+
