@@ -1,6 +1,7 @@
 package com.example.r_gameshopapp;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -27,7 +28,8 @@ public class Login extends AppCompatActivity {
 
         } else {
             if (dbManager.checkUser(username.getText().toString(),password.getText().toString())) {
-                Toast.makeText(this, "Welcome user " +username.getText().toString(), Toast.LENGTH_SHORT).show();
+                Cursor cursor =dbManager.loginInfo(username.getText().toString());
+                Toast.makeText(this, "Welcome user " +cursor.getString(1)+" with id " +cursor.getInt(0), Toast.LENGTH_SHORT).show();
 
             } else {
                 Toast.makeText(this, "wrong password or username", Toast.LENGTH_SHORT).show();
