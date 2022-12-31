@@ -9,6 +9,9 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class Register extends AppCompatActivity {
     private DatabaseManager dbManager;
 
@@ -36,5 +39,11 @@ public class Register extends AppCompatActivity {
         } else {
             Toast.makeText(this, "name must be unique and password and confirm must be the same", Toast.LENGTH_SHORT).show();
         }
+    }
+    public static boolean isValidPassword(String password)
+    {String regex = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%]).{8,20}$";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(password);
+        return matcher.matches();
     }
 }
