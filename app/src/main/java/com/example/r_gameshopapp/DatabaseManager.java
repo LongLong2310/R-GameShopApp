@@ -322,5 +322,32 @@ public class DatabaseManager {
         }
         return false;
     }
+    public Cursor loginInfo(String username){
+        dbHelper = new DatabaseHelper(context);
+        database = dbHelper.getWritableDatabase();
+        String [] columns = new String[] {
+                DatabaseHelper.ID,
+                DatabaseHelper.NAME,
+                DatabaseHelper.PASS,
+                DatabaseHelper.CASH
+        };
+        // selection criteria
+        String selection = DatabaseHelper.NAME + " = ?";
+        // selection argument
+        String[] selectionArgs = {username};
+        // query user table with condition
+        Cursor cursor = database.query(DatabaseHelper.TABLE_NAME_A, //Table to query
+                columns,                    //columns to return
+                selection,                  //columns for the WHERE clause
+                selectionArgs,              //The values for the WHERE clause
+                null,                       //group the rows
+                null,                       //filter by row groups
+                null);
+        if (cursor != null){
+            cursor.moveToFirst();
+        }
+        database.close();
+        return cursor;
+    }
 }
 
