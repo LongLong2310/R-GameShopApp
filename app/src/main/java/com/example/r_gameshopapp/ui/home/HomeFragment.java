@@ -33,10 +33,10 @@ public class HomeFragment extends Fragment {
 
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
-
-        itemList.add(new Item("1", 1, "GAME", 59.99, R.drawable.game));
-        itemList.add(new Item("2", 2, "CONSOLE", 109.99, R.drawable.console));
-        itemList.add(new Item("3", 3, "ACCESSORIES", 29.99, R.drawable.accessories));
+        simpleList = (GridView) root.findViewById(R.id.gridView);
+        itemList.add(new Item(1, "Game", 1, "GAME", 59.99, R.drawable.game));
+        itemList.add(new Item(2, "Console", 2, "CONSOLE", 109.99, R.drawable.console));
+        itemList.add(new Item(3, "Accessories", 3, "ACCESSORIES", 29.99, R.drawable.accessories));
 
         GridAdapter gridAdapter = new GridAdapter(context, R.layout.activity_main_item, itemList);
         simpleList.setAdapter(gridAdapter);
