@@ -43,7 +43,7 @@ public class GridAdapter extends ArrayAdapter {
         ImageView itemImageView = (ImageView) v.findViewById(R.id.item_image);
 
         itemNameView.setText(itemList.get(position).getitemName());
-        itemStockView.setText(itemList.get(position).getiemStock());
+        itemStockView.setText(Integer.toString(itemList.get(position).getiemStock()));
         itemCategoryView.setText(itemList.get(position).getitemCategory());
         itemPriceView.setText("$" + itemList.get(position).getitemPrice());
         itemImageView.setImageResource(itemList.get(position).getitemImage());
