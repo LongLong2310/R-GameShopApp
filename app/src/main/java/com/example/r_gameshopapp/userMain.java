@@ -14,7 +14,7 @@ import com.example.r_gameshopapp.databinding.ActivityMainBinding;
 
 import java.util.Objects;
 
-public class MainActivity extends AppCompatActivity {
+public class userMain extends AppCompatActivity {
 
     private ActivityMainBinding binding;
 
