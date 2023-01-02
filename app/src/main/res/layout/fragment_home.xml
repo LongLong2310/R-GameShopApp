@@ -28,6 +28,15 @@
             android:background= "@null"
             android:layout_height="match_parent"/>
     </RelativeLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/oswald_regular"
+        android:text="CATEGORIES"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="10dp"
+        android:textSize="25sp"
+        android:textColor="#ffffff"/>
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="120dp"
@@ -83,7 +92,15 @@
             android:fontFamily="@font/game_played"
             android:textColor="@color/border_color"/>
     </RelativeLayout>
-
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/oswald_regular"
+        android:text="ALL PRODUCTS"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="10dp"
+        android:textSize="25sp"
+        android:textColor="#ffffff"/>
     <GridView
         android:id="@+id/gridView"
         android:layout_width="match_parent"
