@@ -5,8 +5,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.GridView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -22,7 +22,7 @@ import java.util.ArrayList;
 public class HomeFragment extends Fragment {
 
     private FragmentHomeBinding binding;
-    GridView simpleList;
+    GridView gridList;
     ArrayList<Item> itemList = new ArrayList<>();
     int image;
 
@@ -33,16 +33,20 @@ public class HomeFragment extends Fragment {
 
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
-        simpleList = (GridView) root.findViewById(R.id.gridView);
-        itemList.add(new Item(1, "Game", 1, "GAME", 59.99, R.drawable.game));
-        itemList.add(new Item(2, "Console", 2, "CONSOLE", 109.99, R.drawable.console));
-        itemList.add(new Item(3, "Accessories", 3, "ACCESSORIES", 29.99, R.drawable.accessories));
+        gridList = (GridView) root.findViewById(R.id.gridView);
+        itemList.add(new Item(1, "Pokemon Violet", 7, "GAME", 59.99, R.drawable.game));
+        itemList.add(new Item(2, "DualShock 4 PS4", 2, "CONSOLE", 79.99, R.drawable.console));
+        itemList.add(new Item(3, "Razor Headset", 0, "ACCESSORIES", 29.99, R.drawable.accessories));
 
         GridAdapter gridAdapter = new GridAdapter(context, R.layout.activity_main_item, itemList);
-        simpleList.setAdapter(gridAdapter);
+        gridList.setAdapter(gridAdapter);
+        gridList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-        final TextView textView = binding.textHome;
-        homeViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
+            }
+        });
+
         return root;
     }
 
