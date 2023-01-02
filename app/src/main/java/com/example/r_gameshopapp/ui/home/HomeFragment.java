@@ -24,7 +24,6 @@ public class HomeFragment extends Fragment {
     private FragmentHomeBinding binding;
     GridView gridList;
     ArrayList<Item> itemList = new ArrayList<>();
-    int image;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
