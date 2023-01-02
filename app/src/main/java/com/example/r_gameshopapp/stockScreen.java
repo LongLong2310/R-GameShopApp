@@ -3,7 +3,6 @@ package com.example.r_gameshopapp;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.annotation.SuppressLint;
 import android.app.SearchManager;
 import android.content.DialogInterface;
 import android.database.Cursor;
@@ -23,7 +22,6 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class stockScreen extends AppCompatActivity {
     private Cursor cursor;
@@ -46,7 +44,7 @@ public class stockScreen extends AppCompatActivity {
     };
     private ListView listView;
     private Spinner spinnerFilter;
-    private SearchView searchView;
+    private String selectedFilter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,9 +55,22 @@ public class stockScreen extends AppCompatActivity {
         spinnerFilter.getBackground().setColorFilter(getResources().getColor(R.color.border_color), PorterDuff.Mode.SRC_ATOP);
         ArrayList<String> arrayList = new ArrayList<>();
         arrayList.add("Name");
+        arrayList.add("ID");
+        arrayList.add("Type");
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, arrayList);
         arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerFilter.setAdapter(arrayAdapter);
+        spinnerFilter.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                selectedFilter = spinnerFilter.getSelectedItem().toString();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
         showStockList();
 
@@ -194,25 +205,6 @@ public class stockScreen extends AppCompatActivity {
                     dialog.show();
                 }
             });
-            searchView = (SearchView) findViewById(R.id.simpleSearchView);
-            searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-                @Override
-                public boolean onQueryTextSubmit(String query) {
-                    if (toList(query).contains(query)) {
-                        Toast.makeText(stockScreen.this, "Found", Toast.LENGTH_LONG).show();
-                        adapter.getFilter().filter(query);
-                    }
-                    else {
-                        Toast.makeText(stockScreen.this, "No match found", Toast.LENGTH_LONG).show();
-                    }
-                    return false;
-                }
-
-                @Override
-                public boolean onQueryTextChange(String newText) {
-                    return false;
-                }
-            });
         }
     }
     public void onAddClick(View view) {
@@ -294,19 +286,6 @@ public class stockScreen extends AppCompatActivity {
         return true;
     }
 
-    @SuppressLint("Range")
-    private ArrayList<String> toList(String name) {
-        dbManager.open();
-        cursor = dbManager.searchName(name);
-        ArrayList<String>  list = new ArrayList<String>();
-        cursor.moveToFirst();
-        while(!cursor.isAfterLast()) {
-            list.add(cursor.getString(cursor.getColumnIndex(DatabaseHelper.NAME))); //add the item
-            cursor.moveToNext();
-        }
-        return list;
-    }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         SearchView searchView = (SearchView) findViewById(R.id.simpleSearchView);
@@ -330,12 +309,23 @@ public class stockScreen extends AppCompatActivity {
     }
 
     private void searchStock(String string) {
-        DatabaseHelper databaseHelper = new DatabaseHelper(getApplicationContext());
+        if (selectedFilter.equals("Name")) {
+            cursor = dbManager.searchStockName(string);
+        }
+        else if (selectedFilter.equals("ID")) {
+            cursor = dbManager.searchStockID(string);
+        }
+        else {
+            cursor = dbManager.searchStockType(string);
+        }
+
         SimpleCursorAdapter adapter = new SimpleCursorAdapter(
-                this, R.layout.activity_view_record_user_history_detail, cursor, from, to, 0);
+                this, R.layout.activity_view_record, cursor, from, to, 0);
         adapter.notifyDataSetChanged();
-        List<Stock> stockList = databaseHelper.search(string);
-        if (stockList != null) {
+        if(cursor.getCount() == 0) {
+            Toast.makeText(this, "No match found", Toast.LENGTH_SHORT).show();
+        }
+        else {
             listView.setAdapter(adapter);
         }
     }

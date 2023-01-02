@@ -97,26 +97,4 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_S);
         onCreate(db);
     }
-
-    public List<Stock> search(String string) {
-        List<Stock> stocks = null;
-        try {
-            SQLiteDatabase sqLiteDatabase = getReadableDatabase();
-            Cursor cursor = sqLiteDatabase.rawQuery("SELECT * FROM " + TABLE_NAME_S + " WHERE " + NAME + " LIKE ?", new String[] { "%" + string + "%"});
-            if (cursor.moveToFirst()) {
-                stocks = new ArrayList<Stock>();
-                do {
-                    Stock stock = new Stock();
-                    stock.setId(cursor.getInt(0));
-                    stock.setName(cursor.getString(1));
-                    stock.setPrice(cursor.getDouble(2));
-                    stock.setStock(cursor.getInt(3));
-                    stocks.add(stock);
-                } while (cursor.moveToNext());
-            }
-        } catch (Exception e) {
-            stocks = null;
-        }
-        return stocks;
-    }
 }

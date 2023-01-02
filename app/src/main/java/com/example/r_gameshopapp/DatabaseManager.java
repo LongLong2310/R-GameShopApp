@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class DatabaseManager {
@@ -236,6 +237,38 @@ public class DatabaseManager {
         }
         return cursor;
     }
+
+    public Cursor searchStockName(String string){
+
+        Cursor cursor = database.rawQuery("SELECT * FROM " + DatabaseHelper.TABLE_NAME_S + " WHERE " + DatabaseHelper.NAME + " LIKE ?", new String[] { "%" + string + "%"});
+
+        if (cursor != null){
+            cursor.moveToFirst();
+        }
+        return cursor;
+    }
+
+    public Cursor searchStockID(String string){
+
+        Cursor cursor = database.rawQuery("SELECT * FROM " + DatabaseHelper.TABLE_NAME_S + " WHERE " + DatabaseHelper.ID + " LIKE ?", new String[] { "%" + string + "%"});
+
+        if (cursor != null){
+            cursor.moveToFirst();
+        }
+        return cursor;
+    }
+
+    public Cursor searchStockType(String string){
+
+        Cursor cursor = database.rawQuery("SELECT * FROM " + DatabaseHelper.TABLE_NAME_S + " WHERE " + DatabaseHelper.TYPE + " LIKE ?", new String[] { "%" + string + "%"});
+
+        if (cursor != null){
+            cursor.moveToFirst();
+        }
+        return cursor;
+    }
+
+
 
 
     public Cursor selectAllHistory(){
