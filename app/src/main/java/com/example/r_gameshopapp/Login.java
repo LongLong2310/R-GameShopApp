@@ -33,7 +33,7 @@ public class Login extends AppCompatActivity {
             if (dbManager.checkUser(username.getText().toString(),password.getText().toString())) {
                 Cursor cursor =dbManager.loginInfo(username.getText().toString());
                 Toast.makeText(this, "Welcome user " +cursor.getString(1)+" with id " +cursor.getInt(0), Toast.LENGTH_SHORT).show();
-                Intent i = new Intent(Login.this, MainActivity.class);
+                Intent i = new Intent(Login.this, userMain.class);
                 startActivity(i);
 
             } else {
