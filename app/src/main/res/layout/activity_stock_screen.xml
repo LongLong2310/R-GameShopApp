@@ -35,7 +35,8 @@
             android:id="@+id/simpleSearchView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:queryHint=""
+            android:iconifiedByDefault="false"
+            android:queryHint="Search here"
             android:layout_weight="1" />
 
     </LinearLayout>

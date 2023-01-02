@@ -3,9 +3,13 @@ package com.example.r_gameshopapp;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
+import android.app.SearchManager;
 import android.content.DialogInterface;
 import android.database.Cursor;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -13,10 +17,13 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.SearchView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class stockScreen extends AppCompatActivity {
     private Cursor cursor;
@@ -37,7 +44,9 @@ public class stockScreen extends AppCompatActivity {
             R.id.lStockNumber,
             R.id.lPrice
     };
+    private ListView listView;
     private Spinner spinnerFilter;
+    private SearchView searchView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +54,7 @@ public class stockScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stock_screen);
         spinnerFilter = (Spinner) findViewById(R.id.spinnerFilter);
+        spinnerFilter.getBackground().setColorFilter(getResources().getColor(R.color.border_color), PorterDuff.Mode.SRC_ATOP);
         ArrayList<String> arrayList = new ArrayList<>();
         arrayList.add("Name");
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, arrayList);
@@ -62,7 +72,6 @@ public class stockScreen extends AppCompatActivity {
                 setVisible(R.id.list, false);
             }
         });
-
     }
 
     @Override
@@ -148,7 +157,7 @@ public class stockScreen extends AppCompatActivity {
             setVisible(R.id.list, false);
         }
         else {
-            ListView listView = (ListView) findViewById(R.id.list);
+            listView = (ListView) findViewById(R.id.list);
             setVisible(R.id.list, true);
             SimpleCursorAdapter adapter = new SimpleCursorAdapter(
                     this, R.layout.activity_view_record, cursor, from, to, 0);
@@ -183,6 +192,25 @@ public class stockScreen extends AppCompatActivity {
                                 }
                             });
                     dialog.show();
+                }
+            });
+            searchView = (SearchView) findViewById(R.id.simpleSearchView);
+            searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                @Override
+                public boolean onQueryTextSubmit(String query) {
+                    if (toList(query).contains(query)) {
+                        Toast.makeText(stockScreen.this, "Found", Toast.LENGTH_LONG).show();
+                        adapter.getFilter().filter(query);
+                    }
+                    else {
+                        Toast.makeText(stockScreen.this, "No match found", Toast.LENGTH_LONG).show();
+                    }
+                    return false;
+                }
+
+                @Override
+                public boolean onQueryTextChange(String newText) {
+                    return false;
                 }
             });
         }
@@ -264,5 +292,51 @@ public class stockScreen extends AppCompatActivity {
             return false;
         }
         return true;
+    }
+
+    @SuppressLint("Range")
+    private ArrayList<String> toList(String name) {
+        dbManager.open();
+        cursor = dbManager.searchName(name);
+        ArrayList<String>  list = new ArrayList<String>();
+        cursor.moveToFirst();
+        while(!cursor.isAfterLast()) {
+            list.add(cursor.getString(cursor.getColumnIndex(DatabaseHelper.NAME))); //add the item
+            cursor.moveToNext();
+        }
+        return list;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        SearchView searchView = (SearchView) findViewById(R.id.simpleSearchView);
+        SearchManager searchManager = (SearchManager) getSystemService(SEARCH_SERVICE);
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+        searchView.setSubmitButtonEnabled(true);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                searchStock(query);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                searchStock(newText);
+                return false;
+            }
+        });
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    private void searchStock(String string) {
+        DatabaseHelper databaseHelper = new DatabaseHelper(getApplicationContext());
+        SimpleCursorAdapter adapter = new SimpleCursorAdapter(
+                this, R.layout.activity_view_record_user_history_detail, cursor, from, to, 0);
+        adapter.notifyDataSetChanged();
+        List<Stock> stockList = databaseHelper.search(string);
+        if (stockList != null) {
+            listView.setAdapter(adapter);
+        }
     }
 }

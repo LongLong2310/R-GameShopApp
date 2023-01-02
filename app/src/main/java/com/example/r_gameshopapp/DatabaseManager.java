@@ -6,6 +6,8 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 
+import java.util.List;
+
 public class DatabaseManager {
     private DatabaseHelper dbHelper;
     private Context context;
@@ -143,6 +145,16 @@ public class DatabaseManager {
         database.delete("SQLITE_SEQUENCE", "NAME = ?", new String[]{
                 DatabaseHelper.TABLE_NAME_H});
     }
+
+    public Cursor searchName(String name) {
+        database = this.dbHelper.getReadableDatabase();
+
+        String queryString = "SELECT * FROM " + DatabaseHelper.TABLE_NAME_A + " WHERE " + DatabaseHelper.NAME + " LIKE '%" + name + "%'";
+        Cursor cursor = database.rawQuery(queryString, null);
+        return cursor;
+    }
+
+
 
     public String searchAccount(long _id) {
 
