@@ -56,7 +56,6 @@ public class HomeFragment extends Fragment {
         gridList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Toast.makeText(context, "wrong password or username", Toast.LENGTH_SHORT).show();
                 createItemDetailDialog(context);
             }
         });
@@ -68,6 +67,7 @@ public class HomeFragment extends Fragment {
         dialogbuilder = new AlertDialog.Builder(context);
         final View itemDetailPopupView = getLayoutInflater().inflate(R.layout.item_detail, null);
         itemName = (TextView) itemDetailPopupView.findViewById(R.id.item_name);
+
         itemStock = (TextView) itemDetailPopupView.findViewById(R.id.item_stock);
         itemPrice = (TextView) itemDetailPopupView.findViewById(R.id.item_price);
         amount = (EditText) itemDetailPopupView.findViewById(R.id.amount);
