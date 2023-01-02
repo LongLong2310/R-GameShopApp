@@ -13,6 +13,7 @@ public class DatabaseManager {
     private DatabaseHelper dbHelper;
     private Context context;
     private SQLiteDatabase  database;
+    // Hi
 
     public DatabaseManager(Context c){
         context = c;
