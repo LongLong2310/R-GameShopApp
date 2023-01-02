@@ -20,7 +20,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.r_gameshopapp.GridAdapter;
 import com.example.r_gameshopapp.Item;
-import com.example.r_gameshopapp.MainActivity;
+import com.example.r_gameshopapp.userMain;
 import com.example.r_gameshopapp.R;
 import com.example.r_gameshopapp.databinding.FragmentHomeBinding;
 
