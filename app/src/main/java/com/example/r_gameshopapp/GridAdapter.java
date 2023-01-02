@@ -1,12 +1,15 @@
 package com.example.r_gameshopapp;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.example.r_gameshopapp.databinding.ActivityMainItemBinding;
 
 import java.util.ArrayList;
 
@@ -43,10 +46,15 @@ public class GridAdapter extends ArrayAdapter {
         ImageView itemImageView = (ImageView) v.findViewById(R.id.item_image);
 
         itemNameView.setText(itemList.get(position).getitemName());
-        itemStockView.setText(Integer.toString(itemList.get(position).getiemStock()));
+        itemStockView.setText("Stock:  " + itemList.get(position).getitemStock());
         itemCategoryView.setText(itemList.get(position).getitemCategory());
         itemPriceView.setText("$" + itemList.get(position).getitemPrice());
         itemImageView.setImageResource(itemList.get(position).getitemImage());
+
+        if (itemList.get(position).getitemStock() == 0) {
+            itemStockView.setTextColor(Color.RED);
+        }
+
         return v;
 
     }
