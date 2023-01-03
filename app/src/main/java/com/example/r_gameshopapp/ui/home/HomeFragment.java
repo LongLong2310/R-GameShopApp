@@ -33,7 +33,7 @@ public class HomeFragment extends Fragment {
 
     private AlertDialog.Builder dialogbuilder;
     private AlertDialog dialog;
-    private TextView itemName, itemStock, itemPrice, amount;
+    private TextView itemName, itemStock, itemPrice, amount, category_title;
     private ImageButton button_cancel;
     private Button  button_add_to_cart, game_category_button,
                     console_category_button, accessories_category_button,
@@ -83,7 +83,7 @@ public class HomeFragment extends Fragment {
 
             }
         });
-
+        category_title = (TextView) root.findViewById(R.id.category_title);
         game_category_button = (Button) root.findViewById(R.id.game_category_button);
         console_category_button = (Button) root.findViewById(R.id.console_category_button);
         accessories_category_button = (Button) root.findViewById(R.id.accessories_category_button);
@@ -91,7 +91,6 @@ public class HomeFragment extends Fragment {
         game_category_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Toast.makeText((Context) context, "GAME", Toast.LENGTH_SHORT).show();
                 gridAdapter.clear();
                 for (Item item: itemList){
                     if(item.getitemCategory().equals("GAME")) {
@@ -100,6 +99,8 @@ public class HomeFragment extends Fragment {
                 }
                 gridAdapter.notifyDataSetChanged();
                 gridList.invalidateViews();
+                category_title.setText("GAME");
+
             }
         });
 
@@ -114,6 +115,7 @@ public class HomeFragment extends Fragment {
                 }
                 gridAdapter.notifyDataSetChanged();
                 gridList.invalidateViews();
+                category_title.setText("CONSOLE");
             }
         });
 
@@ -128,6 +130,7 @@ public class HomeFragment extends Fragment {
                 }
                 gridAdapter.notifyDataSetChanged();
                 gridList.invalidateViews();
+                category_title.setText("ADD-ONS");
             }
         });
 
@@ -140,6 +143,7 @@ public class HomeFragment extends Fragment {
                 }
                 gridAdapter.notifyDataSetChanged();
                 gridList.invalidateViews();
+                category_title.setText("ALL PRODUCTS");
             }
         });
 
@@ -169,8 +173,7 @@ public class HomeFragment extends Fragment {
 
         button_cancel = (ImageButton) itemDetailPopupView.findViewById(R.id.button_cancel);
         button_add_to_cart = (Button) itemDetailPopupView.findViewById(R.id.button_add_to_cart);
-
-
+        
         dialogbuilder.setView(itemDetailPopupView);
         dialog = dialogbuilder.create();
         dialog.show();
