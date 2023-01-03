@@ -2,10 +2,14 @@ package com.example.r_gameshopapp;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 
+import android.app.SearchManager;
 import android.content.DialogInterface;
 import android.database.Cursor;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -15,6 +19,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -35,7 +40,10 @@ public class accountScreen extends AppCompatActivity {
             R.id.lPassword,
             R.id.lBalanceNumber
     };
+    private ListView listView;
     private Spinner spinnerFilter;
+    private String selectedFilter;
+    private SearchView searchView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,11 +51,24 @@ public class accountScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account_screen);
         spinnerFilter = (Spinner) findViewById(R.id.spinnerFilter);
+        spinnerFilter.getBackground().setColorFilter(getResources().getColor(R.color.border_color), PorterDuff.Mode.SRC_ATOP);
         ArrayList<String> arrayList = new ArrayList<>();
         arrayList.add("Name");
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, arrayList);
-        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        arrayList.add("ID");
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this,R.layout.spinner_item, arrayList);
+        arrayAdapter.setDropDownViewResource(R.layout.spinner_dropdown_layout);
         spinnerFilter.setAdapter(arrayAdapter);
+        spinnerFilter.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                selectedFilter = spinnerFilter.getSelectedItem().toString();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
         showAccountList();
 
@@ -143,7 +164,7 @@ public class accountScreen extends AppCompatActivity {
             setVisible(R.id.list, false);
         }
         else {
-            ListView listView = (ListView) findViewById(R.id.list);
+            listView = (ListView) findViewById(R.id.list);
             setVisible(R.id.list, true);
             SimpleCursorAdapter adapter = new SimpleCursorAdapter(
                     this, R.layout.account_layout, cursor, from, to, 0);
@@ -256,5 +277,46 @@ public class accountScreen extends AppCompatActivity {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        searchView = (SearchView) findViewById(R.id.simpleSearchView);
+        SearchManager searchManager = (SearchManager) getSystemService(SEARCH_SERVICE);
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+        searchView.setSubmitButtonEnabled(true);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                searchAccount(query);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                searchAccount(newText);
+                return false;
+            }
+        });
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    private void searchAccount(String string) {
+        if (selectedFilter.equals("Name")) {
+            cursor = dbManager.searchAccountName(string);
+        }
+        else if (selectedFilter.equals("ID")) {
+            cursor = dbManager.searchAccountID(string);
+        }
+
+        SimpleCursorAdapter adapter = new SimpleCursorAdapter(
+                this, R.layout.account_layout, cursor, from, to, 0);
+        adapter.notifyDataSetChanged();
+        if(cursor.getCount() == 0) {
+            Toast.makeText(this, "No match found", Toast.LENGTH_SHORT).show();
+        }
+        else {
+            listView.setAdapter(adapter);
+        }
     }
 }

@@ -2,11 +2,14 @@ package com.example.r_gameshopapp;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 
+import android.app.SearchManager;
 import android.content.DialogInterface;
 import android.database.Cursor;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -16,6 +19,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -35,7 +39,10 @@ public class adminHistory extends AppCompatActivity {
             R.id.lCusIDNum,
             R.id.lAmount
     };
+    private ListView listView;
     private Spinner spinnerFilter;
+    private String selectedFilter;
+    private SearchView searchView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,9 +53,22 @@ public class adminHistory extends AppCompatActivity {
         spinnerFilter.getBackground().setColorFilter(getResources().getColor(R.color.border_color), PorterDuff.Mode.SRC_ATOP);
         ArrayList<String> arrayList = new ArrayList<>();
         arrayList.add("Name");
+        arrayList.add("ID");
+        arrayList.add("Type");
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this,R.layout.spinner_item, arrayList);
-        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        arrayAdapter.setDropDownViewResource(R.layout.spinner_dropdown_layout);
         spinnerFilter.setAdapter(arrayAdapter);
+        spinnerFilter.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                selectedFilter = spinnerFilter.getSelectedItem().toString();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
         showHistoryList();
 
@@ -92,7 +112,7 @@ public class adminHistory extends AppCompatActivity {
             setVisible(R.id.list, false);
         }
         else {
-            ListView listView = (ListView) findViewById(R.id.list);
+            listView = (ListView) findViewById(R.id.list);
             setVisible(R.id.list, true);
             SimpleCursorAdapter adapter = new SimpleCursorAdapter(
                     this, R.layout.activity_view_record_user_history, cursor, from, to, 0);
@@ -130,5 +150,49 @@ public class adminHistory extends AppCompatActivity {
     protected void onDestroy(){
         super.onDestroy();
         dbManager.close();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        searchView = (SearchView) findViewById(R.id.simpleSearchView);
+        SearchManager searchManager = (SearchManager) getSystemService(SEARCH_SERVICE);
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+        searchView.setSubmitButtonEnabled(true);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                searchStock(query);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                searchStock(newText);
+                return false;
+            }
+        });
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    private void searchStock(String string) {
+        if (selectedFilter.equals("Name")) {
+            cursor = dbManager.searchStockName(string);
+        }
+        else if (selectedFilter.equals("ID")) {
+            cursor = dbManager.searchStockID(string);
+        }
+        else {
+            cursor = dbManager.searchStockType(string);
+        }
+
+        SimpleCursorAdapter adapter = new SimpleCursorAdapter(
+                this, R.layout.activity_view_record_user_history, cursor, from, to, 0);
+        adapter.notifyDataSetChanged();
+        if(cursor.getCount() == 0) {
+            Toast.makeText(this, "No match found", Toast.LENGTH_SHORT).show();
+        }
+        else {
+            listView.setAdapter(adapter);
+        }
     }
 }

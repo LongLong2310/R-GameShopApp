@@ -268,7 +268,25 @@ public class DatabaseManager {
         return cursor;
     }
 
+    public Cursor searchAccountName(String string){
 
+        Cursor cursor = database.rawQuery("SELECT * FROM " + DatabaseHelper.TABLE_NAME_A + " WHERE " + DatabaseHelper.NAME + " LIKE ?", new String[] { "%" + string + "%"});
+
+        if (cursor != null){
+            cursor.moveToFirst();
+        }
+        return cursor;
+    }
+
+    public Cursor searchAccountID(String string){
+
+        Cursor cursor = database.rawQuery("SELECT * FROM " + DatabaseHelper.TABLE_NAME_A + " WHERE " + DatabaseHelper.ID + " LIKE ?", new String[] { "%" + string + "%"});
+
+        if (cursor != null){
+            cursor.moveToFirst();
+        }
+        return cursor;
+    }
 
 
     public Cursor selectAllHistory(){

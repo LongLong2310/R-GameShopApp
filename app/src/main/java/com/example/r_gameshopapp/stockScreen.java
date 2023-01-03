@@ -2,6 +2,8 @@ package com.example.r_gameshopapp;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
+
 
 import android.app.SearchManager;
 import android.content.DialogInterface;
@@ -14,9 +16,10 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.SearchView;
+
 import android.widget.SimpleCursorAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -45,6 +48,7 @@ public class stockScreen extends AppCompatActivity {
     private ListView listView;
     private Spinner spinnerFilter;
     private String selectedFilter;
+    private SearchView searchView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,8 +61,8 @@ public class stockScreen extends AppCompatActivity {
         arrayList.add("Name");
         arrayList.add("ID");
         arrayList.add("Type");
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, arrayList);
-        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this,R.layout.spinner_item, arrayList);
+        arrayAdapter.setDropDownViewResource(R.layout.spinner_dropdown_layout);
         spinnerFilter.setAdapter(arrayAdapter);
         spinnerFilter.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -83,6 +87,7 @@ public class stockScreen extends AppCompatActivity {
                 setVisible(R.id.list, false);
             }
         });
+
     }
 
     @Override
@@ -288,7 +293,7 @@ public class stockScreen extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        SearchView searchView = (SearchView) findViewById(R.id.simpleSearchView);
+        searchView = (SearchView) findViewById(R.id.simpleSearchView);
         SearchManager searchManager = (SearchManager) getSystemService(SEARCH_SERVICE);
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         searchView.setSubmitButtonEnabled(true);
