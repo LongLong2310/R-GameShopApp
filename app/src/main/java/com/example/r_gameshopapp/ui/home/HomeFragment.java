@@ -77,15 +77,15 @@ public class HomeFragment extends Fragment {
         itemPrice.setText("$" + Double.toString(item.getitemPrice()));
         amount = (EditText) itemDetailPopupView.findViewById(R.id.amount);
         img = (ImageView) itemDetailPopupView.findViewById(R.id.imageView);
-//        if (item.getitemCategory().equals("GAME")) {
-//            img.setImageResource(R.drawable.game);
-//        }
-//        if (item.getitemCategory().equals("CONSOLE")) {
-//            img.setImageResource(R.drawable.console);
-//        }
-//        if (item.getitemCategory().equals("ACCESSORIES")) {
-//            img.setImageResource(R.drawable.accessories);
-//        }
+        if (item.getitemCategory().equals("GAME")) {
+            img.setImageResource(R.drawable.game);
+        }
+        if (item.getitemCategory().equals("CONSOLE")) {
+            img.setImageResource(R.drawable.console);
+        }
+        if (item.getitemCategory().equals("ACCESSORIES")) {
+            img.setImageResource(R.drawable.accessories);
+        }
 
         button_cancel = (ImageButton) itemDetailPopupView.findViewById(R.id.button_cancel);
         button_add_to_cart = (Button) itemDetailPopupView.findViewById(R.id.button_add_to_cart);
