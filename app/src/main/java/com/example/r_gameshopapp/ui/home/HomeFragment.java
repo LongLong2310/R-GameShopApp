@@ -72,9 +72,9 @@ public class HomeFragment extends Fragment {
         itemName = (TextView) itemDetailPopupView.findViewById(R.id.item_name);
         itemName.setText(item.getitemName());
         itemStock = (TextView) itemDetailPopupView.findViewById(R.id.item_stock);
-        itemStock.setText("STOCK: " + Integer.toString(item.getitemStock()));
+        itemStock.setText("STOCK: " + (item.getitemStock()));
         itemPrice = (TextView) itemDetailPopupView.findViewById(R.id.item_price);
-        itemPrice.setText("$" + Double.toString(item.getitemPrice()));
+        itemPrice.setText("$" + (item.getitemPrice()));
         amount = (EditText) itemDetailPopupView.findViewById(R.id.amount);
         img = (ImageView) itemDetailPopupView.findViewById(R.id.imageView);
         if (item.getitemCategory().equals("GAME")) {
