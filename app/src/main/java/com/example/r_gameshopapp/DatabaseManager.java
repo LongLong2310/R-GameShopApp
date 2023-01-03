@@ -6,6 +6,9 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class DatabaseManager {
     private DatabaseHelper dbHelper;
     private Context context;
@@ -144,6 +147,16 @@ public class DatabaseManager {
                 DatabaseHelper.TABLE_NAME_H});
     }
 
+    public Cursor searchName(String name) {
+        database = this.dbHelper.getReadableDatabase();
+
+        String queryString = "SELECT * FROM " + DatabaseHelper.TABLE_NAME_A + " WHERE " + DatabaseHelper.NAME + " LIKE '%" + name + "%'";
+        Cursor cursor = database.rawQuery(queryString, null);
+        return cursor;
+    }
+
+
+
     public String searchAccount(long _id) {
 
         String queryString = "SELECT * FROM " + DatabaseHelper.TABLE_NAME_A + " WHERE ID='" + _id + "'";
@@ -218,6 +231,56 @@ public class DatabaseManager {
         };
         Cursor cursor = database.query(DatabaseHelper.TABLE_NAME_S, columns,
                 null, null, null, null, null);
+
+        if (cursor != null){
+            cursor.moveToFirst();
+        }
+        return cursor;
+    }
+
+    public Cursor searchStockName(String string){
+
+        Cursor cursor = database.rawQuery("SELECT * FROM " + DatabaseHelper.TABLE_NAME_S + " WHERE " + DatabaseHelper.NAME + " LIKE ?", new String[] { "%" + string + "%"});
+
+        if (cursor != null){
+            cursor.moveToFirst();
+        }
+        return cursor;
+    }
+
+    public Cursor searchStockID(String string){
+
+        Cursor cursor = database.rawQuery("SELECT * FROM " + DatabaseHelper.TABLE_NAME_S + " WHERE " + DatabaseHelper.ID + " LIKE ?", new String[] { "%" + string + "%"});
+
+        if (cursor != null){
+            cursor.moveToFirst();
+        }
+        return cursor;
+    }
+
+    public Cursor searchStockType(String string){
+
+        Cursor cursor = database.rawQuery("SELECT * FROM " + DatabaseHelper.TABLE_NAME_S + " WHERE " + DatabaseHelper.TYPE + " LIKE ?", new String[] { "%" + string + "%"});
+
+        if (cursor != null){
+            cursor.moveToFirst();
+        }
+        return cursor;
+    }
+
+    public Cursor searchAccountName(String string){
+
+        Cursor cursor = database.rawQuery("SELECT * FROM " + DatabaseHelper.TABLE_NAME_A + " WHERE " + DatabaseHelper.NAME + " LIKE ?", new String[] { "%" + string + "%"});
+
+        if (cursor != null){
+            cursor.moveToFirst();
+        }
+        return cursor;
+    }
+
+    public Cursor searchAccountID(String string){
+
+        Cursor cursor = database.rawQuery("SELECT * FROM " + DatabaseHelper.TABLE_NAME_A + " WHERE " + DatabaseHelper.ID + " LIKE ?", new String[] { "%" + string + "%"});
 
         if (cursor != null){
             cursor.moveToFirst();

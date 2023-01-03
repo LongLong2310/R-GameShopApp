@@ -24,6 +24,7 @@
             android:id="@+id/spinnerFilter"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginLeft="15dp"
             android:layout_weight="2.5" />
 
         <View
@@ -31,11 +32,19 @@
             android:layout_height="match_parent"
             android:background="@color/border_color" />
 
-        <android.widget.SearchView
-            android:id="@+id/simpleSearchView"
+        <androidx.appcompat.widget.SearchView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:queryHint=""
+            android:id="@+id/simpleSearchView"
+            android:theme="@style/ThemeOverlay.SearchView"
+            android:focusable="false"
+            android:focusableInTouchMode="true"
+            app:iconifiedByDefault="false"
+            app:queryHint="Search Here"
+            app:searchHintIcon="@drawable/search_icon"
+            app:searchIcon="@drawable/search_icon"
+            app:closeIcon="@drawable/close_search_icon"
+            app:goIcon="@drawable/next_search_icon"
             android:layout_weight="1" />
 
     </LinearLayout>
