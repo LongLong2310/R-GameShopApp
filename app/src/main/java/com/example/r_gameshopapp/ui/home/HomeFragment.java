@@ -49,9 +49,9 @@ public class HomeFragment extends Fragment {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
         gridList = (GridView) root.findViewById(R.id.gridView);
-        itemList.add(new Item(1, "Pokemon Violet", 7, "GAME", 59.99, R.drawable.game));
-        itemList.add(new Item(2, "DualShock 4 PS4", 2, "CONSOLE", 79.99, R.drawable.console));
-        itemList.add(new Item(3, "Razor Headset", 0, "ACCESSORIES", 29.99, R.drawable.accessories));
+        itemList.add(new Item(1, "Pokemon Violet", 7, "GAME", 59.99));
+        itemList.add(new Item(2, "DualShock 4 PS4", 2, "CONSOLE", 79.99));
+        itemList.add(new Item(3, "Razor Headset", 0, "ACCESSORIES", 29.99));
 
         GridAdapter gridAdapter = new GridAdapter(context, R.layout.activity_main_item, itemList);
         gridList.setAdapter(gridAdapter);
@@ -77,15 +77,15 @@ public class HomeFragment extends Fragment {
         itemPrice.setText("$" + Double.toString(item.getitemPrice()));
         amount = (EditText) itemDetailPopupView.findViewById(R.id.amount);
         img = (ImageView) itemDetailPopupView.findViewById(R.id.imageView);
-        if (item.getitemCategory().equals("GAME")) {
-            img.setImageResource(R.drawable.game);
-        }
-        if (item.getitemCategory().equals("CONSOLE")) {
-            img.setImageResource(R.drawable.console);
-        }
-        if (item.getitemCategory().equals("ACCESSORIES")) {
-            img.setImageResource(R.drawable.accessories);
-        }
+//        if (item.getitemCategory().equals("GAME")) {
+//            img.setImageResource(R.drawable.game);
+//        }
+//        if (item.getitemCategory().equals("CONSOLE")) {
+//            img.setImageResource(R.drawable.console);
+//        }
+//        if (item.getitemCategory().equals("ACCESSORIES")) {
+//            img.setImageResource(R.drawable.accessories);
+//        }
 
         button_cancel = (ImageButton) itemDetailPopupView.findViewById(R.id.button_cancel);
         button_add_to_cart = (Button) itemDetailPopupView.findViewById(R.id.button_add_to_cart);
