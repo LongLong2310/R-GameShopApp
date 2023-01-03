@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,9 +32,10 @@ public class HomeFragment extends Fragment {
 
     private AlertDialog.Builder dialogbuilder;
     private AlertDialog dialog;
-    private TextView itemName, itemStock, itemCategory, itemPrice, amount;
+    private TextView itemName, itemStock, itemPrice, amount;
     private ImageButton button_cancel;
     private Button  button_add_to_cart;
+    private ImageView img;
 
     private FragmentHomeBinding binding;
     GridView gridList;
@@ -56,21 +58,34 @@ public class HomeFragment extends Fragment {
         gridList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                createItemDetailDialog(context);
+                createItemDetailDialog(context, itemList.get(i));
+
             }
         });
 
         return root;
     }
 
-    public void createItemDetailDialog(Context context){
+    public void createItemDetailDialog(Context context, Item item){
         dialogbuilder = new AlertDialog.Builder(context);
         final View itemDetailPopupView = getLayoutInflater().inflate(R.layout.item_detail, null);
         itemName = (TextView) itemDetailPopupView.findViewById(R.id.item_name);
-
+        itemName.setText(item.getitemName());
         itemStock = (TextView) itemDetailPopupView.findViewById(R.id.item_stock);
+        itemStock.setText("STOCK: " + Integer.toString(item.getitemStock()));
         itemPrice = (TextView) itemDetailPopupView.findViewById(R.id.item_price);
+        itemPrice.setText("$" + Double.toString(item.getitemPrice()));
         amount = (EditText) itemDetailPopupView.findViewById(R.id.amount);
+        img = (ImageView) itemDetailPopupView.findViewById(R.id.imageView);
+        if (item.getitemCategory().equals("GAME")) {
+            img.setImageResource(R.drawable.game);
+        }
+        if (item.getitemCategory().equals("CONSOLE")) {
+            img.setImageResource(R.drawable.console);
+        }
+        if (item.getitemCategory().equals("ACCESSORIES")) {
+            img.setImageResource(R.drawable.accessories);
+        }
 
         button_cancel = (ImageButton) itemDetailPopupView.findViewById(R.id.button_cancel);
         button_add_to_cart = (Button) itemDetailPopupView.findViewById(R.id.button_add_to_cart);
