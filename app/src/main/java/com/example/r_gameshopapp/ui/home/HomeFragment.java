@@ -21,6 +21,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.r_gameshopapp.GridAdapter;
 import com.example.r_gameshopapp.Item;
+import com.example.r_gameshopapp.adminMenu;
 import com.example.r_gameshopapp.userMain;
 import com.example.r_gameshopapp.R;
 import com.example.r_gameshopapp.databinding.FragmentHomeBinding;
@@ -39,9 +40,18 @@ public class HomeFragment extends Fragment {
                     all_category_button;
     private ImageView img;
 
+    private Button buttonGame;
+
+
+
+    private String selected_category = "ALL";
+    ArrayList<Item> displayList = new ArrayList<>();
+
     private FragmentHomeBinding binding;
     GridView gridList;
     ArrayList<Item> itemList = new ArrayList<>();
+
+
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -55,7 +65,16 @@ public class HomeFragment extends Fragment {
         itemList.add(new Item(2, "DualShock 4 PS4", 2, "CONSOLE", 79.99));
         itemList.add(new Item(3, "Razor Headset", 0, "ACCESSORIES", 29.99));
 
-        GridAdapter gridAdapter = new GridAdapter(context, R.layout.activity_main_item, itemList);
+        displayList.clear();
+        for (Item item: itemList){
+            if(item.getitemCategory().equals(selected_category)){
+                displayList.add(item);
+            } else if (selected_category.equals("ALL")){
+                displayList.add(item);
+            }
+        }
+
+        GridAdapter gridAdapter = new GridAdapter(context, R.layout.activity_main_item, displayList);
         gridList.setAdapter(gridAdapter);
         gridList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -72,28 +91,55 @@ public class HomeFragment extends Fragment {
         game_category_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+//                Toast.makeText((Context) context, "GAME", Toast.LENGTH_SHORT).show();
+                gridAdapter.clear();
+                for (Item item: itemList){
+                    if(item.getitemCategory().equals("GAME")) {
+                        gridAdapter.add(item);
+                    }
+                }
+                gridAdapter.notifyDataSetChanged();
+                gridList.invalidateViews();
             }
         });
 
         console_category_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                gridAdapter.clear();
+                for (Item item: itemList){
+                    if(item.getitemCategory().equals("CONSOLE")) {
+                        gridAdapter.add(item);
+                    }
+                }
+                gridAdapter.notifyDataSetChanged();
+                gridList.invalidateViews();
             }
         });
 
         accessories_category_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                gridAdapter.clear();
+                for (Item item: itemList){
+                    if(item.getitemCategory().equals("ACCESSORIES")) {
+                        gridAdapter.add(item);
+                    }
+                }
+                gridAdapter.notifyDataSetChanged();
+                gridList.invalidateViews();
             }
         });
 
         all_category_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                gridAdapter.clear();
+                for (Item item: itemList){
+                    gridAdapter.add(item);
+                }
+                gridAdapter.notifyDataSetChanged();
+                gridList.invalidateViews();
             }
         });
 
@@ -137,9 +183,12 @@ public class HomeFragment extends Fragment {
         });
     }
 
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
     }
+
+
 }
