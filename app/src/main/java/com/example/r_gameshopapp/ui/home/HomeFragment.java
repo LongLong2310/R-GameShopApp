@@ -34,7 +34,9 @@ public class HomeFragment extends Fragment {
     private AlertDialog dialog;
     private TextView itemName, itemStock, itemPrice, amount;
     private ImageButton button_cancel;
-    private Button  button_add_to_cart;
+    private Button  button_add_to_cart, game_category_button,
+                    console_category_button, accessories_category_button,
+                    all_category_button;
     private ImageView img;
 
     private FragmentHomeBinding binding;
@@ -59,6 +61,38 @@ public class HomeFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 createItemDetailDialog(context, itemList.get(i));
+
+            }
+        });
+
+        game_category_button = (Button) root.findViewById(R.id.game_category_button);
+        console_category_button = (Button) root.findViewById(R.id.console_category_button);
+        accessories_category_button = (Button) root.findViewById(R.id.accessories_category_button);
+        all_category_button = (Button) root.findViewById(R.id.all_category_button);
+        game_category_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        console_category_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        accessories_category_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        all_category_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
             }
         });
@@ -89,6 +123,7 @@ public class HomeFragment extends Fragment {
 
         button_cancel = (ImageButton) itemDetailPopupView.findViewById(R.id.button_cancel);
         button_add_to_cart = (Button) itemDetailPopupView.findViewById(R.id.button_add_to_cart);
+
 
         dialogbuilder.setView(itemDetailPopupView);
         dialog = dialogbuilder.create();
