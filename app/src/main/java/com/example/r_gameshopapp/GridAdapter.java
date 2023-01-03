@@ -49,7 +49,15 @@ public class GridAdapter extends ArrayAdapter {
         itemStockView.setText("Stock:  " + itemList.get(position).getitemStock());
         itemCategoryView.setText(itemList.get(position).getitemCategory());
         itemPriceView.setText("$" + itemList.get(position).getitemPrice());
-        itemImageView.setImageResource(itemList.get(position).getitemImage());
+        if (itemList.get(position).getitemCategory().equals("GAME")) {
+            itemImageView.setImageResource(R.drawable.game);
+        }
+        if (itemList.get(position).getitemCategory().equals("CONSOLE")) {
+            itemImageView.setImageResource(R.drawable.console);
+        }
+        if (itemList.get(position).getitemCategory().equals("ACCESSORIES")) {
+            itemImageView.setImageResource(R.drawable.accessories);
+        }
 
         if (itemList.get(position).getitemStock() == 0) {
             itemStockView.setTextColor(Color.RED);
