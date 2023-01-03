@@ -21,10 +21,20 @@
             android:textSize="30sp" />
         <ImageButton
             android:layout_width="wrap_content"
-            android:id="@+id/add_button"
-            android:src="@drawable/plus"
+            android:id="@+id/more_button"
+            android:src="@drawable/more_button"
+            app:tint="@color/border_color"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="15dp"
+            android:background= "@null"
+            android:layout_height="match_parent"/>
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:id="@+id/search_button"
+            android:src="@drawable/search_button"
+            app:tint="@color/border_color"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="60dp"
             android:background= "@null"
             android:layout_height="match_parent"/>
     </RelativeLayout>
