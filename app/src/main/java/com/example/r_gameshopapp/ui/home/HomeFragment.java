@@ -125,13 +125,13 @@ public class HomeFragment extends Fragment {
             public void onClick(View v) {
                 gridAdapter.clear();
                 for (Item item: itemList){
-                    if(item.getitemCategory().equals("ACCESSORIES")) {
+                    if(item.getitemCategory().equals("ACCESSORY")) {
                         gridAdapter.add(item);
                     }
                 }
                 gridAdapter.notifyDataSetChanged();
                 gridList.invalidateViews();
-                category_title.setText("ADD-ONS");
+                category_title.setText("ACCESSORIES");
             }
         });
 
@@ -168,7 +168,7 @@ public class HomeFragment extends Fragment {
         if (item.getitemCategory().equals("CONSOLE")) {
             img.setImageResource(R.drawable.console);
         }
-        if (item.getitemCategory().equals("ACCESSORIES")) {
+        if (item.getitemCategory().equals("ACCESSORY")) {
             img.setImageResource(R.drawable.accessories);
         }
 
