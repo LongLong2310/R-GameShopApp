@@ -55,7 +55,7 @@ public class GridAdapter extends ArrayAdapter {
         if (itemList.get(position).getitemCategory().equals("CONSOLE")) {
             itemImageView.setImageResource(R.drawable.console);
         }
-        if (itemList.get(position).getitemCategory().equals("ACCESSORIES")) {
+        if (itemList.get(position).getitemCategory().equals("ACCESSORY")) {
             itemImageView.setImageResource(R.drawable.accessories);
         }
 
