@@ -25,6 +25,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class stockScreen extends AppCompatActivity {
     private Cursor cursor;
@@ -52,6 +53,7 @@ public class stockScreen extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Objects.requireNonNull(this.getSupportActionBar()).hide();
         dbManager = new DatabaseManager(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stock_screen);

@@ -25,10 +25,7 @@ public class userMain extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         Bundle bundle = getIntent().getExtras();
-        int i=bundle.getInt("id");
-
-
-
+        int i = bundle.getInt("id");
 
         BottomNavigationView navView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
@@ -40,10 +37,10 @@ public class userMain extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
     }
-public int getid(){
-    Bundle bundle = getIntent().getExtras();
-    int i=bundle.getInt("id");
-    return i;
-}
 
+    public int getid(){
+        Bundle bundle = getIntent().getExtras();
+        int i=bundle.getInt("id");
+        return i;
+    }
 }

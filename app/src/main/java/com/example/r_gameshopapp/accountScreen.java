@@ -22,6 +22,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class accountScreen extends AppCompatActivity {
     private Cursor cursor;
@@ -49,6 +50,7 @@ public class accountScreen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         dbManager = new DatabaseManager(this);
         super.onCreate(savedInstanceState);
+        Objects.requireNonNull(this.getSupportActionBar()).hide();
         setContentView(R.layout.activity_account_screen);
         spinnerFilter = (Spinner) findViewById(R.id.spinnerFilter);
         spinnerFilter.getBackground().setColorFilter(getResources().getColor(R.color.border_color), PorterDuff.Mode.SRC_ATOP);
