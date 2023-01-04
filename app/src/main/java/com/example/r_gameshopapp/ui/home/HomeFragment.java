@@ -19,6 +19,8 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.r_gameshopapp.DatabaseHelper;
+import com.example.r_gameshopapp.DatabaseManager;
 import com.example.r_gameshopapp.GridAdapter;
 import com.example.r_gameshopapp.Item;
 import com.example.r_gameshopapp.adminMenu;
@@ -39,7 +41,7 @@ public class HomeFragment extends Fragment {
                     console_category_button, accessories_category_button,
                     all_category_button;
     private ImageView img;
-
+    private DatabaseManager dbManager;
     private Button buttonGame;
 
 
@@ -61,9 +63,11 @@ public class HomeFragment extends Fragment {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
         gridList = (GridView) root.findViewById(R.id.gridView);
-        itemList.add(new Item(1, "Pokemon Violet", 7, "GAME", 59.99));
-        itemList.add(new Item(2, "DualShock 4 PS4", 2, "CONSOLE", 79.99));
-        itemList.add(new Item(3, "Razor Headset", 0, "ACCESSORIES", 29.99));
+        dbManager = new DatabaseManager(getActivity());
+        itemList = dbManager.getAllItem();
+//        itemList.add(new Item(1, "Pokemon Violet", 7, "GAME", 59.99));
+//        itemList.add(new Item(2, "DualShock 4 PS4", 2, "CONSOLE", 79.99));
+//        itemList.add(new Item(3, "Razor Headset", 0, "ACCESSORIES", 29.99));
 
         displayList.clear();
         for (Item item: itemList){

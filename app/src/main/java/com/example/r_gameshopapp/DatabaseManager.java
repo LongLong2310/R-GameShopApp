@@ -12,9 +12,9 @@ import java.util.List;
 public class DatabaseManager {
     private DatabaseHelper dbHelper;
     private Context context;
-    private SQLiteDatabase  database;
+    private SQLiteDatabase database;
 
-    public DatabaseManager(Context c){
+    public DatabaseManager(Context c) {
         context = c;
     }
 
@@ -24,11 +24,11 @@ public class DatabaseManager {
         return this;
     }
 
-    public void close(){
+    public void close() {
         dbHelper.close();
     }
 
-    public void insertStock(String name, String type, int stock, double price){
+    public void insertStock(String name, String type, int stock, double price) {
         ContentValues contentValue = new ContentValues();
         contentValue.put(DatabaseHelper.NAME, name);
         contentValue.put(DatabaseHelper.TYPE, type);
@@ -37,15 +37,15 @@ public class DatabaseManager {
         database.insert(DatabaseHelper.TABLE_NAME_S, null, contentValue);
     }
 
-    public void insertAccount( String username, String pass, double cash){
+    public void insertAccount(String username, String pass, double cash) {
         ContentValues contentValue = new ContentValues();
         contentValue.put(DatabaseHelper.NAME, username);
         contentValue.put(DatabaseHelper.PASS, pass);
-        contentValue.put(DatabaseHelper.CASH, "$" +cash);
+        contentValue.put(DatabaseHelper.CASH, "$" + cash);
         database.insert(DatabaseHelper.TABLE_NAME_A, null, contentValue);
     }
 
-    public void insertCart(int id, String productName, String cusID, int price, int amount){
+    public void insertCart(int id, String productName, String cusID, int price, int amount) {
         ContentValues contentValue = new ContentValues();
         contentValue.put(DatabaseHelper.ID, id);
         contentValue.put(DatabaseHelper.NAME, productName);
@@ -55,7 +55,7 @@ public class DatabaseManager {
         database.insert(DatabaseHelper.TABLE_NAME_C, null, contentValue);
     }
 
-    public void insertHistory(int id, String productName, String cusID, int price, int amount){
+    public void insertHistory(int id, String productName, String cusID, int price, int amount) {
         ContentValues contentValue = new ContentValues();
         contentValue.put(DatabaseHelper.ID, id);
         contentValue.put(DatabaseHelper.NAME, productName);
@@ -65,7 +65,7 @@ public class DatabaseManager {
         database.insert(DatabaseHelper.TABLE_NAME_H, null, contentValue);
     }
 
-    public int updateAccount(long _id,String username, String pass, double cash) {
+    public int updateAccount(long _id, String username, String pass, double cash) {
         ContentValues contentValue = new ContentValues();
         contentValue.put(DatabaseHelper.NAME, username);
         contentValue.put(DatabaseHelper.PASS, pass);
@@ -76,7 +76,7 @@ public class DatabaseManager {
         return i;
     }
 
-    public int updateStock(long _id,String name, String type, int stock, double price) {
+    public int updateStock(long _id, String name, String type, int stock, double price) {
         ContentValues contentValue = new ContentValues();
         contentValue.put(DatabaseHelper.NAME, name);
         contentValue.put(DatabaseHelper.TYPE, type);
@@ -88,7 +88,7 @@ public class DatabaseManager {
         return i;
     }
 
-    public int updateCart(long _id,String name, int cid, int price,int amount) {
+    public int updateCart(long _id, String name, int cid, int price, int amount) {
         ContentValues contentValue = new ContentValues();
         contentValue.put(DatabaseHelper.NAME, name);
         contentValue.put(DatabaseHelper.CID, cid);
@@ -99,7 +99,8 @@ public class DatabaseManager {
                 DatabaseHelper.ID + " =" + _id, null);
         return i;
     }
-    public int updateHistory(long _id,String name, int cid, int price,int amount) {
+
+    public int updateHistory(long _id, String name, int cid, int price, int amount) {
         ContentValues contentValue = new ContentValues();
         contentValue.put(DatabaseHelper.NAME, name);
         contentValue.put(DatabaseHelper.CID, cid);
@@ -138,6 +139,7 @@ public class DatabaseManager {
         database.delete("SQLITE_SEQUENCE", "NAME = ?", new String[]{
                 DatabaseHelper.TABLE_NAME_C});
     }
+
     public void deleteHistory(long _id) {
         database.delete(DatabaseHelper.TABLE_NAME_H,
                 DatabaseHelper.ID + " =" + _id, null);
@@ -156,7 +158,6 @@ public class DatabaseManager {
     }
 
 
-
     public String searchAccount(long _id) {
 
         String queryString = "SELECT * FROM " + DatabaseHelper.TABLE_NAME_A + " WHERE ID='" + _id + "'";
@@ -173,9 +174,7 @@ public class DatabaseManager {
             int accountCash = cursor.getInt(3);
 
             returnPatientModel = accountName + " " + accountPass + " " + accountCash;
-        }
-
-        else {
+        } else {
             //Fail -> do not add anything
             System.out.println("No Record Found");
         }
@@ -199,7 +198,7 @@ public class DatabaseManager {
 
     //calculate total price of cart=amount*price of each item
     public int total() {
-        int total=0;
+        int total = 0;
         String[] columns = new String[]{
                 DatabaseHelper.ID,
                 DatabaseHelper.NAME,
@@ -212,17 +211,16 @@ public class DatabaseManager {
         if (cursor != null) {
             cursor.moveToFirst();
         }
-        while (cursor.isAfterLast() == false)
-        {
-            total=total+cursor.getInt(3)*cursor.getInt(4);
+        while (cursor.isAfterLast() == false) {
+            total = total + cursor.getInt(3) * cursor.getInt(4);
             cursor.moveToNext();
         }
         cursor.close();
         return total;
     }
 
-    public Cursor selectAllStock(){
-        String [] columns = new String[] {
+    public Cursor selectAllStock() {
+        String[] columns = new String[]{
                 DatabaseHelper.ID,
                 DatabaseHelper.NAME,
                 DatabaseHelper.TYPE,
@@ -232,65 +230,65 @@ public class DatabaseManager {
         Cursor cursor = database.query(DatabaseHelper.TABLE_NAME_S, columns,
                 null, null, null, null, null);
 
-        if (cursor != null){
+        if (cursor != null) {
             cursor.moveToFirst();
         }
         return cursor;
     }
 
-    public Cursor searchStockName(String string){
+    public Cursor searchStockName(String string) {
 
-        Cursor cursor = database.rawQuery("SELECT * FROM " + DatabaseHelper.TABLE_NAME_S + " WHERE " + DatabaseHelper.NAME + " LIKE ?", new String[] { "%" + string + "%"});
+        Cursor cursor = database.rawQuery("SELECT * FROM " + DatabaseHelper.TABLE_NAME_S + " WHERE " + DatabaseHelper.NAME + " LIKE ?", new String[]{"%" + string + "%"});
 
-        if (cursor != null){
+        if (cursor != null) {
             cursor.moveToFirst();
         }
         return cursor;
     }
 
-    public Cursor searchStockID(String string){
+    public Cursor searchStockID(String string) {
 
-        Cursor cursor = database.rawQuery("SELECT * FROM " + DatabaseHelper.TABLE_NAME_S + " WHERE " + DatabaseHelper.ID + " LIKE ?", new String[] { "%" + string + "%"});
+        Cursor cursor = database.rawQuery("SELECT * FROM " + DatabaseHelper.TABLE_NAME_S + " WHERE " + DatabaseHelper.ID + " LIKE ?", new String[]{"%" + string + "%"});
 
-        if (cursor != null){
+        if (cursor != null) {
             cursor.moveToFirst();
         }
         return cursor;
     }
 
-    public Cursor searchStockType(String string){
+    public Cursor searchStockType(String string) {
 
-        Cursor cursor = database.rawQuery("SELECT * FROM " + DatabaseHelper.TABLE_NAME_S + " WHERE " + DatabaseHelper.TYPE + " LIKE ?", new String[] { "%" + string + "%"});
+        Cursor cursor = database.rawQuery("SELECT * FROM " + DatabaseHelper.TABLE_NAME_S + " WHERE " + DatabaseHelper.TYPE + " LIKE ?", new String[]{"%" + string + "%"});
 
-        if (cursor != null){
+        if (cursor != null) {
             cursor.moveToFirst();
         }
         return cursor;
     }
 
-    public Cursor searchAccountName(String string){
+    public Cursor searchAccountName(String string) {
 
-        Cursor cursor = database.rawQuery("SELECT * FROM " + DatabaseHelper.TABLE_NAME_A + " WHERE " + DatabaseHelper.NAME + " LIKE ?", new String[] { "%" + string + "%"});
+        Cursor cursor = database.rawQuery("SELECT * FROM " + DatabaseHelper.TABLE_NAME_A + " WHERE " + DatabaseHelper.NAME + " LIKE ?", new String[]{"%" + string + "%"});
 
-        if (cursor != null){
+        if (cursor != null) {
             cursor.moveToFirst();
         }
         return cursor;
     }
 
-    public Cursor searchAccountID(String string){
+    public Cursor searchAccountID(String string) {
 
-        Cursor cursor = database.rawQuery("SELECT * FROM " + DatabaseHelper.TABLE_NAME_A + " WHERE " + DatabaseHelper.ID + " LIKE ?", new String[] { "%" + string + "%"});
+        Cursor cursor = database.rawQuery("SELECT * FROM " + DatabaseHelper.TABLE_NAME_A + " WHERE " + DatabaseHelper.ID + " LIKE ?", new String[]{"%" + string + "%"});
 
-        if (cursor != null){
+        if (cursor != null) {
             cursor.moveToFirst();
         }
         return cursor;
     }
 
 
-    public Cursor selectAllHistory(){
-        String [] columns = new String[] {
+    public Cursor selectAllHistory() {
+        String[] columns = new String[]{
                 DatabaseHelper.TID,
                 DatabaseHelper.DATE,
                 DatabaseHelper.CID,
@@ -299,14 +297,14 @@ public class DatabaseManager {
         Cursor cursor = database.query(DatabaseHelper.TABLE_NAME_H, columns,
                 null, null, null, null, null);
 
-        if (cursor != null){
+        if (cursor != null) {
             cursor.moveToFirst();
         }
         return cursor;
     }
-    
-    public Cursor selectAllAccount(){
-        String [] columns = new String[] {
+
+    public Cursor selectAllAccount() {
+        String[] columns = new String[]{
                 DatabaseHelper.ID,
                 DatabaseHelper.NAME,
                 DatabaseHelper.PASS,
@@ -315,7 +313,7 @@ public class DatabaseManager {
         Cursor cursor = database.query(DatabaseHelper.TABLE_NAME_A, columns,
                 null, null, null, null, null);
 
-        if (cursor != null){
+        if (cursor != null) {
             cursor.moveToFirst();
         }
         return cursor;
@@ -352,13 +350,14 @@ public class DatabaseManager {
         }
         return false;
     }
+
     public boolean checkUser(String username, String password) {
         // array of columns to fetch
         String[] columns = {
                 DatabaseHelper.ID
         };
-            dbHelper = new DatabaseHelper(context);
-            database = dbHelper.getWritableDatabase();
+        dbHelper = new DatabaseHelper(context);
+        database = dbHelper.getWritableDatabase();
 
         // selection criteria
         String selection = DatabaseHelper.NAME + " = ?" + " AND " + DatabaseHelper.PASS + " = ?";
@@ -379,16 +378,17 @@ public class DatabaseManager {
                 null);                      //The sort order
         int cursorCount = cursor.getCount();
         cursor.close();
-         database.close();
+        database.close();
         if (cursorCount > 0) {
             return true;
         }
         return false;
     }
-    public Cursor loginInfo(String username){
+
+    public Cursor loginInfo(String username) {
         dbHelper = new DatabaseHelper(context);
         database = dbHelper.getWritableDatabase();
-        String [] columns = new String[] {
+        String[] columns = new String[]{
                 DatabaseHelper.ID,
                 DatabaseHelper.NAME,
                 DatabaseHelper.PASS,
@@ -406,11 +406,39 @@ public class DatabaseManager {
                 null,                       //group the rows
                 null,                       //filter by row groups
                 null);
-        if (cursor != null){
+        if (cursor != null) {
             cursor.moveToFirst();
         }
         database.close();
         return cursor;
+    }
+
+    public ArrayList<Item> getAllItem() {
+        dbHelper = new DatabaseHelper(context);
+        database = dbHelper.getWritableDatabase();
+        String[] columns = new String[]{
+                DatabaseHelper.ID,
+                DatabaseHelper.NAME,
+                DatabaseHelper.TYPE,
+                DatabaseHelper.STOCK,
+                DatabaseHelper.PRICE
+        };
+        ArrayList<Item> item = new ArrayList<Item>();
+        Cursor cursor = database.query(DatabaseHelper.TABLE_NAME_S, columns,
+                null, null, null, null, null);
+
+
+        if (cursor != null) {
+            while (cursor.moveToNext()) {
+
+                Item it = new Item(cursor.getInt(0), cursor.getString(1), cursor.getInt(3), cursor.getString(2), Double.parseDouble(cursor.getString(4).replaceAll("[$]", "")));
+
+                item.add(it);
+            }
+        }
+        database.close();
+        return item;
+
     }
 }
 
