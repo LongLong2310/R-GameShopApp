@@ -188,6 +188,12 @@ public class HomeFragment extends Fragment {
               dialog.dismiss();
           }
         });
+        button_add_to_cart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v){
+                //Toast.makeText(getContext(), "Account "+ ((userMain)getActivity()).getid(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
 
