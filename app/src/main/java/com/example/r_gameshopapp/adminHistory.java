@@ -22,6 +22,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class adminHistory extends AppCompatActivity {
     private Cursor cursor;
@@ -46,6 +47,7 @@ public class adminHistory extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Objects.requireNonNull(this.getSupportActionBar()).hide();
         dbManager = new DatabaseManager(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_history);

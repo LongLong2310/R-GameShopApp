@@ -9,11 +9,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import java.util.Objects;
+
 public class adminMenu extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Objects.requireNonNull(this.getSupportActionBar()).hide();
         setContentView(R.layout.activity_admin_menu);
 
         Button buttonS = (Button)findViewById(R.id.buttonStock);
