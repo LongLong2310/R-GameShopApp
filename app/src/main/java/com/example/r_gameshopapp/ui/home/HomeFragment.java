@@ -65,9 +65,6 @@ public class HomeFragment extends Fragment {
         gridList = (GridView) root.findViewById(R.id.gridView);
         dbManager = new DatabaseManager(getActivity());
         itemList = dbManager.getAllItem();
-//        itemList.add(new Item(1, "Pokemon Violet", 7, "GAME", 59.99));
-//        itemList.add(new Item(2, "DualShock 4 PS4", 2, "CONSOLE", 79.99));
-//        itemList.add(new Item(3, "Razor Headset", 0, "ACCESSORIES", 29.99));
 
         displayList.clear();
         for (Item item: itemList){
@@ -83,7 +80,7 @@ public class HomeFragment extends Fragment {
         gridList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                createItemDetailDialog(context, itemList.get(i));
+                createItemDetailDialog(context, displayList.get(i));
 
             }
         });
