@@ -14,6 +14,7 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -48,8 +49,9 @@ public class stockScreen extends AppCompatActivity {
     };
     private ListView listView;
     private Spinner spinnerFilter;
-    private String selectedFilter;
+    private String selectedFilter, spinnerType;
     private SearchView searchView;
+    private AutoCompleteTextView autoCompleteTextView, autoCompleteTextViewUpdate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +77,29 @@ public class stockScreen extends AppCompatActivity {
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
+            }
+        });
+
+        ArrayList<String> arrayListType = new ArrayList<>();
+        arrayListType.add("GAME");
+        arrayListType.add("CONSOLE");
+        arrayListType.add("ACCESSORY");
+        ArrayAdapter<String> arrayAdapterType = new ArrayAdapter<String>(this,R.layout.spinner_type, arrayListType);
+        autoCompleteTextView = findViewById(R.id.filled_exposed);
+        autoCompleteTextView.setAdapter(arrayAdapterType);
+        autoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                spinnerType = autoCompleteTextView.getText().toString();
+            }
+        });
+
+        autoCompleteTextViewUpdate = findViewById(R.id.filled_exposed_update);
+        autoCompleteTextViewUpdate.setAdapter(arrayAdapterType);
+        autoCompleteTextViewUpdate.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                spinnerType = autoCompleteTextViewUpdate.getText().toString();
             }
         });
 
@@ -108,14 +133,38 @@ public class stockScreen extends AppCompatActivity {
     }
 
     public void onSubmitFormCancel(View view) {
+        EditText tName = null;
+        AutoCompleteTextView tType = null;
+        EditText tStockNum = null;
+        EditText tPrice = null;
+
+        if (findViewById(R.id.addLayout).getVisibility() == View.VISIBLE) {
+            tName= findViewById(R.id.tName);
+            tType = findViewById(R.id.filled_exposed);
+            tStockNum = findViewById(R.id.tStockNum);
+            tPrice = findViewById(R.id.tPrice);
+        }
+        else if (findViewById(R.id.updateLayout).getVisibility() == View.VISIBLE) {
+            tName= findViewById(R.id.tNameUpdate);
+            tType = findViewById(R.id.filled_exposed_update);
+            tStockNum = findViewById(R.id.tStockNumUpdate);
+            tPrice = findViewById(R.id.tPriceUpdate);
+        }
+
         setVisible(R.id.addLayout, false);
         setVisible(R.id.updateLayout, false);
         setVisible(R.id.list, true);
+
+        tName.setText("");
+        tStockNum.setText("");
+        tPrice.setText("");
+        tType.setText("");
+
     }
 
     public void onAddStock(View view) {
         EditText tName= findViewById(R.id.tName);
-        EditText tType = findViewById(R.id.tType);
+        AutoCompleteTextView tType = findViewById(R.id.filled_exposed);
         EditText tStockNum = findViewById(R.id.tStockNum);
         EditText tPrice = findViewById(R.id.tPrice);
         if (tName.getText().toString().equals("") || tType.getText().toString().equals("") ||
@@ -159,9 +208,9 @@ public class stockScreen extends AppCompatActivity {
                 Integer.parseInt(tStockNum.getText().toString()),
                 Double.parseDouble(tPrice.getText().toString()));
         tName.setText("");
-        tType.setText("");
         tStockNum.setText("");
         tPrice.setText("");
+        tType.setText("");
         setVisible(R.id.addLayout,false);
         showStockList();
     }
@@ -220,6 +269,10 @@ public class stockScreen extends AppCompatActivity {
         setVisible(R.id.list, true);
     }
 
+    public void onBackClick(View view) {
+        finish();
+    }
+
     @Override
     protected void onDestroy(){
         super.onDestroy();
@@ -228,7 +281,7 @@ public class stockScreen extends AppCompatActivity {
 
     public void onUpdateStock(View view) {
         EditText tName= findViewById(R.id.tNameUpdate);
-        EditText tType = findViewById(R.id.tTypeUpdate);
+        AutoCompleteTextView tType = findViewById(R.id.filled_exposed_update);
         EditText tStockNum = findViewById(R.id.tStockNumUpdate);
         EditText tPrice = findViewById(R.id.tPriceUpdate);
 
