@@ -89,25 +89,46 @@
                 android:hint="Item Name"
                 android:inputType="textPersonName" />
 
-            <EditText
-                android:id="@+id/tType"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_horizontal"
                 android:layout_marginTop="10dp"
-                android:layout_weight="1"
-                android:ems="10"
-                android:hint="Type"
-                android:inputType="textPersonName" />
+                android:layout_marginLeft="23dp"
+                android:layout_marginRight="23dp"
+                android:orientation="horizontal">
 
-            <EditText
-                android:id="@+id/tStockNum"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_weight="1"
-                android:ems="10"
-                android:hint="Stock"
-                android:inputType="textPersonName" />
+                <EditText
+                    android:id="@+id/tStockNum"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:ems="3"
+                    android:hint="Stock"
+                    android:inputType="textPersonName" />
+
+
+                
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/spinnerType"
+                    android:layout_marginLeft="10dp"
+                    android:hint="Type"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu">
+
+                    <AutoCompleteTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="11dp"
+                        android:ems="5"
+                        android:id="@+id/filled_exposed"
+                        android:inputType="none">
+                    </AutoCompleteTextView>
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </LinearLayout>
 
             <EditText
                 android:id="@+id/tPrice"
@@ -126,7 +147,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_weight="1"
                 android:backgroundTint="@color/border_color"
-                android:ems="6"
+                android:ems="7"
                 android:onClick="onAddStock"
                 android:text="Add" />
 
@@ -136,7 +157,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:backgroundTint="@color/border_color"
-                android:ems="6"
+                android:ems="7"
                 android:onClick="onSubmitFormCancel"
 
                 android:text="Cancel" />
@@ -179,25 +200,46 @@
                 android:hint="Item Name"
                 android:inputType="textPersonName" />
 
-            <EditText
-                android:id="@+id/tTypeUpdate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_horizontal"
                 android:layout_marginTop="10dp"
-                android:layout_weight="1"
-                android:ems="10"
-                android:hint="Type"
-                android:inputType="textPersonName" />
+                android:layout_marginLeft="23dp"
+                android:layout_marginRight="23dp"
+                android:orientation="horizontal">
 
-            <EditText
-                android:id="@+id/tStockNumUpdate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_weight="1"
-                android:ems="10"
-                android:hint="Stock"
-                android:inputType="textPersonName" />
+                <EditText
+                    android:id="@+id/tStockNumUpdate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:ems="3"
+                    android:hint="Stock"
+                    android:inputType="textPersonName" />
+
+
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/spinnerTypeUpdate"
+                    android:layout_marginLeft="10dp"
+                    android:hint="Type"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu">
+
+                    <AutoCompleteTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="11dp"
+                        android:ems="5"
+                        android:id="@+id/filled_exposed_update"
+                        android:inputType="none">
+                    </AutoCompleteTextView>
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </LinearLayout>
 
             <EditText
                 android:id="@+id/tPriceUpdate"
