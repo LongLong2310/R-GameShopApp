@@ -1,20 +1,109 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <TextView
-        android:id="@+id/text_account"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/background_color"
+    tools:context=".ui.home.HomeFragment"
+    android:orientation="vertical">
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:textAlignment="center"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:layout_height="?attr/actionBarSize">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/game_played"
+            android:text="USER"
+            android:layout_centerVertical="true"
+            android:textColor="#51C5D5"
+            android:gravity="center"
+            android:textSize="30sp" />
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:id="@+id/more_button"
+            android:src="@drawable/more_button"
+            app:tint="@color/border_color"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="15dp"
+            android:background= "@null"
+            android:layout_height="match_parent"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:layout_marginTop="30dp">
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:srcCompat="@drawable/account" />
+
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_marginTop="30dp">
+
+        <TextView
+            android:id="@+id/user_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:fontFamily="@font/oswald_bold"
+            android:gravity="center"
+            android:text="USERNAME"
+            android:textColor="@color/white"
+            android:textSize="30sp" />
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_marginTop="10dp">
+
+        <TextView
+            android:id="@+id/current_balance"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:fontFamily="@font/oswald_regular"
+            android:gravity="center"
+            android:text="CURRENT BALANCE: $1000"
+            android:textColor="@color/white"
+            android:textSize="30sp" />
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_marginTop="30dp">
+
+        <Button
+            android:id="@+id/add_balance_button"
+            android:layout_width="227dp"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"
+            android:backgroundTint="@color/border_color"
+            android:gravity="center"
+            android:text="ADD BALANCE"
+            android:textSize="15sp"
+            android:textColor="@color/background_color" />
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_marginTop="10dp">
+
+        <Button
+            android:layout_width="227dp"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/button_border"
+            android:gravity="center"
+            android:text="VIEW PAST PURCHASE"
+            android:textColor="@color/border_color"
+            android:textSize="15sp"
+            app:backgroundTint="@null" />
+    </RelativeLayout>
+</LinearLayout>
