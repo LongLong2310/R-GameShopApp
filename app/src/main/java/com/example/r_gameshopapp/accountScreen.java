@@ -211,6 +211,10 @@ public class accountScreen extends AppCompatActivity {
         setVisible(R.id.list, true);
     }
 
+    public void onBackClick(View view) {
+        finish();
+    }
+
     @Override
     protected void onDestroy(){
         super.onDestroy();
