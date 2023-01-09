@@ -53,7 +53,7 @@ public class AccountFragment extends Fragment {
         cursor = dbManager.searchAccountID(Integer.toString(((userMain)getActivity()).getid()));
 
         user_name.setText(cursor.getString(1));
-        current_balance.setText("CURRENT BALANCE: " + cursor.getString(3));
+        current_balance.setText("CURRENT BALANCE:  " + cursor.getString(3));
 
         add_balance = (Button) root.findViewById(R.id.add_balance_button);
         add_balance.setOnClickListener(new View.OnClickListener() {
