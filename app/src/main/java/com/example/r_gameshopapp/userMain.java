@@ -1,5 +1,6 @@
 package com.example.r_gameshopapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -20,6 +21,7 @@ public class userMain extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        startService(new Intent(this, BackgroundMusicService.class));
         super.onCreate(savedInstanceState);
         Objects.requireNonNull(this.getSupportActionBar()).hide();
         binding = ActivityMainBinding.inflate(getLayoutInflater());
