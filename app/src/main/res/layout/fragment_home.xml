@@ -69,14 +69,14 @@
             android:id="@+id/console_category_button"
             android:layout_width="80dp"
             android:layout_height="match_parent"
-            android:layout_weight="0.25"
             android:layout_marginStart="10dp"
+            android:layout_weight="0.25"
             android:background="@drawable/button_border"
             android:drawableTop="@drawable/console_category_small"
             android:fontFamily="@font/game_played"
             android:text="Console"
-            android:textSize="11sp"
             android:textColor="@color/border_color"
+            android:textSize="8sp"
             app:backgroundTint="@null"
             tools:ignore="SmallSp" />
 
@@ -84,29 +84,29 @@
             android:id="@+id/accessories_category_button"
             android:layout_width="80dp"
             android:layout_height="match_parent"
-            android:layout_weight="0.25"
             android:layout_marginStart="10dp"
-            app:backgroundTint="@null"
+            android:layout_weight="0.25"
             android:background="@drawable/button_border"
             android:drawableTop="@drawable/accessories_category_small"
-            android:text="Add-Ons"
-            android:textSize="11sp"
             android:fontFamily="@font/game_played"
-            android:textColor="@color/border_color"/>
+            android:text="Add-Ons"
+            android:textColor="@color/border_color"
+            android:textSize="8sp"
+            app:backgroundTint="@null" />
 
         <Button
             android:id="@+id/all_category_button"
             android:layout_width="80dp"
             android:layout_height="match_parent"
-            android:layout_weight="0.25"
-            android:layout_marginStart="10dp"
             android:layout_gravity="center"
-            app:backgroundTint="@null"
+            android:layout_marginStart="10dp"
+            android:layout_weight="0.25"
             android:background="@drawable/button_border"
-            android:text="All"
-            android:textSize="26sp"
             android:fontFamily="@font/game_played"
-            android:textColor="@color/border_color"/>
+            android:text="All"
+            android:textColor="@color/border_color"
+            android:textSize="20sp"
+            app:backgroundTint="@null" />
     </LinearLayout>
     <TextView
         android:id="@+id/category_title"
