@@ -66,6 +66,7 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
+        <service android:enabled="true" android:name=".BackgroundMusicService" />
     </application>
 
 </manifest>

@@ -168,6 +168,7 @@ public class HomeFragment extends Fragment {
                     Toast.makeText(getContext(), "Music clicked", Toast.LENGTH_SHORT).show();
                 if(item.getItemId() == R.id.logout)
                     requireActivity().finish();
+
                 return true;
             }
         });
