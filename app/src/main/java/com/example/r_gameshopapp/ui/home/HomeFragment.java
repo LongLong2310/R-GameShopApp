@@ -22,17 +22,14 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.r_gameshopapp.DatabaseHelper;
 import com.example.r_gameshopapp.DatabaseManager;
 import com.example.r_gameshopapp.GridAdapter;
 import com.example.r_gameshopapp.Item;
-import com.example.r_gameshopapp.adminMenu;
+import com.example.r_gameshopapp.databinding.FragmentHomeBinding;
 import com.example.r_gameshopapp.userMain;
 import com.example.r_gameshopapp.R;
-import com.example.r_gameshopapp.databinding.FragmentHomeBinding;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class HomeFragment extends Fragment {
 
@@ -46,8 +43,6 @@ public class HomeFragment extends Fragment {
     private ImageView img, more_button;
     private DatabaseManager dbManager;
     private Button buttonGame;
-
-
 
     private String selected_category = "ALL";
     ArrayList<Item> displayList = new ArrayList<>();
@@ -79,7 +74,7 @@ public class HomeFragment extends Fragment {
             }
         }
 
-        GridAdapter gridAdapter = new GridAdapter(context, R.layout.activity_main_item, displayList);
+        GridAdapter gridAdapter = new GridAdapter(context, R.layout.fragment_home_item, displayList);
         gridList.setAdapter(gridAdapter);
         gridList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
