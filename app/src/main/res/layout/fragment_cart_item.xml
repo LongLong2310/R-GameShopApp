@@ -37,24 +37,25 @@
             android:layout_marginTop="20dp"
             android:orientation="horizontal">
             <TextView
-                android:id="@+id/item_price"
+                android:id="@+id/item_stock"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/oswald_bold"
-                android:text="$69.99"
-                android:textColor="#ffffff"
-                android:textSize="20sp"
-                android:letterSpacing="0.1" />
-            <TextView
-                android:id="@+id/item_stock"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="end"
                 android:fontFamily="@font/oswald_bold"
                 android:textColor="#ffffff"
                 android:text="x  7"
                 android:letterSpacing="0.1"
                 android:textSize="20sp" />
+            <TextView
+                android:id="@+id/item_price"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:fontFamily="@font/oswald_bold"
+                android:text="$69.99"
+                android:textColor="#ffffff"
+                android:textSize="20sp"
+                android:letterSpacing="0.1" />
+
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>
