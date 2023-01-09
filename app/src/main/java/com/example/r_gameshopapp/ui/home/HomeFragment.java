@@ -215,8 +215,15 @@ public class HomeFragment extends Fragment {
         });
         button_add_to_cart.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v){
-                //Toast.makeText(getContext(), "Account "+ ((userMain)getActivity()).getid(), Toast.LENGTH_SHORT).show();
+            public void onClick(View v) {
+                if (isNumeric(amount.getText().toString()) == true) {
+                    if (Integer.parseInt(amount.getText().toString()) <= item.getitemStock()) {
+                        Toast.makeText(getContext(), "Account " + ((userMain) getActivity()).getid() + " add to cart " + amount.getText().toString(), Toast.LENGTH_SHORT).show();
+                        //dbManager.buy(item.getitemName(),item.getitemStock()-Integer.parseInt(amount.getText().toString()));
+                    } else {
+                        Toast.makeText(getContext(), "buy amount over stock", Toast.LENGTH_SHORT).show();
+                    }
+                }
             }
         });
     }
@@ -227,6 +234,16 @@ public class HomeFragment extends Fragment {
         super.onDestroyView();
         binding = null;
     }
-
+    public static boolean isNumeric(String strNum) {
+        if (strNum == null) {
+            return false;
+        }
+        try {
+            double d = Double.parseDouble(strNum);
+        } catch (NumberFormatException nfe) {
+            return false;
+        }
+        return true;
+    }
 
 }

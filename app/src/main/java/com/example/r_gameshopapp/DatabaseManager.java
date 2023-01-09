@@ -184,17 +184,7 @@ public class DatabaseManager {
         return returnPatientModel;
     }
 
-//    public void searchAccount(long _id) {
-//        Cursor cursor = database.rawQuery("select * from " + DatabaseHelper.TABLE_NAME_A, null);
-//        if (cursor.getCount() == 0) {
-//            System.out.println("No Record");
-//            return;
-//        }
-//        StringBuffer stringBuffer = new StringBuffer();
-//        while (cursor.moveToNext()) {
-//            stringBuffer.append(cursor.getString(0) + )
-//        }
-//    }
+
 
     //calculate total price of cart=amount*price of each item
     public int total() {
@@ -217,6 +207,32 @@ public class DatabaseManager {
         }
         cursor.close();
         return total;
+    }
+    public int buy(String name,int amount) {
+        dbHelper = new DatabaseHelper(context);
+        database = dbHelper.getWritableDatabase();
+        ContentValues contentValue = new ContentValues();
+
+        contentValue.put(DatabaseHelper.STOCK, amount);
+        int i = database.update(DatabaseHelper.TABLE_NAME_S,
+                contentValue,
+                DatabaseHelper.NAME + " ='" + name +"'", null);
+        database.close();
+        return i;
+
+    }
+    public int changeBalance(String name,double amount) {
+        dbHelper = new DatabaseHelper(context);
+        database = dbHelper.getWritableDatabase();
+        ContentValues contentValue = new ContentValues();
+
+        contentValue.put(DatabaseHelper.CASH,"$" + amount);
+        int i = database.update(DatabaseHelper.TABLE_NAME_A,
+                contentValue,
+                DatabaseHelper.NAME + " ='" + name +"'", null);
+        database.close();
+        return i;
+
     }
 
     public Cursor selectAllStock() {

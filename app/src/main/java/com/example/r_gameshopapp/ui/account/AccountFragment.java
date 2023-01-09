@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
@@ -35,6 +36,7 @@ public class AccountFragment extends Fragment {
     private ImageView more_button;
     private DatabaseManager dbManager;
     private Button add_balance;
+    private EditText amount;
     private Cursor cursor;
     private FragmentAccountBinding binding;
 
@@ -96,16 +98,26 @@ public class AccountFragment extends Fragment {
         dialogbuilder = new AlertDialog.Builder(context);
         final View addBalancePopupView = getLayoutInflater().inflate(R.layout.add_balance_popup, null);
         current_balance_popup = (TextView) addBalancePopupView.findViewById(R.id.current_balance_popup);
-        current_balance_popup.setText("CURRENT BALANCE: $1000");
+        current_balance_popup.setText("CURRENT BALANCE:  " + cursor.getString(3));
 
         dialogbuilder.setView(addBalancePopupView);
         dialog = dialogbuilder.create();
         dialog.show();
-
+        amount= (EditText) addBalancePopupView.findViewById(R.id.amount);
         button_cancel = (ImageButton) addBalancePopupView.findViewById(R.id.button_cancel);
         button_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v){
+                dialog.dismiss();
+            }
+        });
+        add_balance = (Button) addBalancePopupView.findViewById(R.id.button_add);
+        add_balance.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v){
+                if (isNumeric(amount.getText().toString()) == true) {
+                    dbManager.changeBalance(cursor.getString(1),Double.parseDouble(cursor.getString(3).replaceAll("[$]", ""))+Double.parseDouble(amount.getText().toString()));
+                }
                 dialog.dismiss();
             }
         });
@@ -116,5 +128,16 @@ public class AccountFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+    }
+    public static boolean isNumeric(String strNum) {
+        if (strNum == null) {
+            return false;
+        }
+        try {
+            double d = Double.parseDouble(strNum);
+        } catch (NumberFormatException nfe) {
+            return false;
+        }
+        return true;
     }
 }
