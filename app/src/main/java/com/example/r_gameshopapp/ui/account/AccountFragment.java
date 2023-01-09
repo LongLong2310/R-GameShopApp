@@ -4,12 +4,17 @@ import android.content.Context;
 import android.database.Cursor;
 import android.media.Image;
 import android.os.Bundle;
+import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -27,6 +32,7 @@ public class AccountFragment extends Fragment {
     private AlertDialog dialog;
     private TextView current_balance_popup, user_name, current_balance;
     private ImageButton button_cancel;
+    private ImageView more_button;
     private DatabaseManager dbManager;
     private Button add_balance;
     private Cursor cursor;
@@ -39,6 +45,7 @@ public class AccountFragment extends Fragment {
 
         binding = FragmentAccountBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
+        more_button = (ImageView) root.findViewById(R.id.more_button);
         dbManager = new DatabaseManager(getActivity());
         dbManager.open();
         user_name = (TextView) root.findViewById(R.id.user_name);
@@ -56,9 +63,33 @@ public class AccountFragment extends Fragment {
                }
         });
 
+        more_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showMenu(v);
+            }
+        });
+
 //        final TextView textView = binding.textAccount;
 //        accountViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         return root;
+    }
+
+    private void showMenu(View v) {
+        Context wrapper = new ContextThemeWrapper(getContext(), R.style.PopupMenu);
+        PopupMenu popupMenu = new PopupMenu(wrapper, v);
+        popupMenu.getMenuInflater().inflate(R.menu.popup_menu, popupMenu.getMenu());
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                if(item.getItemId() == R.id.music)
+                    Toast.makeText(getContext(), "Music clicked", Toast.LENGTH_SHORT).show();
+                if(item.getItemId() == R.id.logout)
+                    requireActivity().finish();
+                return true;
+            }
+        });
+        popupMenu.show();
     }
 
     public void createAddBalanceDialog(Context context) {

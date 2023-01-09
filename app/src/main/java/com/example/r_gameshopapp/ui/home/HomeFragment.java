@@ -2,7 +2,9 @@ package com.example.r_gameshopapp.ui.home;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -11,6 +13,7 @@ import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,7 +43,7 @@ public class HomeFragment extends Fragment {
     private Button  button_add_to_cart, game_category_button,
                     console_category_button, accessories_category_button,
                     all_category_button;
-    private ImageView img;
+    private ImageView img, more_button;
     private DatabaseManager dbManager;
     private Button buttonGame;
 
@@ -63,6 +66,7 @@ public class HomeFragment extends Fragment {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
         gridList = (GridView) root.findViewById(R.id.gridView);
+        more_button = (ImageView) root.findViewById(R.id.more_button);
         dbManager = new DatabaseManager(getActivity());
         itemList = dbManager.getAllItem();
 
@@ -148,7 +152,31 @@ public class HomeFragment extends Fragment {
             }
         });
 
+        more_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showMenu(v);
+            }
+        });
+
         return root;
+    }
+
+    private void showMenu(View v) {
+        Context wrapper = new ContextThemeWrapper(getContext(), R.style.PopupMenu);
+        PopupMenu popupMenu = new PopupMenu(wrapper, v);
+        popupMenu.getMenuInflater().inflate(R.menu.popup_menu, popupMenu.getMenu());
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                if(item.getItemId() == R.id.music)
+                    Toast.makeText(getContext(), "Music clicked", Toast.LENGTH_SHORT).show();
+                if(item.getItemId() == R.id.logout)
+                    requireActivity().finish();
+                return true;
+            }
+        });
+        popupMenu.show();
     }
 
     public void createItemDetailDialog(Context context, Item item){
