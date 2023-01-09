@@ -1,6 +1,7 @@
 package com.example.r_gameshopapp.ui.home;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
@@ -22,6 +23,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.r_gameshopapp.BackgroundMusicService;
 import com.example.r_gameshopapp.DatabaseManager;
 import com.example.r_gameshopapp.GridAdapter;
 import com.example.r_gameshopapp.Item;
@@ -39,7 +41,7 @@ public class HomeFragment extends Fragment {
     private ImageButton button_cancel;
     private Button  button_add_to_cart, game_category_button,
                     console_category_button, accessories_category_button,
-                    all_category_button;
+                    all_category_button, play_button, stop_button;
     private ImageView img, more_button;
     private DatabaseManager dbManager;
     private Button buttonGame;
@@ -165,15 +167,34 @@ public class HomeFragment extends Fragment {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 if(item.getItemId() == R.id.music)
-                    Toast.makeText(getContext(), "Music clicked", Toast.LENGTH_SHORT).show();
+                    createServiceDialog(getLayoutInflater().getContext());
                 if(item.getItemId() == R.id.logout)
                     requireActivity().finish();
-
                 return true;
             }
         });
         popupMenu.show();
     }
+
+    public void createServiceDialog(Context context) {
+        dialogbuilder = new AlertDialog.Builder(context);
+        final View backgroundMusicPopupView = getLayoutInflater().inflate(R.layout.music_service, null);
+        play_button = (Button) backgroundMusicPopupView.findViewById(R.id.play_button);
+        play_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                requireActivity().startService(new Intent(requireActivity(), BackgroundMusicService.class));
+            }
+        });
+        stop_button = (Button) backgroundMusicPopupView.findViewById(R.id.stop_button);
+        stop_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                requireActivity().stopService(new Intent(requireActivity(), BackgroundMusicService.class));
+            }
+        });
+    }
+
 
     public void createItemDetailDialog(Context context, Item item){
         dialogbuilder = new AlertDialog.Builder(context);
