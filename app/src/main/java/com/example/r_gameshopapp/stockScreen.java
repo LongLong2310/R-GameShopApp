@@ -185,11 +185,11 @@ public class stockScreen extends AppCompatActivity {
             dialog.show();
             return;
         }
-        if (!isNumeric(tStockNum.getText().toString()) || !isNumeric(tPrice.getText().toString())) {
+        if (!isNumeric(tStockNum.getText().toString()) || !isNumeric(tPrice.getText().toString())||dbManager.checkStock(tName.getText().toString())==true) {
             AlertDialog dialog = new
                     AlertDialog.Builder(stockScreen.this).create();
             dialog.setTitle("Invalid input");
-            dialog.setMessage("The stock or price must be number");
+            dialog.setMessage("The stock or price must be number and name must be unique");
             dialog.setButton(AlertDialog.BUTTON_POSITIVE,
                     "Ok",
                     new DialogInterface.OnClickListener() {
@@ -303,11 +303,11 @@ public class stockScreen extends AppCompatActivity {
             dialog.show();
             return;
         }
-        if (!isNumeric(tStockNum.getText().toString()) || !isNumeric(tPrice.getText().toString())) {
+        if (!isNumeric(tStockNum.getText().toString()) || !isNumeric(tPrice.getText().toString())||((dbManager.checkStock(tName.getText().toString())==true) && (!tName.getText().toString().equals(cursor.getString(1))))) {
             AlertDialog dialog = new
                     AlertDialog.Builder(stockScreen.this).create();
             dialog.setTitle("Invalid input");
-            dialog.setMessage("The stock or price must be number");
+            dialog.setMessage("The stock or price must be number and name must be unique");
             dialog.setButton(AlertDialog.BUTTON_POSITIVE,
                     "Ok",
                     new DialogInterface.OnClickListener() {

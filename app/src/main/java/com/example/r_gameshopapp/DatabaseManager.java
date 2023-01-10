@@ -400,6 +400,37 @@ public class DatabaseManager {
         }
         return false;
     }
+    public boolean checkStock(String name) {
+
+        // array of columns to fetch
+        String[] columns = {
+                DatabaseHelper.ID
+        };
+        ;
+        // selection criteria
+        String selection = DatabaseHelper.NAME + " = ?";
+        // selection argument
+        String[] selectionArgs = {name};
+        // query user table with condition
+        /**
+         * Here query function is used to fetch records from user table this function works like we use sql query.
+         * SQL query equivalent to this query function is
+         * SELECT user_id FROM user WHERE user_name = 'jack@androidtutorialshub.com';
+         */
+        Cursor cursor = database.query(DatabaseHelper.TABLE_NAME_S, //Table to query
+                columns,                    //columns to return
+                selection,                  //columns for the WHERE clause
+                selectionArgs,              //The values for the WHERE clause
+                null,                       //group the rows
+                null,                      //filter by row groups
+                null);                      //The sort order
+        int cursorCount = cursor.getCount();
+        cursor.close();
+        if (cursorCount > 0) {
+            return true;
+        }
+        return false;
+    }
 
     public Cursor loginInfo(String username) {
         dbHelper = new DatabaseHelper(context);
