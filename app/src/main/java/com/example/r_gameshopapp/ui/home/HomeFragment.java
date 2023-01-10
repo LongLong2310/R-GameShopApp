@@ -36,14 +36,14 @@ import java.util.ArrayList;
 
 public class HomeFragment extends Fragment {
 
-    private AlertDialog.Builder dialogbuilder;
+    private AlertDialog.Builder dialogBuilder;
     private AlertDialog dialog;
     private TextView itemName, itemStock, itemPrice, amount, category_title;
-    private ImageButton button_cancel;
+    private ImageButton button_cancel, more_button;
     private Button  button_add_to_cart, game_category_button,
                     console_category_button, accessories_category_button,
                     all_category_button, play_button, stop_button;
-    private ImageView img, more_button;
+    private ImageView img;
     private DatabaseManager dbManager;
     private Button buttonGame;
 
@@ -64,7 +64,7 @@ public class HomeFragment extends Fragment {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
         gridList = (GridView) root.findViewById(R.id.gridView);
-        more_button = (ImageView) root.findViewById(R.id.more_button);
+        more_button = (ImageButton) root.findViewById(R.id.more_button);
         dbManager = new DatabaseManager(getActivity());
         itemList = dbManager.getAllItem();
 
@@ -178,10 +178,10 @@ public class HomeFragment extends Fragment {
     }
 
     public void createServiceDialog(Context context) {
-        dialogbuilder = new AlertDialog.Builder(context);
+        dialogBuilder = new AlertDialog.Builder(context);
         final View backgroundMusicPopupView = getLayoutInflater().inflate(R.layout.music_service, null);
-        dialogbuilder.setView(backgroundMusicPopupView);
-        dialog = dialogbuilder.create();
+        dialogBuilder.setView(backgroundMusicPopupView);
+        dialog = dialogBuilder.create();
         dialog.show();
         play_button = (Button) backgroundMusicPopupView.findViewById(R.id.play_button);
         play_button.setOnClickListener(new View.OnClickListener() {
@@ -207,7 +207,7 @@ public class HomeFragment extends Fragment {
     }
 
     public void createItemDetailDialog(Context context, Item item){
-        dialogbuilder = new AlertDialog.Builder(context);
+        dialogBuilder = new AlertDialog.Builder(context);
         final View itemDetailPopupView = getLayoutInflater().inflate(R.layout.item_detail, null);
         itemName = (TextView) itemDetailPopupView.findViewById(R.id.item_name);
         itemName.setText(item.getitemName());
@@ -234,8 +234,8 @@ public class HomeFragment extends Fragment {
         button_cancel = (ImageButton) itemDetailPopupView.findViewById(R.id.button_cancel);
         button_add_to_cart = (Button) itemDetailPopupView.findViewById(R.id.button_add_to_cart);
         
-        dialogbuilder.setView(itemDetailPopupView);
-        dialog = dialogbuilder.create();
+        dialogBuilder.setView(itemDetailPopupView);
+        dialog = dialogBuilder.create();
         dialog.show();
 
         button_cancel.setOnClickListener(new View.OnClickListener() {
