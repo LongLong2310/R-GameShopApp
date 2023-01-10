@@ -32,6 +32,15 @@
                 android:layout_marginEnd="15dp"
                 android:background= "@null"
                 android:layout_height="match_parent"/>
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:id="@+id/search_button"
+                android:src="@drawable/search_button"
+                app:tint="@color/border_color"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="60dp"
+                android:background= "@null"
+                android:layout_height="match_parent"/>
         </RelativeLayout>
         <ImageView
             android:layout_width="match_parent"

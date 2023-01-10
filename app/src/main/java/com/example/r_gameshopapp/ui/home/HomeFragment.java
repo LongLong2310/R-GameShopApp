@@ -1,6 +1,8 @@
 package com.example.r_gameshopapp.ui.home;
 
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
@@ -22,6 +24,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.r_gameshopapp.BackgroundMusicService;
 import com.example.r_gameshopapp.DatabaseManager;
 import com.example.r_gameshopapp.GridAdapter;
 import com.example.r_gameshopapp.Item;
@@ -33,14 +36,14 @@ import java.util.ArrayList;
 
 public class HomeFragment extends Fragment {
 
-    private AlertDialog.Builder dialogbuilder;
+    private AlertDialog.Builder dialogBuilder;
     private AlertDialog dialog;
     private TextView itemName, itemStock, itemPrice, amount, category_title;
-    private ImageButton button_cancel;
+    private ImageButton button_cancel, more_button;
     private Button  button_add_to_cart, game_category_button,
                     console_category_button, accessories_category_button,
-                    all_category_button;
-    private ImageView img, more_button;
+                    all_category_button, play_button, stop_button;
+    private ImageView img;
     private DatabaseManager dbManager;
     private Button buttonGame;
 
@@ -61,7 +64,7 @@ public class HomeFragment extends Fragment {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
         gridList = (GridView) root.findViewById(R.id.gridView);
-        more_button = (ImageView) root.findViewById(R.id.more_button);
+        more_button = (ImageButton) root.findViewById(R.id.more_button);
         dbManager = new DatabaseManager(getActivity());
         itemList = dbManager.getAllItem();
 
@@ -165,7 +168,7 @@ public class HomeFragment extends Fragment {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 if(item.getItemId() == R.id.music)
-                    Toast.makeText(getContext(), "Music clicked", Toast.LENGTH_SHORT).show();
+                    createServiceDialog(getLayoutInflater().getContext());
                 if(item.getItemId() == R.id.logout)
                     requireActivity().finish();
                 return true;
@@ -174,8 +177,37 @@ public class HomeFragment extends Fragment {
         popupMenu.show();
     }
 
+    public void createServiceDialog(Context context) {
+        dialogBuilder = new AlertDialog.Builder(context);
+        final View backgroundMusicPopupView = getLayoutInflater().inflate(R.layout.music_service, null);
+        dialogBuilder.setView(backgroundMusicPopupView);
+        dialog = dialogBuilder.create();
+        dialog.show();
+        play_button = (Button) backgroundMusicPopupView.findViewById(R.id.play_button);
+        play_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                requireActivity().startService(new Intent(requireActivity(), BackgroundMusicService.class));
+            }
+        });
+        stop_button = (Button) backgroundMusicPopupView.findViewById(R.id.stop_button);
+        stop_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                requireActivity().stopService(new Intent(requireActivity(), BackgroundMusicService.class));
+            }
+        });
+        button_cancel = (ImageButton) backgroundMusicPopupView.findViewById(R.id.button_cancel);
+        button_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v){
+                dialog.dismiss();
+            }
+        });
+    }
+
     public void createItemDetailDialog(Context context, Item item){
-        dialogbuilder = new AlertDialog.Builder(context);
+        dialogBuilder = new AlertDialog.Builder(context);
         final View itemDetailPopupView = getLayoutInflater().inflate(R.layout.item_detail, null);
         itemName = (TextView) itemDetailPopupView.findViewById(R.id.item_name);
         itemName.setText(item.getitemName());
@@ -195,11 +227,15 @@ public class HomeFragment extends Fragment {
             img.setImageResource(R.drawable.accessories);
         }
 
+        if (item.getitemStock() == 0) {
+            itemStock.setTextColor(Color.RED);
+        }
+
         button_cancel = (ImageButton) itemDetailPopupView.findViewById(R.id.button_cancel);
         button_add_to_cart = (Button) itemDetailPopupView.findViewById(R.id.button_add_to_cart);
         
-        dialogbuilder.setView(itemDetailPopupView);
-        dialog = dialogbuilder.create();
+        dialogBuilder.setView(itemDetailPopupView);
+        dialog = dialogBuilder.create();
         dialog.show();
 
         button_cancel.setOnClickListener(new View.OnClickListener() {

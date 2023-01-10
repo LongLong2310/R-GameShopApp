@@ -1,6 +1,7 @@
 package com.example.r_gameshopapp.ui.account;
 
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.media.Image;
 import android.os.Bundle;
@@ -22,6 +23,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.r_gameshopapp.BackgroundMusicService;
 import com.example.r_gameshopapp.DatabaseManager;
 import com.example.r_gameshopapp.Item;
 import com.example.r_gameshopapp.R;
@@ -29,13 +31,12 @@ import com.example.r_gameshopapp.databinding.FragmentAccountBinding;
 import com.example.r_gameshopapp.userMain;
 
 public class AccountFragment extends Fragment {
-    private AlertDialog.Builder dialogbuilder;
+    private AlertDialog.Builder dialogBuilder;
     private AlertDialog dialog;
     private TextView current_balance_popup, user_name, current_balance;
-    private ImageButton button_cancel;
-    private ImageView more_button;
+    private ImageButton button_cancel, more_button;
     private DatabaseManager dbManager;
-    private Button add_balance;
+    private Button add_balance, play_button, stop_button;
     private EditText amount;
     private Cursor cursor;
     private FragmentAccountBinding binding;
@@ -47,7 +48,7 @@ public class AccountFragment extends Fragment {
 
         binding = FragmentAccountBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
-        more_button = (ImageView) root.findViewById(R.id.more_button);
+        more_button = (ImageButton) root.findViewById(R.id.more_button);
         dbManager = new DatabaseManager(getActivity());
         dbManager.open();
         user_name = (TextView) root.findViewById(R.id.user_name);
@@ -85,7 +86,7 @@ public class AccountFragment extends Fragment {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 if(item.getItemId() == R.id.music)
-                    Toast.makeText(getContext(), "Music clicked", Toast.LENGTH_SHORT).show();
+                    createServiceDialog(getLayoutInflater().getContext());
                 if(item.getItemId() == R.id.logout)
                     requireActivity().finish();
                 return true;
@@ -94,14 +95,43 @@ public class AccountFragment extends Fragment {
         popupMenu.show();
     }
 
+    public void createServiceDialog(Context context) {
+        dialogBuilder = new AlertDialog.Builder(context);
+        final View backgroundMusicPopupView = getLayoutInflater().inflate(R.layout.music_service, null);
+        dialogBuilder.setView(backgroundMusicPopupView);
+        dialog = dialogBuilder.create();
+        dialog.show();
+        play_button = (Button) backgroundMusicPopupView.findViewById(R.id.play_button);
+        play_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                requireActivity().startService(new Intent(requireActivity(), BackgroundMusicService.class));
+            }
+        });
+        stop_button = (Button) backgroundMusicPopupView.findViewById(R.id.stop_button);
+        stop_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                requireActivity().stopService(new Intent(requireActivity(), BackgroundMusicService.class));
+            }
+        });
+        button_cancel = (ImageButton) backgroundMusicPopupView.findViewById(R.id.button_cancel);
+        button_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v){
+                dialog.dismiss();
+            }
+        });
+    }
+
     public void createAddBalanceDialog(Context context) {
-        dialogbuilder = new AlertDialog.Builder(context);
+        dialogBuilder = new AlertDialog.Builder(context);
         final View addBalancePopupView = getLayoutInflater().inflate(R.layout.add_balance_popup, null);
         current_balance_popup = (TextView) addBalancePopupView.findViewById(R.id.current_balance_popup);
         current_balance_popup.setText("CURRENT BALANCE:  " + cursor.getString(3));
 
-        dialogbuilder.setView(addBalancePopupView);
-        dialog = dialogbuilder.create();
+        dialogBuilder.setView(addBalancePopupView);
+        dialog = dialogBuilder.create();
         dialog.show();
         amount= (EditText) addBalancePopupView.findViewById(R.id.amount);
         button_cancel = (ImageButton) addBalancePopupView.findViewById(R.id.button_cancel);
