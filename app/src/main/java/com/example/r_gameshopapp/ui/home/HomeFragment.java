@@ -2,6 +2,7 @@ package com.example.r_gameshopapp.ui.home;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
@@ -179,6 +180,9 @@ public class HomeFragment extends Fragment {
     public void createServiceDialog(Context context) {
         dialogbuilder = new AlertDialog.Builder(context);
         final View backgroundMusicPopupView = getLayoutInflater().inflate(R.layout.music_service, null);
+        dialogbuilder.setView(backgroundMusicPopupView);
+        dialog = dialogbuilder.create();
+        dialog.show();
         play_button = (Button) backgroundMusicPopupView.findViewById(R.id.play_button);
         play_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -193,8 +197,14 @@ public class HomeFragment extends Fragment {
                 requireActivity().stopService(new Intent(requireActivity(), BackgroundMusicService.class));
             }
         });
+        button_cancel = (ImageButton) backgroundMusicPopupView.findViewById(R.id.button_cancel);
+        button_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v){
+                dialog.dismiss();
+            }
+        });
     }
-
 
     public void createItemDetailDialog(Context context, Item item){
         dialogbuilder = new AlertDialog.Builder(context);
@@ -215,6 +225,10 @@ public class HomeFragment extends Fragment {
         }
         if (item.getitemCategory().equals("ACCESSORY")) {
             img.setImageResource(R.drawable.accessories);
+        }
+
+        if (item.getitemStock() == 0) {
+            itemStock.setTextColor(Color.RED);
         }
 
         button_cancel = (ImageButton) itemDetailPopupView.findViewById(R.id.button_cancel);

@@ -45,4 +45,10 @@ public class userMain extends AppCompatActivity {
         int i=bundle.getInt("id");
         return i;
     }
+
+    @Override
+    protected void onDestroy() {
+        stopService(new Intent(this, BackgroundMusicService.class));
+        super.onDestroy();
+    }
 }

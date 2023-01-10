@@ -15,7 +15,7 @@
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
         android:fontFamily="@font/oswald_bold"
-        android:textColor="#ffffff"
+        android:textColor="@color/white"
         android:textSize="12sp"
         android:letterSpacing="0.1"
         tools:ignore="RelativeOverlap,SmallSp" />
@@ -28,7 +28,7 @@
         android:layout_marginTop="10dp"
         android:layout_marginEnd="10dp"
         android:fontFamily="@font/oswald_bold"
-        android:textColor="#ffffff"
+        android:textColor="@color/white"
         android:text="Stock: 7"
         android:letterSpacing="0.1"
         android:textSize="12sp" />
@@ -50,7 +50,7 @@
         android:layout_marginTop="115dp"
         android:fontFamily="@font/game_played"
         android:scaleType="center"
-        android:textColor="#ffffff"
+        android:textColor="@color/white"
         android:text="Pokemon Violet"
         android:letterSpacing="0.1"
         android:textSize="14sp" />
@@ -64,7 +64,7 @@
         android:layout_marginBottom="10dp"
         android:fontFamily="@font/oswald_bold"
         android:letterSpacing="0.1"
-        android:textColor="#ffffff"
+        android:textColor="@color/white"
         android:text="GAME"
         android:textSize="11sp" />
 </RelativeLayout>

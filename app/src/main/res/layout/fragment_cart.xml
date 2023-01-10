@@ -47,7 +47,7 @@
         android:layout_marginTop="10dp"
         android:text="BALANCE:  $1,000"
         android:fontFamily="@font/oswald_regular"
-        android:textColor="#ffffff"
+        android:textColor="@color/white"
         android:textSize="25sp" />
 
     <RelativeLayout
@@ -74,7 +74,7 @@
                 android:gravity="center_vertical"
                 android:text="TOTAL:  $99.99"
                 android:fontFamily="@font/oswald_regular"
-                android:textColor="#ffffff"
+                android:textColor="@color/white"
                 android:layout_weight="1"
                 android:textSize="25sp"/>
             <Button
