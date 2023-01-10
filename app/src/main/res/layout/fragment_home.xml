@@ -38,6 +38,44 @@
             android:background= "@null"
             android:layout_height="match_parent"/>
     </RelativeLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:id="@+id/search_bar"
+        android:layout_marginTop="14dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginLeft="15dp"
+        android:background="@drawable/customer_border"
+        android:orientation="horizontal">
+
+        <Spinner
+            android:id="@+id/spinnerFilter"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
+            android:layout_weight="2.5" />
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@color/border_color" />
+
+        <androidx.appcompat.widget.SearchView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/simpleSearchView"
+            android:theme="@style/ThemeOverlay.SearchView"
+            android:focusable="false"
+            android:focusableInTouchMode="true"
+            app:iconifiedByDefault="false"
+            app:queryHint="Search Here"
+            app:searchHintIcon="@drawable/search_icon"
+            app:searchIcon="@drawable/search_icon"
+            app:closeIcon="@drawable/close_search_icon"
+            app:goIcon="@drawable/next_search_icon"
+            android:layout_weight="1" />
+
+    </LinearLayout>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -62,6 +100,7 @@
             android:drawableTop="@drawable/game_category_small"
             android:fontFamily="@font/game_played"
             android:text="Game"
+            android:textSize="16sp"
             android:textColor="@color/border_color"
             app:backgroundTint="@null" />
 
@@ -76,7 +115,7 @@
             android:fontFamily="@font/game_played"
             android:text="Console"
             android:textColor="@color/border_color"
-            android:textSize="8sp"
+            android:textSize="11sp"
             app:backgroundTint="@null"
             tools:ignore="SmallSp" />
 
@@ -91,7 +130,7 @@
             android:fontFamily="@font/game_played"
             android:text="Add-Ons"
             android:textColor="@color/border_color"
-            android:textSize="8sp"
+            android:textSize="11sp"
             app:backgroundTint="@null" />
 
         <Button
@@ -105,7 +144,7 @@
             android:fontFamily="@font/game_played"
             android:text="All"
             android:textColor="@color/border_color"
-            android:textSize="20sp"
+            android:textSize="25sp"
             app:backgroundTint="@null" />
     </LinearLayout>
     <TextView

@@ -34,7 +34,7 @@ public class AccountFragment extends Fragment {
     private AlertDialog.Builder dialogBuilder;
     private AlertDialog dialog;
     private TextView current_balance_popup, user_name, current_balance;
-    private ImageButton button_cancel, more_button;
+    private ImageButton cancel_button, more_button;
     private DatabaseManager dbManager;
     private Button add_balance, play_button, stop_button;
     private EditText amount;
@@ -115,8 +115,8 @@ public class AccountFragment extends Fragment {
                 requireActivity().stopService(new Intent(requireActivity(), BackgroundMusicService.class));
             }
         });
-        button_cancel = (ImageButton) backgroundMusicPopupView.findViewById(R.id.button_cancel);
-        button_cancel.setOnClickListener(new View.OnClickListener() {
+        cancel_button = (ImageButton) backgroundMusicPopupView.findViewById(R.id.cancel_button);
+        cancel_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v){
                 dialog.dismiss();
@@ -134,8 +134,8 @@ public class AccountFragment extends Fragment {
         dialog = dialogBuilder.create();
         dialog.show();
         amount= (EditText) addBalancePopupView.findViewById(R.id.amount);
-        button_cancel = (ImageButton) addBalancePopupView.findViewById(R.id.button_cancel);
-        button_cancel.setOnClickListener(new View.OnClickListener() {
+        cancel_button = (ImageButton) addBalancePopupView.findViewById(R.id.button_cancel);
+        cancel_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v){
                 dialog.dismiss();

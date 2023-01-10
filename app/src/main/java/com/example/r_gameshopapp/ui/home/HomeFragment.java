@@ -3,6 +3,7 @@ package com.example.r_gameshopapp.ui.home;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
@@ -10,17 +11,22 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.PopupMenu;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -39,13 +45,17 @@ public class HomeFragment extends Fragment {
     private AlertDialog.Builder dialogBuilder;
     private AlertDialog dialog;
     private TextView itemName, itemStock, itemPrice, amount, category_title;
-    private ImageButton button_cancel, more_button;
+    private ImageButton cancel_button, more_button, search_button;
     private Button  button_add_to_cart, game_category_button,
                     console_category_button, accessories_category_button,
                     all_category_button, play_button, stop_button;
     private ImageView img;
+    private LinearLayout search_bar;
     private DatabaseManager dbManager;
     private Button buttonGame;
+    private Spinner spinnerFilter;
+    private String selectedFilter, spinnerType;
+    private SearchView searchView;
 
     private String selected_category = "ALL";
     ArrayList<Item> displayList = new ArrayList<>();
@@ -65,6 +75,9 @@ public class HomeFragment extends Fragment {
         View root = binding.getRoot();
         gridList = (GridView) root.findViewById(R.id.gridView);
         more_button = (ImageButton) root.findViewById(R.id.more_button);
+        search_button = (ImageButton) root.findViewById(R.id.search_button);
+        search_bar = (LinearLayout) root.findViewById(R.id.search_bar);
+        search_bar.setVisibility(View.GONE);
         dbManager = new DatabaseManager(getActivity());
         itemList = dbManager.getAllItem();
 
@@ -157,6 +170,38 @@ public class HomeFragment extends Fragment {
             }
         });
 
+        spinnerFilter = (Spinner) root.findViewById(R.id.spinnerFilter);
+        spinnerFilter.getBackground().setColorFilter(getResources().getColor(R.color.border_color), PorterDuff.Mode.SRC_ATOP);
+        ArrayList<String> arrayList = new ArrayList<>();
+        arrayList.add("Name");
+        arrayList.add("Max Price");
+        arrayList.add("Min Price");
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getActivity(),R.layout.spinner_item, arrayList);
+        arrayAdapter.setDropDownViewResource(R.layout.spinner_dropdown_layout);
+        spinnerFilter.setAdapter(arrayAdapter);
+        spinnerFilter.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                selectedFilter = spinnerFilter.getSelectedItem().toString();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        search_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(search_bar.getVisibility() == View.VISIBLE){
+                    search_bar.setVisibility(View.GONE);
+                } else {
+                    search_bar.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+
         return root;
     }
 
@@ -197,8 +242,8 @@ public class HomeFragment extends Fragment {
                 requireActivity().stopService(new Intent(requireActivity(), BackgroundMusicService.class));
             }
         });
-        button_cancel = (ImageButton) backgroundMusicPopupView.findViewById(R.id.button_cancel);
-        button_cancel.setOnClickListener(new View.OnClickListener() {
+        cancel_button = (ImageButton) backgroundMusicPopupView.findViewById(R.id.cancel_button);
+        cancel_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v){
                 dialog.dismiss();
@@ -231,14 +276,14 @@ public class HomeFragment extends Fragment {
             itemStock.setTextColor(Color.RED);
         }
 
-        button_cancel = (ImageButton) itemDetailPopupView.findViewById(R.id.button_cancel);
+        cancel_button = (ImageButton) itemDetailPopupView.findViewById(R.id.cancel_button);
         button_add_to_cart = (Button) itemDetailPopupView.findViewById(R.id.button_add_to_cart);
         
         dialogBuilder.setView(itemDetailPopupView);
         dialog = dialogBuilder.create();
         dialog.show();
 
-        button_cancel.setOnClickListener(new View.OnClickListener() {
+        cancel_button.setOnClickListener(new View.OnClickListener() {
           @Override
             public void onClick(View v){
               dialog.dismiss();
