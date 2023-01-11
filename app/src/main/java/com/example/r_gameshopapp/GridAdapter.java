@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.example.r_gameshopapp.databinding.FragmentHomeItemBinding;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class GridAdapter extends ArrayAdapter {
     Context context;
@@ -21,7 +22,9 @@ public class GridAdapter extends ArrayAdapter {
     int[] itemPrice;
     int[] image;
 
-    ArrayList<Item> itemList = new ArrayList<>();
+    ArrayList<Item> itemList;
+    ArrayList<Item> itemFilteredList;
+
 
     public GridAdapter(Context context, int textViewResourceId, ArrayList objects) {
         super(context, textViewResourceId, objects);
@@ -32,6 +35,16 @@ public class GridAdapter extends ArrayAdapter {
     @Override
     public int getCount() {
         return super.getCount();
+    }
+
+    @Override
+    public Item getItem(int position) {
+        return itemList.get(position);
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
     }
 
     @Override
@@ -62,8 +75,6 @@ public class GridAdapter extends ArrayAdapter {
         if (itemList.get(position).getitemStock() == 0) {
             itemStockView.setTextColor(Color.RED);
         }
-
         return v;
-
     }
 }

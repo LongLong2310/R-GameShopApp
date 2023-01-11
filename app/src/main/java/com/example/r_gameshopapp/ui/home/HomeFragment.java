@@ -1,5 +1,8 @@
 package com.example.r_gameshopapp.ui.home;
 
+import static android.content.Context.SEARCH_SERVICE;
+
+import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -7,6 +10,7 @@ import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +24,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
+import android.widget.SimpleCursorAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,12 +44,13 @@ import com.example.r_gameshopapp.userMain;
 import com.example.r_gameshopapp.R;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class HomeFragment extends Fragment {
 
     private AlertDialog.Builder dialogBuilder;
     private AlertDialog dialog;
-    private TextView itemName, itemStock, itemPrice, amount, category_title;
+    private TextView itemName, itemStock, itemPrice, amount, category_title, no_result;
     private ImageButton cancel_button, more_button, search_button;
     private Button  button_add_to_cart, game_category_button,
                     console_category_button, accessories_category_button,
@@ -78,6 +84,9 @@ public class HomeFragment extends Fragment {
         search_button = (ImageButton) root.findViewById(R.id.search_button);
         search_bar = (LinearLayout) root.findViewById(R.id.search_bar);
         search_bar.setVisibility(View.GONE);
+        no_result = (TextView) root.findViewById(R.id.no_result);
+        no_result.setVisibility(View.GONE);
+
         dbManager = new DatabaseManager(getActivity());
         itemList = dbManager.getAllItem();
 
@@ -116,6 +125,11 @@ public class HomeFragment extends Fragment {
                 gridAdapter.notifyDataSetChanged();
                 gridList.invalidateViews();
                 category_title.setText("GAME");
+                if (gridAdapter.getCount() == 0) {
+                    no_result.setVisibility(View.VISIBLE);
+                } else {
+                    no_result.setVisibility(View.GONE);
+                }
 
             }
         });
@@ -132,6 +146,11 @@ public class HomeFragment extends Fragment {
                 gridAdapter.notifyDataSetChanged();
                 gridList.invalidateViews();
                 category_title.setText("CONSOLE");
+                if (gridAdapter.getCount() == 0) {
+                    no_result.setVisibility(View.VISIBLE);
+                } else {
+                    no_result.setVisibility(View.GONE);
+                }
             }
         });
 
@@ -147,6 +166,11 @@ public class HomeFragment extends Fragment {
                 gridAdapter.notifyDataSetChanged();
                 gridList.invalidateViews();
                 category_title.setText("ACCESSORIES");
+                if (gridAdapter.getCount() == 0) {
+                    no_result.setVisibility(View.VISIBLE);
+                } else {
+                    no_result.setVisibility(View.GONE);
+                }
             }
         });
 
@@ -160,6 +184,11 @@ public class HomeFragment extends Fragment {
                 gridAdapter.notifyDataSetChanged();
                 gridList.invalidateViews();
                 category_title.setText("ALL PRODUCTS");
+                if (gridAdapter.getCount() == 0) {
+                    no_result.setVisibility(View.VISIBLE);
+                } else {
+                    no_result.setVisibility(View.GONE);
+                }
             }
         });
 
@@ -190,6 +219,71 @@ public class HomeFragment extends Fragment {
 
             }
         });
+            searchView = (SearchView) root.findViewById(R.id.simpleSearchView);
+            SearchManager searchManager = (SearchManager) requireActivity().getSystemService(SEARCH_SERVICE);
+            searchView.setSearchableInfo(searchManager.getSearchableInfo(requireActivity().getComponentName()));
+            searchView.setSubmitButtonEnabled(true);
+            searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                @Override
+                public boolean onQueryTextSubmit(String query) {
+                    gridAdapter.clear();
+                    if (query.length() == 0) {
+                        for (Item item: itemList) {
+                            gridAdapter.add(item);
+                        }
+                    } if (selectedFilter.equals("Name")) {
+                        for (Item item : itemList) {
+                            if (item.getitemName().toLowerCase(Locale.getDefault()).contains(query)) {
+                                gridAdapter.add(item);
+                            }
+                        }
+                    } if (selectedFilter.equals("Max Price")) {
+                        for (Item item : itemList) {
+
+                        }
+                    } else {
+
+                    }
+                    gridAdapter.notifyDataSetChanged();
+                    gridList.invalidateViews();
+                    if (gridAdapter.getCount() == 0) {
+                        no_result.setVisibility(View.VISIBLE);
+                    } else {
+                        no_result.setVisibility(View.GONE);
+                    }
+                    return false;
+                }
+
+                @Override
+                public boolean onQueryTextChange(String newText) {
+                    gridAdapter.clear();
+                    if (newText.length() == 0) {
+                        for (Item item: itemList) {
+                            gridAdapter.add(item);
+                        }
+                    } if (selectedFilter.equals("Name")) {
+                        for (Item item : itemList) {
+                            if (item.getitemName().toLowerCase(Locale.getDefault()).contains(newText)) {
+                                gridAdapter.add(item);
+                            }
+                        }
+                    } if (selectedFilter.equals("Max Price")) {
+                        for (Item item : itemList) {
+
+                        }
+                    } else {
+
+                    }
+                    gridAdapter.notifyDataSetChanged();
+                    gridList.invalidateViews();
+                    if (gridAdapter.getCount() == 0) {
+                        no_result.setVisibility(View.VISIBLE);
+                    } else {
+                        no_result.setVisibility(View.GONE);
+                    }
+                    return false;
+                }
+            });
 
         search_button.setOnClickListener(new View.OnClickListener() {
             @Override
