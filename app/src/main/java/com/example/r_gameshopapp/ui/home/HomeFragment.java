@@ -227,11 +227,8 @@ public class HomeFragment extends Fragment {
                 @Override
                 public boolean onQueryTextSubmit(String query) {
                     gridAdapter.clear();
-                    if (query.length() == 0) {
-                        for (Item item: itemList) {
-                            gridAdapter.add(item);
-                        }
-                    } if (selectedFilter.equals("Name")) {
+
+                    if (selectedFilter.equals("Name")) {
                         for (Item item : itemList) {
                             if (item.getitemName().toLowerCase(Locale.getDefault()).contains(query)) {
                                 gridAdapter.add(item);
@@ -257,11 +254,7 @@ public class HomeFragment extends Fragment {
                 @Override
                 public boolean onQueryTextChange(String newText) {
                     gridAdapter.clear();
-                    if (newText.length() == 0) {
-                        for (Item item: itemList) {
-                            gridAdapter.add(item);
-                        }
-                    } if (selectedFilter.equals("Name")) {
+                     if (selectedFilter.equals("Name")) {
                         for (Item item : itemList) {
                             if (item.getitemName().toLowerCase(Locale.getDefault()).contains(newText)) {
                                 gridAdapter.add(item);
