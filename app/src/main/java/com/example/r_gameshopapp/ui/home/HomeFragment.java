@@ -44,6 +44,9 @@ import com.example.r_gameshopapp.userMain;
 import com.example.r_gameshopapp.R;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Locale;
 
 public class HomeFragment extends Fragment {
@@ -227,7 +230,6 @@ public class HomeFragment extends Fragment {
                 @Override
                 public boolean onQueryTextSubmit(String query) {
                     gridAdapter.clear();
-
                     if (selectedFilter.equals("Name")) {
                         for (Item item : itemList) {
                             if (item.getitemName().toLowerCase(Locale.getDefault()).contains(query)) {
@@ -235,11 +237,29 @@ public class HomeFragment extends Fragment {
                             }
                         }
                     } if (selectedFilter.equals("Max Price")) {
-                        for (Item item : itemList) {
-
+                        if (query.length() == 0) {
+                            for (Item item: itemList) {
+                                gridAdapter.add(item);
+                            }
+                        } if (isNumeric(query)) {
+                            for (Item item : itemList) {
+                                if (item.getitemPrice() <= Double.parseDouble(query)) {
+                                    gridAdapter.add(item);
+                                }
+                            }
                         }
                     } else {
-
+                        if (query.length() == 0) {
+                            for (Item item: itemList) {
+                                gridAdapter.add(item);
+                            }
+                        } if (isNumeric(query)) {
+                            for (Item item : itemList) {
+                                if (item.getitemPrice() >= Double.parseDouble(query)) {
+                                    gridAdapter.add(item);
+                                }
+                            }
+                        }
                     }
                     gridAdapter.notifyDataSetChanged();
                     gridList.invalidateViews();
@@ -261,11 +281,29 @@ public class HomeFragment extends Fragment {
                             }
                         }
                     } if (selectedFilter.equals("Max Price")) {
-                        for (Item item : itemList) {
-
+                        if (newText.length() == 0) {
+                            for (Item item: itemList) {
+                                gridAdapter.add(item);
+                            }
+                        } if (isNumeric(newText)) {
+                            for (Item item : itemList) {
+                                if (item.getitemPrice() <= Double.parseDouble(newText)) {
+                                    gridAdapter.add(item);
+                                }
+                            }
                         }
                     } else {
-
+                        if (newText.length() == 0) {
+                            for (Item item: itemList) {
+                                gridAdapter.add(item);
+                            }
+                        } if (isNumeric(newText)) {
+                            for (Item item : itemList) {
+                                if (item.getitemPrice() >= Double.parseDouble(newText)) {
+                                    gridAdapter.add(item);
+                                }
+                            }
+                        }
                     }
                     gridAdapter.notifyDataSetChanged();
                     gridList.invalidateViews();
@@ -391,12 +429,6 @@ public class HomeFragment extends Fragment {
         });
     }
 
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        binding = null;
-    }
     public static boolean isNumeric(String strNum) {
         if (strNum == null) {
             return false;
@@ -409,4 +441,10 @@ public class HomeFragment extends Fragment {
         return true;
     }
 
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
+    }
 }
