@@ -35,7 +35,7 @@ public class CartFragment extends Fragment {
     private AlertDialog.Builder dialogBuilder;
     private AlertDialog dialog;
     private Button play_button, stop_button;
-    private ImageButton more_button, button_cancel;
+    private ImageButton more_button, cancel_button;
     private FragmentCartBinding binding;
     ListView cartList;
     ArrayList<Item> itemCartList = new ArrayList<>();
@@ -107,8 +107,8 @@ public class CartFragment extends Fragment {
                 requireActivity().stopService(new Intent(requireActivity(), BackgroundMusicService.class));
             }
         });
-        button_cancel = (ImageButton) backgroundMusicPopupView.findViewById(R.id.button_cancel);
-        button_cancel.setOnClickListener(new View.OnClickListener() {
+        cancel_button = (ImageButton) backgroundMusicPopupView.findViewById(R.id.cancel_button);
+        cancel_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v){
                 dialog.dismiss();

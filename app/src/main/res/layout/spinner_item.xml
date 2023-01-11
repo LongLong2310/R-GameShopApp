@@ -8,5 +8,6 @@
     android:gravity="center"
     android:textColor="#51C5D5"
     android:textAlignment="center"
+    android:fontFamily="@font/oswald_regular"
     android:padding="5dip"
     />
