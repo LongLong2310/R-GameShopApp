@@ -248,7 +248,7 @@ public class HomeFragment extends Fragment {
                                 }
                             }
                         }
-                    } else {
+                    } if (selectedFilter.equals("Min Price")) {
                         if (query.length() == 0) {
                             for (Item item: itemList) {
                                 gridAdapter.add(item);
@@ -276,7 +276,7 @@ public class HomeFragment extends Fragment {
                     gridAdapter.clear();
                      if (selectedFilter.equals("Name")) {
                         for (Item item : itemList) {
-                            if (item.getitemName().toLowerCase(Locale.getDefault()).contains(newText)) {
+                            if (item.getitemName().toLowerCase(Locale.getDefault()).contains(newText.toLowerCase(Locale.getDefault()))) {
                                 gridAdapter.add(item);
                             }
                         }
@@ -292,7 +292,7 @@ public class HomeFragment extends Fragment {
                                 }
                             }
                         }
-                    } else {
+                    } if (selectedFilter.equals("Min Price")) {
                         if (newText.length() == 0) {
                             for (Item item: itemList) {
                                 gridAdapter.add(item);

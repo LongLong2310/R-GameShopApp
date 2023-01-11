@@ -30,9 +30,9 @@ public class Register extends AppCompatActivity {
         EditText username = (EditText) findViewById(R.id.editTextUsername);
         EditText password = (EditText) findViewById(R.id.editTextPassword);
         EditText confirm = (EditText) findViewById(R.id.editTextConfirm);
-      //  if (isValidPassword(password.getText().toString()) == false) {
-       //     Toast.makeText(this, "Must have uppercase, lowercase and number, length 8-20", Toast.LENGTH_SHORT).show();
-      //  } else {
+        if (isValidPassword(password.getText().toString()) == false) {
+            Toast.makeText(this, "Must have uppercase, lowercase and number, length 8-20", Toast.LENGTH_SHORT).show();
+        } else {
             if (dbManager.checkUser(username.getText().toString()) == false && confirm.getText().toString().equals(password.getText().toString())) {
                 dbManager.insertAccount(
                         username.getText().toString(),
@@ -45,7 +45,7 @@ public class Register extends AppCompatActivity {
                 Toast.makeText(this, "name must be unique and password and confirm must be the same", Toast.LENGTH_SHORT).show();
             }
         }
-   // }
+    }
 
     // passwordMust have uppercase, lowercase and number, length 8-20
     public static boolean isValidPassword(String password) {
