@@ -232,7 +232,7 @@ public class HomeFragment extends Fragment {
                     gridAdapter.clear();
                     if (selectedFilter.equals("Name")) {
                         for (Item item : itemList) {
-                            if (item.getitemName().toLowerCase(Locale.getDefault()).contains(query)) {
+                            if (item.getitemName().toLowerCase(Locale.getDefault()).contains(query.toLowerCase(Locale.getDefault()))) {
                                 gridAdapter.add(item);
                             }
                         }
