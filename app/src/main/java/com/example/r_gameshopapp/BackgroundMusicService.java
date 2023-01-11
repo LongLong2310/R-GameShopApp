@@ -27,7 +27,6 @@ public class BackgroundMusicService extends Service {
         registerReceiver();
     }
     public int onStartCommand(Intent intent, int flags, int startId) {
-        registerReceiver();
         player.start();
         return Service.START_NOT_STICKY;
     }
