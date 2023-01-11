@@ -1,6 +1,8 @@
 package com.example.r_gameshopapp;
 
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.media.AudioManager;
 import android.os.Bundle;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -39,6 +41,7 @@ public class userMain extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
     }
+
 
     public int getid(){
         Bundle bundle = getIntent().getExtras();
