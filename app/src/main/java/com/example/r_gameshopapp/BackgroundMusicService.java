@@ -28,6 +28,9 @@ public class BackgroundMusicService extends Service {
     }
     public int onStartCommand(Intent intent, int flags, int startId) {
         player.start();
+        Intent intent1 = new Intent("Start_service_event");
+        sendBroadcast(intent1);
+
         return Service.START_NOT_STICKY;
     }
 
@@ -50,13 +53,11 @@ public class BackgroundMusicService extends Service {
 
     }
     protected MyReceiver myReceiver;
-    protected IntentFilter intentFilter;
 
     private void registerReceiver(){
         myReceiver = new MyReceiver();
-        IntentFilter filter=new IntentFilter(AudioManager.RINGER_MODE_CHANGED_ACTION);
-//        filter.addAction("android.media.RINGER_MODE_CHANGED");
-        filter.addAction("android.media.VOLUME_CHANGED_ACTION");
+        IntentFilter filter=new IntentFilter("android.media.VOLUME_CHANGED_ACTION");
+        filter.addAction("Start_service_event");
         registerReceiver(myReceiver,filter);
     }
 }
