@@ -35,6 +35,24 @@
         android:layout_marginTop="40dp">
 
         <EditText
+            android:id="@+id/editTextSubject"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/edittext_bg"
+            android:ems="10"
+            android:fontFamily="@font/oswald_regular"
+            android:gravity="center"
+            android:hint="Subject"
+            android:inputType="textPersonName|text"
+            android:textColor="@color/border_color"
+            android:textColorHint="@color/border_color" />
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="252dp"
+        android:layout_height="53dp"
+        android:layout_marginTop="40dp">
+
+        <EditText
             android:id="@+id/editTextContact"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

@@ -54,7 +54,7 @@ public class HomeFragment extends Fragment {
 
     private AlertDialog.Builder dialogBuilder;
     private AlertDialog dialog;
-    private TextView itemName, itemStock, itemPrice, amount, category_title, no_result, editTextContact;
+    private TextView itemName, itemStock, itemPrice, amount, category_title, no_result, editTextContact, editTextSubject;
     private ImageButton cancel_button, more_button, search_button;
     private Button  button_add_to_cart, game_category_button,
                     console_category_button, accessories_category_button,
@@ -441,6 +441,7 @@ public class HomeFragment extends Fragment {
         dialogBuilder = new AlertDialog.Builder(context);
         final View contactUsPopupView = getLayoutInflater().inflate(R.layout.contact_popup, null);
         editTextContact = (EditText) contactUsPopupView.findViewById(R.id.editTextContact);
+        editTextSubject = (EditText) contactUsPopupView.findViewById(R.id.editTextSubject);
         dialogBuilder.setView(contactUsPopupView);
         dialog = dialogBuilder.create();
         dialog.show();
@@ -449,8 +450,8 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 String to="chitoan.tran@yahoo.com.vn";
-                String subject="User: " + cursor.getString(1);
-                String message=editTextContact.getText().toString();
+                String subject = editTextSubject.getText().toString();
+                String message = editTextContact.getText().toString();
 
 
                 Intent email = new Intent(Intent.ACTION_SEND);
