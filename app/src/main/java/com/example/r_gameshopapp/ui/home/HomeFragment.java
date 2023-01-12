@@ -236,7 +236,7 @@ public class HomeFragment extends Fragment {
                                 gridAdapter.add(item);
                             }
                         }
-                    } if (selectedFilter.equals("Max Price")) {
+                    } else if (selectedFilter.equals("Max Price")) {
                         if (query.length() == 0) {
                             for (Item item: itemList) {
                                 gridAdapter.add(item);
@@ -248,7 +248,7 @@ public class HomeFragment extends Fragment {
                                 }
                             }
                         }
-                    } if (selectedFilter.equals("Min Price")) {
+                    } else if (selectedFilter.equals("Min Price")) {
                         if (query.length() == 0) {
                             for (Item item: itemList) {
                                 gridAdapter.add(item);
@@ -274,13 +274,17 @@ public class HomeFragment extends Fragment {
                 @Override
                 public boolean onQueryTextChange(String newText) {
                     gridAdapter.clear();
-                     if (selectedFilter.equals("Name")) {
+                    if (selectedFilter == null) {
+                        for (Item item: itemList) {
+                            gridAdapter.add(item);
+                        }
+                    } else if (selectedFilter.equals("Name")) {
                         for (Item item : itemList) {
                             if (item.getitemName().toLowerCase(Locale.getDefault()).contains(newText.toLowerCase(Locale.getDefault()))) {
                                 gridAdapter.add(item);
                             }
                         }
-                    } if (selectedFilter.equals("Max Price")) {
+                    } else if (selectedFilter.equals("Max Price")) {
                         if (newText.length() == 0) {
                             for (Item item: itemList) {
                                 gridAdapter.add(item);
@@ -292,7 +296,7 @@ public class HomeFragment extends Fragment {
                                 }
                             }
                         }
-                    } if (selectedFilter.equals("Min Price")) {
+                    } else if (selectedFilter.equals("Min Price")) {
                         if (newText.length() == 0) {
                             for (Item item: itemList) {
                                 gridAdapter.add(item);
