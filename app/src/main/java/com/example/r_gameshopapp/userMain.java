@@ -1,6 +1,8 @@
 package com.example.r_gameshopapp;
 
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.media.AudioManager;
 import android.os.Bundle;
 
 import com.example.r_gameshopapp.ui.cart.CartFragment;
@@ -44,6 +46,7 @@ public class userMain extends AppCompatActivity implements HomeFragment.ISendDat
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
     }
+
 
     public int getid(){
         Bundle bundle = getIntent().getExtras();
