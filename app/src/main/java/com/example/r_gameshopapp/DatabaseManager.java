@@ -478,7 +478,7 @@ public class DatabaseManager {
         if (cursor != null) {
             while (cursor.moveToNext()) {
 
-                Item it = new Item(cursor.getInt(0), cursor.getString(1), cursor.getInt(3), cursor.getString(2), Double.parseDouble(cursor.getString(4).replaceAll("[$]", "")));
+                Item it = new Item(cursor.getString(1), cursor.getInt(3), cursor.getString(2), Double.parseDouble(cursor.getString(4).replaceAll("[$]", "")));
 
                 item.add(it);
             }

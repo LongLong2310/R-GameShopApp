@@ -24,13 +24,16 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.r_gameshopapp.BackgroundMusicService;
 import com.example.r_gameshopapp.GridAdapter;
 import com.example.r_gameshopapp.Item;
+import com.example.r_gameshopapp.ItemList;
 import com.example.r_gameshopapp.ListAdapter;
 import com.example.r_gameshopapp.R;
 import com.example.r_gameshopapp.databinding.FragmentCartBinding;
+import com.example.r_gameshopapp.ui.home.HomeFragment;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class CartFragment extends Fragment {
+public class CartFragment extends Fragment{
 
     private AlertDialog.Builder dialogBuilder;
     private AlertDialog dialog;
@@ -39,23 +42,33 @@ public class CartFragment extends Fragment {
     private FragmentCartBinding binding;
     ListView cartList;
     ArrayList<Item> itemCartList = new ArrayList<>();
+    List<Item> itemListCart;
+
+    public CartFragment() {
+
+    }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         CartViewModel notificationsViewModel =
                 new ViewModelProvider(this).get(CartViewModel.class);
         Context context = inflater.getContext();
-
         binding = FragmentCartBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
         more_button = (ImageButton) root.findViewById(R.id.more_button);
 
         cartList = root.findViewById(R.id.cart_list);
-        itemCartList.add(new Item(1, "Pokemon", 3, "GAME", 69.99));
-        itemCartList.add(new Item(2, "Pokemon", 3, "GAME", 69.99));
-        itemCartList.add(new Item(3, "Pokemon", 3, "GAME", 69.99));
-        itemCartList.add(new Item(4, "Pokemon", 3, "GAME", 69.99));
-        itemCartList.add(new Item(5, "Pokemon", 3, "GAME", 69.99));
+//        Bundle bundle = this.getArguments();
+//        ItemList itemList = (ItemList) bundle.getSerializable("ItemCartList");
+//
+//        for (int i = 0; i < itemListCart.size(); i++) {
+//            itemCartList.add(itemListCart.get(i));
+//        }
+//        itemCartList.add(new Item(1, "Pokemon", 3, "GAME", 69.99));
+//        itemCartList.add(new Item(2, "Pokemon", 3, "GAME", 69.99));
+//        itemCartList.add(new Item(3, "Pokemon", 3, "GAME", 69.99));
+//        itemCartList.add(new Item(4, "Pokemon", 3, "GAME", 69.99));
+//        itemCartList.add(new Item(5, "Pokemon", 3, "GAME", 69.99));
 
         ListAdapter listAdapter = new ListAdapter(context, R.layout.fragment_cart_item, itemCartList);
         cartList.setAdapter(listAdapter);
@@ -120,5 +133,14 @@ public class CartFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+    }
+
+//    @Override
+//    public void sendData(ItemList ItemList) {
+//        System.out.println(ItemList);
+//    }
+
+    public void receiveDataHomeFragment(List<Item> itemListHome) {
+        itemListCart = itemListHome;
     }
 }

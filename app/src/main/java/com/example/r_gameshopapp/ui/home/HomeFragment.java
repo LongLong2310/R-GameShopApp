@@ -39,7 +39,10 @@ import com.example.r_gameshopapp.BackgroundMusicService;
 import com.example.r_gameshopapp.DatabaseManager;
 import com.example.r_gameshopapp.GridAdapter;
 import com.example.r_gameshopapp.Item;
+import com.example.r_gameshopapp.ItemList;
+import com.example.r_gameshopapp.Login;
 import com.example.r_gameshopapp.databinding.FragmentHomeBinding;
+import com.example.r_gameshopapp.ui.cart.CartFragment;
 import com.example.r_gameshopapp.userMain;
 import com.example.r_gameshopapp.R;
 
@@ -47,6 +50,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 import java.util.Locale;
 
 public class HomeFragment extends Fragment {
@@ -72,8 +76,29 @@ public class HomeFragment extends Fragment {
     private FragmentHomeBinding binding;
     GridView gridList;
     ArrayList<Item> itemList = new ArrayList<>();
+    List<Item> itemListCart = new ArrayList<>();
+    ItemList itemList2 = new ItemList(itemListCart);
 
 
+    private String productName;
+    private int productStock, productMoney, productAmount;
+
+    private ISendDataListener iSendDataListener;
+
+    public interface ISendDataListener{
+        void sendData(List<Item> ItemList);
+    }
+
+
+    public HomeFragment() {
+
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        iSendDataListener = (ISendDataListener) getActivity();
+    }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -414,19 +439,49 @@ public class HomeFragment extends Fragment {
               dialog.dismiss();
           }
         });
+        Bundle bundle = new Bundle();
         button_add_to_cart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isNumeric(amount.getText().toString()) == true) {
-                    if (Integer.parseInt(amount.getText().toString()) <= item.getitemStock()) {
-                        Toast.makeText(getContext(), "Account " + ((userMain) getActivity()).getid() + " add to cart " + amount.getText().toString(), Toast.LENGTH_SHORT).show();
-                        //dbManager.buy(item.getitemName(),item.getitemStock()-Integer.parseInt(amount.getText().toString()));
-                    } else {
-                        Toast.makeText(getContext(), "buy amount over stock", Toast.LENGTH_SHORT).show();
-                    }
-                }
+//                if (isNumeric(amount.getText().toString())) {
+//                    if (Integer.parseInt(amount.getText().toString()) <= item.getitemStock()) {
+//                        Toast.makeText(getContext(), "Account " + ((userMain) getActivity()).getid() + " add to cart " + amount.getText().toString(), Toast.LENGTH_SHORT).show();
+//                        //dbManager.buy(item.getitemName(),item.getitemStock()-Integer.parseInt(amount.getText().toString()));
+//                    } else {
+//                        Toast.makeText(getContext(), "buy amount over stock", Toast.LENGTH_SHORT).show();
+//                    }
+//                }
+                String NameItem = itemName.getText().toString();
+                int NumberStockItem = Integer.parseInt(extractInt(itemStock.getText().toString()));
+                double PriceItem = Double.parseDouble(itemPrice.getText().toString().replaceAll("[$]", ""));
+                Item itemCart = new Item(NameItem, NumberStockItem, "", PriceItem);
+                itemListCart.add(itemCart);
+                itemList2.setItemList(itemListCart);
+                iSendDataListener.sendData(itemListCart);
+
             }
         });
+    }
+
+    private void sendDataToCartFragment() {
+
+    }
+
+
+    private String extractInt(String str)
+    {
+        // Replacing every non-digit number
+        // with a space(" ")
+        str = str.replaceAll("[^0-9]", " "); // regular expression
+
+        // Replace all the consecutive white
+        // spaces with a single space
+        str = str.replaceAll(" +", "");
+
+        if (str.equals(""))
+            return "-1";
+
+        return str;
     }
 
     public static boolean isNumeric(String strNum) {

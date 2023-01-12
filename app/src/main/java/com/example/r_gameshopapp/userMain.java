@@ -3,9 +3,12 @@ package com.example.r_gameshopapp;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.example.r_gameshopapp.ui.cart.CartFragment;
+import com.example.r_gameshopapp.ui.home.HomeFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -13,11 +16,13 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.example.r_gameshopapp.databinding.ActivityMainBinding;
 
+import java.util.List;
 import java.util.Objects;
 
-public class userMain extends AppCompatActivity {
+public class userMain extends AppCompatActivity implements HomeFragment.ISendDataListener{
 
     private ActivityMainBinding binding;
+    List<Item> ItemList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,5 +55,11 @@ public class userMain extends AppCompatActivity {
     protected void onDestroy() {
         stopService(new Intent(this, BackgroundMusicService.class));
         super.onDestroy();
+    }
+
+    @Override
+    public void sendData(List<Item> ItemList) {
+        CartFragment cartFragment = new CartFragment();
+        cartFragment.receiveDataHomeFragment(ItemList);
     }
 }
