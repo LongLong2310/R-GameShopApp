@@ -36,8 +36,8 @@ public class AccountFragment extends Fragment {
     private TextView current_balance_popup, user_name, current_balance;
     private ImageButton cancel_button, more_button;
     private DatabaseManager dbManager;
-    private Button add_balance, play_button, stop_button;
-    private EditText amount;
+    private Button add_balance, play_button, stop_button, contactConfirm;
+    private EditText amount, editTextContact, editTextSubject;
     private Cursor cursor;
     private FragmentAccountBinding binding;
 
@@ -89,6 +89,8 @@ public class AccountFragment extends Fragment {
                     createServiceDialog(getLayoutInflater().getContext());
                 if(item.getItemId() == R.id.logout)
                     requireActivity().finish();
+                if(item.getItemId() == R.id.contact)
+                    createContactUsDialog(getLayoutInflater().getContext());
                 return true;
             }
         });
@@ -151,8 +153,42 @@ public class AccountFragment extends Fragment {
                 dialog.dismiss();
             }
         });
-    };
+    }
 
+    public void createContactUsDialog(Context context) {
+        dialogBuilder = new AlertDialog.Builder(context);
+        final View contactUsPopupView = getLayoutInflater().inflate(R.layout.contact_popup, null);
+        editTextContact = (EditText) contactUsPopupView.findViewById(R.id.editTextContact);
+        editTextSubject = (EditText) contactUsPopupView.findViewById(R.id.editTextSubject);
+        dialogBuilder.setView(contactUsPopupView);
+        dialog = dialogBuilder.create();
+        dialog.show();
+        contactConfirm = (Button) contactUsPopupView.findViewById(R.id.button_send);
+        contactConfirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String to="chitoan.tran@yahoo.com.vn";
+                String subject = editTextSubject.getText().toString();
+                String message = editTextContact.getText().toString();
+
+                Intent email = new Intent(Intent.ACTION_SEND);
+                email.putExtra(Intent.EXTRA_EMAIL, new String[]{ to});
+                email.putExtra(Intent.EXTRA_SUBJECT, subject);
+                email.putExtra(Intent.EXTRA_TEXT, message);
+
+                //need this to prompts email client only
+                email.setType("message/rfc822");
+                startActivity(Intent.createChooser(email, "Choose an Email client :"));
+            }
+        });
+        cancel_button = (ImageButton) contactUsPopupView.findViewById(R.id.button_cancel);
+        cancel_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v){
+                dialog.dismiss();
+            }
+        });
+    }
 
     @Override
     public void onDestroyView() {
