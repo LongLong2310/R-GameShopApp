@@ -6,4 +6,7 @@
     <item
         android:title="Log Out"
         android:id="@+id/logout"/>
+    <item
+        android:title="Contact Us"
+        android:id="@+id/contact"/>
 </menu>

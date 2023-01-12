@@ -5,6 +5,7 @@ import static android.content.Context.SEARCH_SERVICE;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
@@ -53,11 +54,11 @@ public class HomeFragment extends Fragment {
 
     private AlertDialog.Builder dialogBuilder;
     private AlertDialog dialog;
-    private TextView itemName, itemStock, itemPrice, amount, category_title, no_result;
+    private TextView itemName, itemStock, itemPrice, amount, category_title, no_result, editTextContact;
     private ImageButton cancel_button, more_button, search_button;
     private Button  button_add_to_cart, game_category_button,
                     console_category_button, accessories_category_button,
-                    all_category_button, play_button, stop_button;
+                    all_category_button, play_button, stop_button, contactConfirm;
     private ImageView img;
     private LinearLayout search_bar;
     private DatabaseManager dbManager;
@@ -65,7 +66,7 @@ public class HomeFragment extends Fragment {
     private Spinner spinnerFilter;
     private String selectedFilter, spinnerType;
     private SearchView searchView;
-
+    private Cursor cursor;
     private String selected_category = "ALL";
     ArrayList<Item> displayList = new ArrayList<>();
 
@@ -92,7 +93,8 @@ public class HomeFragment extends Fragment {
 
         dbManager = new DatabaseManager(getActivity());
         itemList = dbManager.getAllItem();
-
+        dbManager.open();
+        cursor = dbManager.searchAccountID(Integer.toString(((userMain)getActivity()).getid()));
         displayList.clear();
         for (Item item: itemList){
             if(item.getitemCategory().equals(selected_category)){
@@ -345,6 +347,9 @@ public class HomeFragment extends Fragment {
                     createServiceDialog(getLayoutInflater().getContext());
                 if(item.getItemId() == R.id.logout)
                     requireActivity().finish();
+                if(item.getItemId() == R.id.contact){
+                    createContactUsDialog(getLayoutInflater().getContext());
+                }
                 return true;
             }
         });
@@ -429,6 +434,41 @@ public class HomeFragment extends Fragment {
                         Toast.makeText(getContext(), "buy amount over stock", Toast.LENGTH_SHORT).show();
                     }
                 }
+            }
+        });
+    }
+    public void createContactUsDialog(Context context) {
+        dialogBuilder = new AlertDialog.Builder(context);
+        final View contactUsPopupView = getLayoutInflater().inflate(R.layout.contact_popup, null);
+        editTextContact = (EditText) contactUsPopupView.findViewById(R.id.editTextContact);
+        dialogBuilder.setView(contactUsPopupView);
+        dialog = dialogBuilder.create();
+        dialog.show();
+        contactConfirm = (Button) contactUsPopupView.findViewById(R.id.button_send);
+        contactConfirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String to="chitoan.tran@yahoo.com.vn";
+                String subject="User: " + cursor.getString(1);
+                String message=editTextContact.getText().toString();
+
+
+                Intent email = new Intent(Intent.ACTION_SEND);
+                email.putExtra(Intent.EXTRA_EMAIL, new String[]{ to});
+                email.putExtra(Intent.EXTRA_SUBJECT, subject);
+                email.putExtra(Intent.EXTRA_TEXT, message);
+
+                //need this to prompts email client only
+                email.setType("message/rfc822");
+                startActivity(Intent.createChooser(email, "Choose an Email client :"));
+
+            }
+        });
+        cancel_button = (ImageButton) contactUsPopupView.findViewById(R.id.button_cancel);
+        cancel_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v){
+                dialog.dismiss();
             }
         });
     }
