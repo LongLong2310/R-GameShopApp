@@ -16,7 +16,7 @@ public class MyReceiver extends BroadcastReceiver {
                 AudioManager audio = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
                 int currentvol = audio.getStreamVolume(AudioManager.STREAM_MUSIC);
                 if (currentvol == 0) {
-                    Toast.makeText(context, "You phone is muted so music is off automatically", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "Music is off automatically because the device is muted.", Toast.LENGTH_SHORT).show();
                     context.stopService(new Intent(context, BackgroundMusicService.class));
                 }
             }
@@ -25,7 +25,7 @@ public class MyReceiver extends BroadcastReceiver {
             AudioManager audio = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
             int currentvol = audio.getStreamVolume(AudioManager.STREAM_MUSIC);
             if (currentvol == 0) {
-                Toast.makeText(context, "You phone is muted so music is off automatically", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Music is off automatically because the device is muted.", Toast.LENGTH_SHORT).show();
                 context.stopService(new Intent(context, BackgroundMusicService.class));
             }
         }
