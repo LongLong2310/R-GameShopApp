@@ -347,9 +347,8 @@ public class HomeFragment extends Fragment {
                     createServiceDialog(getLayoutInflater().getContext());
                 if(item.getItemId() == R.id.logout)
                     requireActivity().finish();
-                if(item.getItemId() == R.id.contact){
+                if(item.getItemId() == R.id.contact)
                     createContactUsDialog(getLayoutInflater().getContext());
-                }
                 return true;
             }
         });
@@ -453,7 +452,6 @@ public class HomeFragment extends Fragment {
                 String subject = editTextSubject.getText().toString();
                 String message = editTextContact.getText().toString();
 
-
                 Intent email = new Intent(Intent.ACTION_SEND);
                 email.putExtra(Intent.EXTRA_EMAIL, new String[]{ to});
                 email.putExtra(Intent.EXTRA_SUBJECT, subject);
@@ -462,7 +460,6 @@ public class HomeFragment extends Fragment {
                 //need this to prompts email client only
                 email.setType("message/rfc822");
                 startActivity(Intent.createChooser(email, "Choose an Email client :"));
-
             }
         });
         cancel_button = (ImageButton) contactUsPopupView.findViewById(R.id.button_cancel);

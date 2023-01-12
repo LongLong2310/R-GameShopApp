@@ -4,9 +4,9 @@
         android:title="Music"
         android:id="@+id/music"/>
     <item
-        android:title="Log Out"
-        android:id="@+id/logout"/>
-    <item
         android:title="Contact Us"
         android:id="@+id/contact"/>
+    <item
+        android:title="Log Out"
+        android:id="@+id/logout"/>
 </menu>
