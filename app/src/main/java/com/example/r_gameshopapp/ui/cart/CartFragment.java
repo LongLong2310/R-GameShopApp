@@ -44,8 +44,7 @@ public class CartFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        CartViewModel notificationsViewModel =
-                new ViewModelProvider(this).get(CartViewModel.class);
+
         Context context = inflater.getContext();
 
         binding = FragmentCartBinding.inflate(inflater, container, false);
