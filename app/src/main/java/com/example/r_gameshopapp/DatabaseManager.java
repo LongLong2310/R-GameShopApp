@@ -11,6 +11,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -51,11 +52,12 @@ public class DatabaseManager {
         database.insert(DatabaseHelper.TABLE_NAME_A, null, contentValue);
     }
 
-    public void insertCart(int cusID, List<Item> productList) {
+    public void insertCart(int cusID, List<Item> productList, double total) {
         ContentValues contentValue = new ContentValues();
         contentValue.put(DatabaseHelper.CID, cusID);
         contentValue.put(DatabaseHelper.NAME, toJson(productList));
         contentValue.put(DatabaseHelper.DATE, LocalDateTime.now().toString());
+        contentValue.put(DatabaseHelper.TOTAL, total);
         database.insert(DatabaseHelper.TABLE_NAME_C, null, contentValue);
     }
 
@@ -68,11 +70,17 @@ public class DatabaseManager {
         }
     }
 
-    public void insertHistory(int cusID, List<Item> productList) {
+    public void insertHistory(int cusID, List<Item> productList, double total) {
+        String DATE_FORMATTER= "yyyy-MM-dd";
+        LocalDateTime date = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_FORMATTER);
+        String formatDateTime = date.format(formatter);
+
         ContentValues contentValue = new ContentValues();
         contentValue.put(DatabaseHelper.CID, cusID);
-        contentValue.put(DatabaseHelper.NAME, toJson(productList));
-        contentValue.put(DatabaseHelper.DATE, LocalDateTime.now().toString());
+        contentValue.put(DatabaseHelper.PRODUCTLIST, toJson(productList));
+        contentValue.put(DatabaseHelper.DATE, formatDateTime);
+        contentValue.put(DatabaseHelper.TOTAL, total);
         database.insert(DatabaseHelper.TABLE_NAME_H, null, contentValue);
     }
 
@@ -316,10 +324,10 @@ public class DatabaseManager {
 
     public Cursor selectAllHistory() {
         String[] columns = new String[]{
-                DatabaseHelper.TID,
-                DatabaseHelper.DATE,
+                DatabaseHelper.ID,
                 DatabaseHelper.CID,
-                DatabaseHelper.AMOUNT
+                DatabaseHelper.DATE,
+                DatabaseHelper.TOTAL
         };
         Cursor cursor = database.query(DatabaseHelper.TABLE_NAME_H, columns,
                 null, null, null, null, null);

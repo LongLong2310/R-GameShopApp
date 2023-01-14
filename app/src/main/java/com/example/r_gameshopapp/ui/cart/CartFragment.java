@@ -87,7 +87,8 @@ public class CartFragment extends Fragment{
         more_button = (ImageButton) root.findViewById(R.id.more_button);
 
         cartList = root.findViewById(R.id.cart_list);
-
+        dbManager = new DatabaseManager(getActivity());
+        dbManager.open();
         userMain = (com.example.r_gameshopapp.userMain) getActivity();
         List<Item> list = new Gson().fromJson(userMain.getTest(), new TypeToken<List<Item>>(){}.getType());
         itemCartList = new ArrayList<Item>(list);
@@ -103,19 +104,20 @@ public class CartFragment extends Fragment{
             }
         });
 
+        for (int i = 0; i < itemCartList.size(); i++) {
+            total += itemCartList.get(i).getitemPrice();
+        }
+
         purchase_button = root.findViewById(R.id.purchase_button);
         purchase_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dbManager.insertCart(1,itemCartList);
-                dbManager.insertHistory(1,itemCartList);
+//                dbManager.insertCart(((userMain)getActivity()).getid(),itemCartList, total);
+                dbManager.insertHistory(((userMain)getActivity()).getid(),itemCartList, total);
             }
         });
         balanceTextView = root.findViewById(R.id.balance);
         totalTextView = root.findViewById(R.id.total_price);
-        for (int i = 0; i < itemCartList.size(); i++) {
-            total += itemCartList.get(i).getitemPrice();
-        }
         totalTextView.setText("TOTAL:  $" + total);
         return root;
     }

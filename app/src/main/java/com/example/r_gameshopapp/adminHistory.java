@@ -29,16 +29,16 @@ public class adminHistory extends AppCompatActivity {
     private DatabaseManager dbManager;
     private ImageButton addButton;
     private String[] from = new String[]{
-            DatabaseHelper.TID,
-            DatabaseHelper.DATE,
+            DatabaseHelper.ID,
             DatabaseHelper.CID,
-            DatabaseHelper.AMOUNT
+            DatabaseHelper.DATE,
+            DatabaseHelper.TOTAL
     };
     private int[] to = new int[]{
-            R.id.lTransactionIdNumber,
-            R.id.lDateNum,
-            R.id.lCusIDNum,
-            R.id.lAmount
+            R.id.lTransactionId,
+            R.id.lDetailCusID,
+            R.id.lDate,
+            R.id.lTotalPrice
     };
     private ListView listView;
     private Spinner spinnerFilter;
