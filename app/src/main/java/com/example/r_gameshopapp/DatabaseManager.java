@@ -6,8 +6,14 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class DatabaseManager {
     private DatabaseHelper dbHelper;
@@ -45,23 +51,28 @@ public class DatabaseManager {
         database.insert(DatabaseHelper.TABLE_NAME_A, null, contentValue);
     }
 
-    public void insertCart(int id, String productName, String cusID, int price, int amount) {
+    public void insertCart(int cusID, List<Item> productList) {
         ContentValues contentValue = new ContentValues();
-        contentValue.put(DatabaseHelper.ID, id);
-        contentValue.put(DatabaseHelper.NAME, productName);
         contentValue.put(DatabaseHelper.CID, cusID);
-        contentValue.put(DatabaseHelper.PRICE, price);
-        contentValue.put(DatabaseHelper.AMOUNT, amount);
+        contentValue.put(DatabaseHelper.NAME, toJson(productList));
+        contentValue.put(DatabaseHelper.DATE, LocalDateTime.now().toString());
         database.insert(DatabaseHelper.TABLE_NAME_C, null, contentValue);
     }
 
-    public void insertHistory(int id, String productName, String cusID, int price, int amount) {
+    private String toJson(Object object) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            return objectMapper.writeValueAsString(object);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void insertHistory(int cusID, List<Item> productList) {
         ContentValues contentValue = new ContentValues();
-        contentValue.put(DatabaseHelper.ID, id);
-        contentValue.put(DatabaseHelper.NAME, productName);
         contentValue.put(DatabaseHelper.CID, cusID);
-        contentValue.put(DatabaseHelper.PRICE, price);
-        contentValue.put(DatabaseHelper.AMOUNT, amount);
+        contentValue.put(DatabaseHelper.NAME, toJson(productList));
+        contentValue.put(DatabaseHelper.DATE, LocalDateTime.now().toString());
         database.insert(DatabaseHelper.TABLE_NAME_H, null, contentValue);
     }
 

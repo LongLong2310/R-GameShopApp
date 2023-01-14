@@ -42,21 +42,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             "create table " + TABLE_NAME_C + " (" +
                     ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                     NAME + " TEXT NOT NULL," +
-                    CID + " INTEGER," +
-                    PRICE + " INTEGER," +
-                    DATE + " STRING," +
-                    TID + " INTEGER," +
-                    AMOUNT + " INTEGER);";
+                    DATE + " STRING);";
 
     private static final String CREATE_TABLE_HISTORY =
             "create table " + TABLE_NAME_H + " (" +
                     ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                    CID + " STRING," +
                     NAME + " TEXT NOT NULL," +
-                    CID + " INTEGER," +
-                    PRICE + " INTEGER," +
-                    DATE + " STRING," +
-                    TID + " INTEGER," +
-                    AMOUNT + " INTEGER);";
+                    DATE + " STRING);";
 
     private static final String CREATE_TABLE_STOCK =
             "create table " + TABLE_NAME_S + " (" +

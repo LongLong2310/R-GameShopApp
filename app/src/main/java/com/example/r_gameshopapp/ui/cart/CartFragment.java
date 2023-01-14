@@ -15,14 +15,19 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.PopupMenu;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentResultListener;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.r_gameshopapp.BackgroundMusicService;
+import com.example.r_gameshopapp.DatabaseManager;
 import com.example.r_gameshopapp.GridAdapter;
 import com.example.r_gameshopapp.Item;
 import com.example.r_gameshopapp.ItemList;
@@ -30,6 +35,12 @@ import com.example.r_gameshopapp.ListAdapter;
 import com.example.r_gameshopapp.R;
 import com.example.r_gameshopapp.databinding.FragmentCartBinding;
 import com.example.r_gameshopapp.ui.home.HomeFragment;
+import com.example.r_gameshopapp.userMain;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,16 +49,33 @@ public class CartFragment extends Fragment{
 
     private AlertDialog.Builder dialogBuilder;
     private AlertDialog dialog;
-    private Button play_button, stop_button, contactConfirm;
+    private Button play_button, stop_button, contactConfirm, purchase_button;
     private ImageButton more_button, cancel_button;
     private EditText editTextContact, editTextSubject;
     private FragmentCartBinding binding;
+    private DatabaseManager dbManager;
+    private TextView balanceTextView, totalTextView;
+    private double balance, total = 0;
+    ObjectMapper mapper = new ObjectMapper();
     ListView cartList;
-    ArrayList<Item> itemCartList = new ArrayList<>();
-    List<Item> itemListCart;
+//    ArrayList<Item> itemCartList;
+    private String string;
+//    private List<Item> itemListCart;
+    private List<Item> itemListCart = new ArrayList<>();
+    private userMain userMain;
+    private ArrayList<Item> itemCartList;
 
     public CartFragment() {
 
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (savedInstanceState!=null) {
+            System.out.println("098");
+            string = savedInstanceState.getString("outState");
+        }
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -60,17 +88,11 @@ public class CartFragment extends Fragment{
         more_button = (ImageButton) root.findViewById(R.id.more_button);
 
         cartList = root.findViewById(R.id.cart_list);
-//        Bundle bundle = this.getArguments();
-//        ItemList itemList = (ItemList) bundle.getSerializable("ItemCartList");
-//
-//        for (int i = 0; i < itemListCart.size(); i++) {
-//            itemCartList.add(itemListCart.get(i));
-//        }
-//        itemCartList.add(new Item(1, "Pokemon", 3, "GAME", 69.99));
-//        itemCartList.add(new Item(2, "Pokemon", 3, "GAME", 69.99));
-//        itemCartList.add(new Item(3, "Pokemon", 3, "GAME", 69.99));
-//        itemCartList.add(new Item(4, "Pokemon", 3, "GAME", 69.99));
-//        itemCartList.add(new Item(5, "Pokemon", 3, "GAME", 69.99));
+
+        userMain = (com.example.r_gameshopapp.userMain) getActivity();
+        List<Item> list = new Gson().fromJson(userMain.getTest(), new TypeToken<List<Item>>(){}.getType());
+        itemCartList = new ArrayList<Item>(list);
+        System.out.println(itemCartList);
 
         ListAdapter listAdapter = new ListAdapter(context, R.layout.fragment_cart_item, itemCartList);
         cartList.setAdapter(listAdapter);
@@ -82,7 +104,52 @@ public class CartFragment extends Fragment{
             }
         });
 
+        purchase_button = root.findViewById(R.id.purchase_button);
+        purchase_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dbManager.insertCart(1,itemCartList);
+                dbManager.insertHistory(1,itemCartList);
+            }
+        });
+        balanceTextView = root.findViewById(R.id.balance);
+        totalTextView = root.findViewById(R.id.total_price);
+        for (int i = 0; i < itemCartList.size(); i++) {
+            total += itemCartList.get(i).getitemPrice();
+        }
+        totalTextView.setText("TOTAL:  $" + total);
         return root;
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+//        System.out.println(string);
+        outState.putString("outState", string);
+    }
+
+    private List<Item> toList(String jsonString) {
+        try {
+            return mapper.readValue(jsonString, new TypeReference<List<Item>>(){});
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private String extractInt(String str)
+    {
+        // Replacing every non-digit number
+        // with a space(" ")
+        str = str.replaceAll("[^0-9]", " "); // regular expression
+
+        // Replace all the consecutive white
+        // spaces with a single space
+        str = str.replaceAll(" +", "");
+
+        if (str.equals(""))
+            return "-1";
+
+        return str;
     }
 
     private void showMenu(View v) {
@@ -179,7 +246,8 @@ public class CartFragment extends Fragment{
 //        System.out.println(ItemList);
 //    }
 
-    public void receiveDataHomeFragment(List<Item> itemListHome) {
-        itemListCart = itemListHome;
+    public List<Item> receiveDataHomeFragment(List<Item> itemListHome) {
+//        itemListCart = new ArrayList<>(itemListHome);
+        return itemListHome;
     }
 }

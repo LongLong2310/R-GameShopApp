@@ -18,13 +18,15 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.example.r_gameshopapp.databinding.ActivityMainBinding;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 
 public class userMain extends AppCompatActivity implements HomeFragment.ISendDataListener{
 
     private ActivityMainBinding binding;
-    List<Item> ItemList;
+    List<Item> ItemListHome;
+    private String test = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,9 +62,17 @@ public class userMain extends AppCompatActivity implements HomeFragment.ISendDat
         super.onDestroy();
     }
 
+    public String getTest() {
+        return test;
+    }
+
     @Override
-    public void sendData(List<Item> ItemList) {
-        CartFragment cartFragment = new CartFragment();
-        cartFragment.receiveDataHomeFragment(ItemList);
+    public void sendData(String string) {
+        Bundle bundle = new Bundle();
+        bundle.putString("CartHome", string);
+        test = string;
+        System.out.println(string);
+//        CartFragment cartFragment = new CartFragment();
+//        cartFragment.receiveDataHomeFragment();
     }
 }

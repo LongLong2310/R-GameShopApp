@@ -46,6 +46,9 @@ import com.example.r_gameshopapp.databinding.FragmentHomeBinding;
 import com.example.r_gameshopapp.ui.cart.CartFragment;
 import com.example.r_gameshopapp.userMain;
 import com.example.r_gameshopapp.R;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -87,7 +90,7 @@ public class HomeFragment extends Fragment {
     private ISendDataListener iSendDataListener;
 
     public interface ISendDataListener{
-        void sendData(List<Item> ItemList);
+        void sendData(String string);
     }
 
 
@@ -462,13 +465,34 @@ public class HomeFragment extends Fragment {
                 String NameItem = itemName.getText().toString();
                 int NumberStockItem = Integer.parseInt(extractInt(itemStock.getText().toString()));
                 double PriceItem = Double.parseDouble(itemPrice.getText().toString().replaceAll("[$]", ""));
-                Item itemCart = new Item(NameItem, NumberStockItem, "", PriceItem);
+                Item itemCart = new Item(NameItem, NumberStockItem, " ", PriceItem);
                 itemListCart.add(itemCart);
                 itemList2.setItemList(itemListCart);
-                iSendDataListener.sendData(itemListCart);
+
+                Bundle bundle = new Bundle();
+                String listAsString = new Gson().toJson(itemListCart);
+                bundle.putString("df1",toJson(itemCart));
+                CartFragment cartFragment = new CartFragment();
+                cartFragment.setArguments(bundle);
+                iSendDataListener.sendData(listAsString);
 
             }
         });
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+    }
+
+    private String toJson(Object object) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            return objectMapper.writeValueAsString(object);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
     }
     public void createContactUsDialog(Context context) {
         dialogBuilder = new AlertDialog.Builder(context);
