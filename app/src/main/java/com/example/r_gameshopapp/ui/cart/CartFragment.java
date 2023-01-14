@@ -2,6 +2,7 @@ package com.example.r_gameshopapp.ui.cart;
 
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
@@ -80,7 +81,9 @@ public class CartFragment extends Fragment{
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-
+        dbManager = new DatabaseManager(getActivity());
+        dbManager.open();
+        Cursor u=dbManager.searchAccountID(Integer.toString(((userMain)getActivity()).getid()));
         Context context = inflater.getContext();
         binding = FragmentCartBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
@@ -103,20 +106,33 @@ public class CartFragment extends Fragment{
             }
         });
 
+        balanceTextView = root.findViewById(R.id.balance);
+        balanceTextView.setText("CURRENT BALANCE:  "+u.getString(3));
+        totalTextView = root.findViewById(R.id.total_price);
+        for (int i = 0; i < itemCartList.size(); i++) {
+            total += itemCartList.get(i).getitemPrice()*itemCartList.get(i).getitemStock();
+        }
+        totalTextView.setText("TOTAL:  $" + total);
         purchase_button = root.findViewById(R.id.purchase_button);
         purchase_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                for (int i = 0; i < list.size(); i++){
+                    System.out.println(list.get(i).getitemName());
+                    String s=list.get(i).getitemName();
+                    Cursor c=dbManager.searchStockName(s);
+                    dbManager.buy(s,c.getInt(4)-list.get(i).getitemStock());
+                }
+
+                dbManager.BuyBalance(u.getString(1),Double.parseDouble(u.getString(3).replaceAll("[$]", ""))-total);
+
+
                 dbManager.insertCart(1,itemCartList);
                 dbManager.insertHistory(1,itemCartList);
             }
         });
-        balanceTextView = root.findViewById(R.id.balance);
-        totalTextView = root.findViewById(R.id.total_price);
-        for (int i = 0; i < itemCartList.size(); i++) {
-            total += itemCartList.get(i).getitemPrice();
-        }
-        totalTextView.setText("TOTAL:  $" + total);
+
         return root;
     }
 

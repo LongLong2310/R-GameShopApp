@@ -464,7 +464,7 @@ public class HomeFragment extends Fragment {
                 String NameItem = itemName.getText().toString();
                 int NumberStockItem = Integer.parseInt(extractInt(itemStock.getText().toString()));
                 double PriceItem = Double.parseDouble(itemPrice.getText().toString().replaceAll("[$]", ""));
-                Item itemCart = new Item(NameItem, NumberStockItem, " ", PriceItem);
+                Item itemCart = new Item(NameItem, Integer.parseInt(amount.getText().toString()), " ", PriceItem);
                 itemListCart.add(itemCart);
                 itemList2.setItemList(itemListCart);
 
