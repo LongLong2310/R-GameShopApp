@@ -228,15 +228,14 @@ public class DatabaseManager {
         return total;
     }
     public int buy(String name,int amount) {
-        dbHelper = new DatabaseHelper(context);
-        database = dbHelper.getWritableDatabase();
+
         ContentValues contentValue = new ContentValues();
 
         contentValue.put(DatabaseHelper.STOCK, amount);
         int i = database.update(DatabaseHelper.TABLE_NAME_S,
                 contentValue,
                 DatabaseHelper.NAME + " ='" + name +"'", null);
-        database.close();
+
         return i;
 
     }
@@ -250,6 +249,16 @@ public class DatabaseManager {
                 contentValue,
                 DatabaseHelper.NAME + " ='" + name +"'", null);
         database.close();
+        return i;
+
+    }
+    public int BuyBalance(String name,double amount) {
+        ContentValues contentValue = new ContentValues();
+
+        contentValue.put(DatabaseHelper.CASH,"$" + amount);
+        int i = database.update(DatabaseHelper.TABLE_NAME_A,
+                contentValue,
+                DatabaseHelper.NAME + " ='" + name +"'", null);
         return i;
 
     }
