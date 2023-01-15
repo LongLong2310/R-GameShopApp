@@ -117,19 +117,20 @@ public class CartFragment extends Fragment{
         purchase_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (Double.parseDouble(u.getString(3).replaceAll("[$]", "")) - total>=0) {
+                    for (int i = 0; i < list.size(); i++) {
+                        System.out.println(list.get(i).getitemName());
+                        String s = list.get(i).getitemName();
+                        Cursor c = dbManager.searchStockName(s);
+                        dbManager.buy(s, c.getInt(4) - list.get(i).getitemStock());
+                    }
 
-                for (int i = 0; i < list.size(); i++){
-                    System.out.println(list.get(i).getitemName());
-                    String s=list.get(i).getitemName();
-                    Cursor c=dbManager.searchStockName(s);
-                    dbManager.buy(s,c.getInt(4)-list.get(i).getitemStock());
+                    dbManager.BuyBalance(u.getString(1), Double.parseDouble(u.getString(3).replaceAll("[$]", "")) - total);
+                    dbManager.insertCart(1, itemCartList);
+                    dbManager.insertHistory(1, itemCartList);
+                }else {
+                    Toast.makeText(getContext(), " over balance", Toast.LENGTH_SHORT).show();
                 }
-
-                dbManager.BuyBalance(u.getString(1),Double.parseDouble(u.getString(3).replaceAll("[$]", ""))-total);
-
-
-                dbManager.insertCart(((userMain) getActivity()).getid(),itemCartList,total);
-                dbManager.insertHistory(((userMain) getActivity()).getid(),itemCartList,total);
             }
         });
 

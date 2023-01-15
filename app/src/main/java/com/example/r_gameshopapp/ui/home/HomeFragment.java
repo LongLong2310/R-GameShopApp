@@ -453,27 +453,27 @@ public class HomeFragment extends Fragment {
         button_add_to_cart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                if (isNumeric(amount.getText().toString())) {
-//                    if (Integer.parseInt(amount.getText().toString()) <= item.getitemStock()) {
-//                        Toast.makeText(getContext(), "Account " + ((userMain) getActivity()).getid() + " add to cart " + amount.getText().toString(), Toast.LENGTH_SHORT).show();
-//                        //dbManager.buy(item.getitemName(),item.getitemStock()-Integer.parseInt(amount.getText().toString()));
-//                    } else {
-//                        Toast.makeText(getContext(), "buy amount over stock", Toast.LENGTH_SHORT).show();
-//                    }
-//                }
-                String NameItem = itemName.getText().toString();
-                int NumberStockItem = Integer.parseInt(extractInt(itemStock.getText().toString()));
-                double PriceItem = Double.parseDouble(itemPrice.getText().toString().replaceAll("[$]", ""));
-                Item itemCart = new Item(NameItem, Integer.parseInt(amount.getText().toString()), " ", PriceItem);
-                itemListCart.add(itemCart);
-                itemList2.setItemList(itemListCart);
+                if (isNumeric(amount.getText().toString())) {
+                    if (Integer.parseInt(amount.getText().toString()) <= item.getitemStock()) {
+                        Toast.makeText(getContext(), "Account " + ((userMain) getActivity()).getid() + " add to cart " + amount.getText().toString(), Toast.LENGTH_SHORT).show();
+                        String NameItem = itemName.getText().toString();
+                        int NumberStockItem = Integer.parseInt(extractInt(itemStock.getText().toString()));
+                        double PriceItem = Double.parseDouble(itemPrice.getText().toString().replaceAll("[$]", ""));
+                        Item itemCart = new Item(NameItem, Integer.parseInt(amount.getText().toString()), " ", PriceItem);
+                        itemListCart.add(itemCart);
+                        itemList2.setItemList(itemListCart);
 
-                Bundle bundle = new Bundle();
-                String listAsString = new Gson().toJson(itemListCart);
-                bundle.putString("df1",toJson(itemCart));
-                CartFragment cartFragment = new CartFragment();
-                cartFragment.setArguments(bundle);
-                iSendDataListener.sendData(listAsString);
+                        Bundle bundle = new Bundle();
+                        String listAsString = new Gson().toJson(itemListCart);
+                        bundle.putString("df1",toJson(itemCart));
+                        CartFragment cartFragment = new CartFragment();
+                        cartFragment.setArguments(bundle);
+                        iSendDataListener.sendData(listAsString);
+                    } else {
+                        Toast.makeText(getContext(), "buy amount over stock", Toast.LENGTH_SHORT).show();
+                    }
+                }
+
 
             }
         });
