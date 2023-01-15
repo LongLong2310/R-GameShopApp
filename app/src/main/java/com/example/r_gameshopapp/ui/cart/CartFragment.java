@@ -126,8 +126,8 @@ public class CartFragment extends Fragment{
                     }
 
                     dbManager.BuyBalance(u.getString(1), Double.parseDouble(u.getString(3).replaceAll("[$]", "")) - total);
-                    dbManager.insertCart(1, itemCartList);
-                    dbManager.insertHistory(1, itemCartList);
+                    dbManager.insertCart(((userMain) getActivity()).getid(),itemCartList,total);
+                    dbManager.insertHistory(((userMain) getActivity()).getid(),itemCartList,total);
                 }else {
                     Toast.makeText(getContext(), " over balance", Toast.LENGTH_SHORT).show();
                 }
