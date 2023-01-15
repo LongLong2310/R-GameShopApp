@@ -30,6 +30,8 @@ import com.example.r_gameshopapp.R;
 import com.example.r_gameshopapp.databinding.FragmentAccountBinding;
 import com.example.r_gameshopapp.userMain;
 
+import java.text.DecimalFormat;
+
 public class AccountFragment extends Fragment {
     private AlertDialog.Builder dialogBuilder;
     private AlertDialog dialog;
@@ -146,7 +148,7 @@ public class AccountFragment extends Fragment {
             @Override
             public void onClick(View v){
                 if (isNumeric(amount.getText().toString()) == true) {
-                    dbManager.changeBalance(cursor.getString(1),Double.parseDouble(cursor.getString(3).replaceAll("[$]", ""))+Double.parseDouble(amount.getText().toString()));
+                    dbManager.changeBalance(cursor.getString(1),Double.parseDouble(cursor.getString(3).replaceAll("[$]", "")) + Double.parseDouble(new DecimalFormat("##.##").format(Double.parseDouble(amount.getText().toString()))));
                 }
                 dialog.dismiss();
             }
