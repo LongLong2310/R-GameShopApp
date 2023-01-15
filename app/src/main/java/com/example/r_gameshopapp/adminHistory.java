@@ -5,29 +5,44 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 
 import android.app.SearchManager;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.r_gameshopapp.ui.cart.CartFragment;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class adminHistory extends AppCompatActivity {
     private Cursor cursor;
     private DatabaseManager dbManager;
     private ImageButton addButton;
+    private AlertDialog.Builder dialogBuilder;
+    private AlertDialog dialog;
+    private TextView itemTotal;
+    private ArrayList<Item> itemCartList;
+
     private String[] from = new String[]{
             DatabaseHelper.ID,
             DatabaseHelper.CID,
@@ -41,6 +56,7 @@ public class adminHistory extends AppCompatActivity {
             R.id.lTotalPrice
     };
     private ListView listView;
+    private ListView listViewDetail;
     private Spinner spinnerFilter;
     private String selectedFilter;
     private SearchView searchView;
@@ -71,8 +87,7 @@ public class adminHistory extends AppCompatActivity {
 
             }
         });
-
-        showHistoryList();
+        showHistoryList(this);
 
 //        addButton = (ImageButton) findViewById(R.id.add_button);
 //        addButton.setOnClickListener(new View.OnClickListener() {
@@ -88,7 +103,7 @@ public class adminHistory extends AppCompatActivity {
     @Override
     protected void onResume(){
         super.onResume();
-        showHistoryList();
+        showHistoryList(this);
     }
 
     //One method to set visibility for our widgets
@@ -106,7 +121,8 @@ public class adminHistory extends AppCompatActivity {
         setVisible(R.id.list, true);
     }
 
-    private void showHistoryList() {
+
+    private void showHistoryList(Context context) {
         dbManager.open();
         cursor = dbManager.selectAllHistory();
         if (cursor.getCount() == 0){
@@ -125,27 +141,48 @@ public class adminHistory extends AppCompatActivity {
                 public void onItemClick(AdapterView<?> parent, View view, int
                         position, long id) {
                         setVisible(R.id.detail_layout,true);
-                        showHistoryDetail();
+                        createHistoryItemDetailDialog(context);
                 }
             });
         }
     }
 
-    private void showHistoryDetail() {
-        dbManager.open();
-        cursor = dbManager.selectAllHistory();
-        if (cursor.getCount() == 0){
-//            setVisible(R.id.noRecordText, true);
-            setVisible(R.id.list, false);
-        }
-        else {
-            ListView listView = (ListView) findViewById(R.id.list);
-            setVisible(R.id.list, true);
-            SimpleCursorAdapter adapter = new SimpleCursorAdapter(
-                    this, R.layout.activity_view_record_user_history_detail, cursor, from, to, 0);
-            adapter.notifyDataSetChanged();
-            listView.setAdapter(adapter);
-        }
+//    private void showHistoryDetail(Context context) {
+//        dbManager.open();
+//        cursor = dbManager.selectAllHistory();
+//        if (cursor.getCount() == 0){
+////            setVisible(R.id.noRecordText, true);
+//            setVisible(R.id.list, false);
+//        }
+//        else {
+//            ListView listView = (ListView) findViewById(R.id.listTDetail);
+//            setVisible(R.id.list, true);
+//            System.out.println(cursor.getString(2));
+//            List<Item> list = new Gson().fromJson(cursor.getString(2), new TypeToken<List<Item>>(){}.getType());
+//            itemCartList = new ArrayList<Item>(list);
+//            ListAdapter listAdapter = new ListAdapter(context, R.layout.fragment_cart_item, itemCartList);
+//            listView.setAdapter(listAdapter);
+//        }
+//    }
+
+    public void createHistoryItemDetailDialog(Context context){
+        dialogBuilder = new AlertDialog.Builder(context);
+        final View itemDetailPopupView = getLayoutInflater().inflate(R.layout.transaction_detail, null);
+        itemTotal = (TextView) itemDetailPopupView.findViewById(R.id.itemTotalTextView);
+
+        listViewDetail = itemDetailPopupView.findViewById(R.id.listTDetail);
+        setVisible(R.id.list, true);
+        List<Item> list = new Gson().fromJson(cursor.getString(2), new TypeToken<List<Item>>(){}.getType());
+        System.out.println(cursor.getString(2));
+        System.out.println(list.get(0).getitemName());
+        itemCartList = new ArrayList<Item>(list);
+        System.out.println(itemCartList.get(0).getitemName());
+        ListAdapter listAdapter = new ListAdapter(context, R.layout.fragment_cart_item, itemCartList);
+        listViewDetail.setAdapter(listAdapter);
+
+        dialogBuilder.setView(itemDetailPopupView);
+        dialog = dialogBuilder.create();
+        dialog.show();
     }
 
     @Override

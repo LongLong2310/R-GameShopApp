@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -55,20 +56,20 @@ public class DatabaseManager {
     public void insertCart(int cusID, List<Item> productList, double total) {
         ContentValues contentValue = new ContentValues();
         contentValue.put(DatabaseHelper.CID, cusID);
-        contentValue.put(DatabaseHelper.NAME, toJson(productList));
+        contentValue.put(DatabaseHelper.NAME, new Gson().toJson(productList));
         contentValue.put(DatabaseHelper.DATE, LocalDateTime.now().toString());
         contentValue.put(DatabaseHelper.TOTAL, total);
         database.insert(DatabaseHelper.TABLE_NAME_C, null, contentValue);
     }
 
-    private String toJson(Object object) {
-        ObjectMapper objectMapper = new ObjectMapper();
-        try {
-            return objectMapper.writeValueAsString(object);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
-    }
+//    private String toJson(Object object) {
+//        ObjectMapper objectMapper = new ObjectMapper();
+//        try {
+//            return objectMapper.writeValueAsString(object);
+//        } catch (JsonProcessingException e) {
+//            throw new RuntimeException(e);
+//        }
+//    }
 
     public void insertHistory(int cusID, List<Item> productList, double total) {
         String DATE_FORMATTER= "yyyy-MM-dd";
@@ -78,7 +79,7 @@ public class DatabaseManager {
 
         ContentValues contentValue = new ContentValues();
         contentValue.put(DatabaseHelper.CID, cusID);
-        contentValue.put(DatabaseHelper.PRODUCTLIST, toJson(productList));
+        contentValue.put(DatabaseHelper.PRODUCTLIST, new Gson().toJson(productList));
         contentValue.put(DatabaseHelper.DATE, formatDateTime);
         contentValue.put(DatabaseHelper.TOTAL, total + "$");
         database.insert(DatabaseHelper.TABLE_NAME_H, null, contentValue);
@@ -335,6 +336,7 @@ public class DatabaseManager {
         String[] columns = new String[]{
                 DatabaseHelper.ID,
                 DatabaseHelper.CID,
+                DatabaseHelper.PRODUCTLIST,
                 DatabaseHelper.DATE,
                 DatabaseHelper.TOTAL
         };

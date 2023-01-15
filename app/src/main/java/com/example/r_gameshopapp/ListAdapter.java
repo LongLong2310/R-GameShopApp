@@ -53,18 +53,20 @@ public class ListAdapter extends ArrayAdapter {
         itemNameView.setText(cartList.get(position).getitemName());
         itemStockView.setText("x  " + cartList.get(position).getitemStock());
         itemPriceView.setText("$" + cartList.get(position).getitemPrice());
-        if (cartList.get(position).getitemCategory().equals("GAME")) {
-            itemImageView.setImageResource(R.drawable.game);
-        }
-        if (cartList.get(position).getitemCategory().equals("CONSOLE")) {
-            itemImageView.setImageResource(R.drawable.console);
-        }
-        if (cartList.get(position).getitemCategory().equals("ACCESSORY")) {
-            itemImageView.setImageResource(R.drawable.accessories);
-        }
+        if (cartList.get(position).getitemCategory() != null) {
+            if (cartList.get(position).getitemCategory().equals("GAME")) {
+                itemImageView.setImageResource(R.drawable.game);
+            }
+            if (cartList.get(position).getitemCategory().equals("CONSOLE")) {
+                itemImageView.setImageResource(R.drawable.console);
+            }
+            if (cartList.get(position).getitemCategory().equals("ACCESSORY")) {
+                itemImageView.setImageResource(R.drawable.accessories);
+            }
 
-        if (cartList.get(position).getitemStock() == 0) {
-            itemStockView.setTextColor(Color.RED);
+            if (cartList.get(position).getitemStock() == 0) {
+                itemStockView.setTextColor(Color.RED);
+            }
         }
 
         return v;

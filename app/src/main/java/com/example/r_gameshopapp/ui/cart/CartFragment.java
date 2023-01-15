@@ -94,8 +94,6 @@ public class CartFragment extends Fragment{
         userMain = (com.example.r_gameshopapp.userMain) getActivity();
         List<Item> list = new Gson().fromJson(userMain.getTest(), new TypeToken<List<Item>>(){}.getType());
         itemCartList = new ArrayList<Item>(list);
-        System.out.println(itemCartList);
-
         ListAdapter listAdapter = new ListAdapter(context, R.layout.fragment_cart_item, itemCartList);
         cartList.setAdapter(listAdapter);
 
@@ -126,7 +124,7 @@ public class CartFragment extends Fragment{
                     }
 
                     dbManager.BuyBalance(u.getString(1), Double.parseDouble(u.getString(3).replaceAll("[$]", "")) - total);
-                    dbManager.insertCart(((userMain) getActivity()).getid(),itemCartList,total);
+//                    dbManager.insertCart(((userMain) getActivity()).getid(),itemCartList,total);
                     dbManager.insertHistory(((userMain) getActivity()).getid(),itemCartList,total);
                 }else {
                     Toast.makeText(getContext(), " over balance", Toast.LENGTH_SHORT).show();
