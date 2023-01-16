@@ -69,9 +69,8 @@ public class adminHistory extends AppCompatActivity {
         spinnerFilter = (Spinner) findViewById(R.id.spinnerFilter);
         spinnerFilter.getBackground().setColorFilter(getResources().getColor(R.color.border_color), PorterDuff.Mode.SRC_ATOP);
         ArrayList<String> arrayList = new ArrayList<>();
-        arrayList.add("Name");
-        arrayList.add("ID");
-        arrayList.add("Type");
+        arrayList.add("CID");
+        arrayList.add("Date");
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this,R.layout.spinner_item, arrayList);
         arrayAdapter.setDropDownViewResource(R.layout.spinner_dropdown_layout);
         spinnerFilter.setAdapter(arrayAdapter);
@@ -152,9 +151,19 @@ public class adminHistory extends AppCompatActivity {
             total += itemCartList.get(i).getitemPrice()*itemCartList.get(i).getitemStock();
         }
         totalTextView.setText(total + "$");
+        ImageButton cancel_button = (ImageButton) itemDetailPopupView.findViewById(R.id.cancel_button);
+        cancel_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v){
+                dialog.dismiss();
+            }
+        });
         dialogBuilder.setView(itemDetailPopupView);
         dialog = dialogBuilder.create();
         dialog.show();
+    }
+    public void onBackClick(View view) {
+        finish();
     }
 
     @Override
@@ -186,14 +195,10 @@ public class adminHistory extends AppCompatActivity {
     }
 
     private void searchStock(String string) {
-        if (selectedFilter.equals("Name")) {
-            cursor = dbManager.searchStockName(string);
+        if (selectedFilter.equals("CID")) {
+            cursor = dbManager.searchHistoryId(string);
         }
-        else if (selectedFilter.equals("ID")) {
-            cursor = dbManager.searchStockID(string);
-        }
-        else {
-            cursor = dbManager.searchStockType(string);
+        else if (selectedFilter.equals("Date")) {
         }
 
         SimpleCursorAdapter adapter = new SimpleCursorAdapter(

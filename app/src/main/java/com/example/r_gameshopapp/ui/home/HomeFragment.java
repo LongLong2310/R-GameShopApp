@@ -440,7 +440,7 @@ public class HomeFragment extends Fragment {
             public void onClick(View v) {
                 if (isNumeric(amount.getText().toString())) {
                     if (Integer.parseInt(amount.getText().toString()) <= item.getitemStock()) {
-                        Toast.makeText(getContext(), "Account " + ((userMain) getActivity()).getid() + " add to cart " + amount.getText().toString(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(),  "add to cart " + amount.getText().toString()+" "+itemName.getText().toString(), Toast.LENGTH_SHORT).show();
                         String NameItem = itemName.getText().toString();
                         double PriceItem = Double.parseDouble(itemPrice.getText().toString().replaceAll("[$]", ""));
                         Item itemCart = new Item(NameItem, Integer.parseInt(amount.getText().toString()), " ", PriceItem);
@@ -455,6 +455,7 @@ public class HomeFragment extends Fragment {
                             ((userMain) getActivity()).isPurchase(isAddToCart);
                         }
                         iSendDataListener.sendData(listAsString);
+                        dialog.dismiss();
                     } else {
                         Toast.makeText(getContext(), "Buy amount over stock", Toast.LENGTH_SHORT).show();
                     }

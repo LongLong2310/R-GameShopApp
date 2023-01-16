@@ -13,6 +13,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
             android:background= "@null"
+            android:onClick="onBackClick"
             android:src="@drawable/back_arrow"/>
 
         <TextView
@@ -24,7 +25,6 @@
             android:textAlignment="center"
             android:textColor="#51C5D5"
             android:gravity="center"
-            android:onClick="onAddClick"
             android:textSize="25dp" />
 
     </RelativeLayout>

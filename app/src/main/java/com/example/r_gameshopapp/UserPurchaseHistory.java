@@ -147,6 +147,13 @@ public class UserPurchaseHistory extends AppCompatActivity {
         }
         totalTextView.setText(total + "$");
         dialogBuilder.setView(itemDetailPopupView);
+        ImageButton cancel_button = (ImageButton) itemDetailPopupView.findViewById(R.id.cancel_button);
+        cancel_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v){
+                dialog.dismiss();
+            }
+        });
         dialog = dialogBuilder.create();
         dialog.show();
     }

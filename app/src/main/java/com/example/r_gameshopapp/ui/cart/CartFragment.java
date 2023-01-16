@@ -43,6 +43,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -86,7 +87,7 @@ public class CartFragment extends Fragment{
             for (int i = 0; i < itemCartList.size(); i++) {
                 total += itemCartList.get(i).getitemPrice()*itemCartList.get(i).getitemStock();
             }
-            totalTextView.setText("TOTAL:  $" + total);
+            totalTextView.setText("TOTAL:  $" + Double.parseDouble(new DecimalFormat("##.##").format(total)));
 
             purchase_button = root.findViewById(R.id.purchase_button);
             purchase_button.setOnClickListener(new View.OnClickListener() {
@@ -99,10 +100,11 @@ public class CartFragment extends Fragment{
                             dbManager.buy(s, c.getInt(4) - list.get(i).getitemStock());
                         }
 
-                        dbManager.BuyBalance(u.getString(1), Double.parseDouble(u.getString(3).replaceAll("[$]", "")) - total);
-                        dbManager.insertHistory(((userMain) getActivity()).getid(),itemCartList,total);
+                        dbManager.BuyBalance(u.getString(1), Double.parseDouble(u.getString(3).replaceAll("[$]", "")) - Double.parseDouble(new DecimalFormat("##.##").format(total)));
+                        dbManager.insertHistory(((userMain) getActivity()).getid(),itemCartList,Double.parseDouble(new DecimalFormat("##.##").format(total)));
                         ((userMain) getActivity()).isPurchase(false);
                         cartList.setAdapter(null);
+                        itemCartList.clear();
                     } else {
                         Toast.makeText(getContext(), " over balance", Toast.LENGTH_SHORT).show();
                     }
@@ -118,7 +120,7 @@ public class CartFragment extends Fragment{
         });
 
         balanceTextView = root.findViewById(R.id.balance);
-        balanceTextView.setText("CURRENT BALANCE:  "+u.getString(3));
+        balanceTextView.setText("CURRENT BALANCE: $"+ Double.parseDouble(new DecimalFormat("##.##").format(Double.parseDouble(u.getString(3).replaceAll("[$]", "")))));
 
         return root;
     }

@@ -276,6 +276,15 @@ public class DatabaseManager {
         }
         return cursor;
     }
+    public Cursor searchHistoryId(String string) {
+
+        Cursor cursor = database.rawQuery("SELECT * FROM " + DatabaseHelper.TABLE_NAME_H + " WHERE " + DatabaseHelper.CID + " LIKE ?", new String[]{"%" + string + "%"});
+
+        if (cursor != null) {
+            cursor.moveToFirst();
+        }
+        return cursor;
+    }
 
     public Cursor searchStockName(String string) {
 
