@@ -6,16 +6,12 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 public class DatabaseManager {
     private DatabaseHelper dbHelper;
@@ -340,8 +336,31 @@ public class DatabaseManager {
                 DatabaseHelper.DATE,
                 DatabaseHelper.TOTAL
         };
+
         Cursor cursor = database.query(DatabaseHelper.TABLE_NAME_H, columns,
                 null, null, null, null, null);
+
+
+        if (cursor != null) {
+            cursor.moveToFirst();
+        }
+        return cursor;
+    }
+
+    public Cursor selectUserPurchaseHistory(String CustomerID) {
+        String[] columns = new String[]{
+                DatabaseHelper.ID,
+                DatabaseHelper.CID,
+                DatabaseHelper.PRODUCTLIST,
+                DatabaseHelper.DATE,
+                DatabaseHelper.TOTAL
+        };
+//        Cursor cursor = database.query(DatabaseHelper.TABLE_NAME_H, columns,
+//                null, null, null, null, null);
+
+
+        Cursor cursor = database.rawQuery("SELECT * FROM " + DatabaseHelper.TABLE_NAME_H + " WHERE " + DatabaseHelper.CID + " LIKE ?", new String[]{"%" + CustomerID + "%"});
+
 
         if (cursor != null) {
             cursor.moveToFirst();

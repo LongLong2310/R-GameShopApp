@@ -74,6 +74,7 @@
         <Button
             android:layout_width="227dp"
             android:layout_height="match_parent"
+            android:id="@+id/purchase_history_button"
             android:background="@drawable/button_border"
             android:layout_marginTop="10dp"
             android:layout_gravity="center"

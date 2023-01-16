@@ -73,6 +73,7 @@ public class HomeFragment extends Fragment {
     private Spinner spinnerFilter;
     private String selectedFilter, spinnerType;
     private SearchView searchView;
+    private userMain userMain;
     private Cursor cursor;
     private String selected_category = "ALL";
     ArrayList<Item> displayList = new ArrayList<>();
@@ -463,14 +464,15 @@ public class HomeFragment extends Fragment {
                         itemListCart.add(itemCart);
                         itemList2.setItemList(itemListCart);
 
-                        Bundle bundle = new Bundle();
-                        String listAsString = new Gson().toJson(itemListCart);
-                        bundle.putString("df1",toJson(itemCart));
-                        CartFragment cartFragment = new CartFragment();
-                        cartFragment.setArguments(bundle);
+                        String listAsString = "";
+                        userMain = (com.example.r_gameshopapp.userMain) getActivity();
+                        if (!userMain.getPurchaseStatus()) {
+                            listAsString = new Gson().toJson(itemListCart);
+                            userMain.isPurchase(false);
+                        }
                         iSendDataListener.sendData(listAsString);
                     } else {
-                        Toast.makeText(getContext(), "buy amount over stock", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "Buy amount over stock", Toast.LENGTH_SHORT).show();
                     }
                 }
 

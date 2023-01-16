@@ -17,7 +17,7 @@
             android:id="@+id/lTotalPrice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/lDetailCusID"
+            android:layout_below="@+id/lTransactionIdTitle"
             android:layout_toRightOf="@+id/lTotalTitle"
             android:ellipsize="end"
             android:fontFamily="@font/game_played"
@@ -32,7 +32,7 @@
             android:id="@+id/lTotalTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/lDetailCusID"
+            android:layout_below="@+id/lTransactionIdTitle"
             android:layout_marginLeft="40dp"
             android:layout_toRightOf="@+id/lDate"
             android:ellipsize="end"
@@ -50,7 +50,7 @@
             android:id="@+id/lDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/lDetailCusID"
+            android:layout_below="@+id/lTransactionIdTitle"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="6dp"
             android:textSize="17sp"
@@ -65,7 +65,7 @@
             android:id="@+id/lDateTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/lDetailCusID"
+            android:layout_below="@+id/lTransactionIdTitle"
             android:layout_alignParentLeft="true"
             android:fontFamily="@font/game_played"
             android:padding="3dp"
@@ -107,37 +107,7 @@
             android:textAlignment="textStart"
             android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/lDetailCusIDTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:fontFamily="@font/game_played"
-            android:layout_below="@+id/lTransactionId"
-            android:maxLines="1"
-            android:padding="3dp"
-            android:textColor="@color/white"
-            android:textSize="17sp"
-            android:layout_marginRight="5dp"
-            android:layout_marginTop="10dp"
-            android:textAlignment="textStart"
-            android:text="Customer ID: "
-            android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/lDetailCusID"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/game_played"
-            android:layout_below="@+id/lTransactionId"
-            android:maxLines="1"
-            android:padding="3dp"
-            android:textColor="@color/white"
-            android:textSize="17sp"
-            android:layout_toRightOf="@+id/lDetailCusIDTitle"
-            android:layout_marginTop="10dp"
-            android:textAlignment="textStart"
-            android:textStyle="bold" />
 
     </RelativeLayout>
 

@@ -43,7 +43,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String CREATE_TABLE_CART =
             "create table " + TABLE_NAME_C + " (" +
                     ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
-                    NAME + " TEXT NOT NULL," +
+                    CID + " STRING," +
+                    PRODUCTLIST + " STRING," +
+                    TOTAL + " INTEGER," +
                     DATE + " STRING);";
 
     private static final String CREATE_TABLE_HISTORY =
