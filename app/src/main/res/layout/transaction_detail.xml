@@ -49,15 +49,22 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ems="10"
+            android:textSize="17sp"
+            android:fontFamily="@font/game_played"
+            android:textColor="@color/border_color"
+            android:gravity="center"
             android:inputType="textPersonName"
             android:text="Total: " />
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/textViewTotalnumber"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="TextView" />
+            android:ems="10"
+            android:textSize="17sp"
+            android:fontFamily="@font/game_played"
+            android:textColor="@color/border_color" />
     </LinearLayout>
 
 

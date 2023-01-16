@@ -37,11 +37,10 @@ import java.util.Objects;
 public class adminHistory extends AppCompatActivity {
     private Cursor cursor;
     private DatabaseManager dbManager;
-    private ImageButton addButton;
     private AlertDialog.Builder dialogBuilder;
     private AlertDialog dialog;
-    private TextView itemTotal;
     private ArrayList<Item> itemCartList;
+    private TextView totalTextView;
 
     private String[] from = new String[]{
             DatabaseHelper.ID,
@@ -88,16 +87,6 @@ public class adminHistory extends AppCompatActivity {
             }
         });
         showHistoryList(this);
-
-//        addButton = (ImageButton) findViewById(R.id.add_button);
-//        addButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                LinearLayout addLayout = findViewById(R.id.addLayout);
-//                addLayout.setVisibility(View.VISIBLE);
-//                setVisible(R.id.list, false);
-//            }
-//        });
     }
 
     @Override
@@ -147,38 +136,22 @@ public class adminHistory extends AppCompatActivity {
         }
     }
 
-//    private void showHistoryDetail(Context context) {
-//        dbManager.open();
-//        cursor = dbManager.selectAllHistory();
-//        if (cursor.getCount() == 0){
-////            setVisible(R.id.noRecordText, true);
-//            setVisible(R.id.list, false);
-//        }
-//        else {
-//            ListView listView = (ListView) findViewById(R.id.listTDetail);
-//            setVisible(R.id.list, true);
-//            System.out.println(cursor.getString(2));
-//            List<Item> list = new Gson().fromJson(cursor.getString(2), new TypeToken<List<Item>>(){}.getType());
-//            itemCartList = new ArrayList<Item>(list);
-//            ListAdapter listAdapter = new ListAdapter(context, R.layout.fragment_cart_item, itemCartList);
-//            listView.setAdapter(listAdapter);
-//        }
-//    }
-
     public void createHistoryItemDetailDialog(Context context){
         dialogBuilder = new AlertDialog.Builder(context);
         final View itemDetailPopupView = getLayoutInflater().inflate(R.layout.transaction_detail, null);
-        itemTotal = (TextView) itemDetailPopupView.findViewById(R.id.itemTotalTextView);
 
         listViewDetail = itemDetailPopupView.findViewById(R.id.listTDetail);
         setVisible(R.id.list, true);
         List<Item> list = new Gson().fromJson(cursor.getString(2), new TypeToken<List<Item>>(){}.getType());
-        System.out.println(cursor.getString(2));
-        System.out.println(list.get(0).getitemName());
         itemCartList = new ArrayList<Item>(list);
         ListAdapter listAdapter = new ListAdapter(context, R.layout.fragment_cart_item, itemCartList);
         listViewDetail.setAdapter(listAdapter);
-
+        totalTextView = (TextView) itemDetailPopupView.findViewById(R.id.textViewTotalnumber);
+        double total = 0;
+        for (int i = 0; i < itemCartList.size(); i++) {
+            total += itemCartList.get(i).getitemPrice()*itemCartList.get(i).getitemStock();
+        }
+        totalTextView.setText(total + "$");
         dialogBuilder.setView(itemDetailPopupView);
         dialog = dialogBuilder.create();
         dialog.show();

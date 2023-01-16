@@ -11,13 +11,11 @@ import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
@@ -25,7 +23,6 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
-import android.widget.SimpleCursorAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,26 +31,18 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 
 import com.example.r_gameshopapp.BackgroundMusicService;
 import com.example.r_gameshopapp.DatabaseManager;
 import com.example.r_gameshopapp.GridAdapter;
 import com.example.r_gameshopapp.Item;
 import com.example.r_gameshopapp.ItemList;
-import com.example.r_gameshopapp.Login;
 import com.example.r_gameshopapp.databinding.FragmentHomeBinding;
-import com.example.r_gameshopapp.ui.cart.CartFragment;
 import com.example.r_gameshopapp.userMain;
 import com.example.r_gameshopapp.R;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 
@@ -69,11 +58,9 @@ public class HomeFragment extends Fragment {
     private ImageView img;
     private LinearLayout search_bar;
     private DatabaseManager dbManager;
-    private Button buttonGame;
     private Spinner spinnerFilter;
     private String selectedFilter, spinnerType;
     private SearchView searchView;
-    private userMain userMain;
     private Cursor cursor;
     private String selected_category = "ALL";
     ArrayList<Item> displayList = new ArrayList<>();
@@ -83,10 +70,7 @@ public class HomeFragment extends Fragment {
     ArrayList<Item> itemList = new ArrayList<>();
     List<Item> itemListCart = new ArrayList<>();
     ItemList itemList2 = new ItemList(itemListCart);
-
-
-    private String productName;
-    private int productStock, productMoney, productAmount;
+    boolean isAddToCart = false;
 
     private ISendDataListener iSendDataListener;
 
@@ -450,7 +434,7 @@ public class HomeFragment extends Fragment {
               dialog.dismiss();
           }
         });
-        Bundle bundle = new Bundle();
+        ((userMain) getActivity()).isPurchase(isAddToCart);
         button_add_to_cart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -458,43 +442,28 @@ public class HomeFragment extends Fragment {
                     if (Integer.parseInt(amount.getText().toString()) <= item.getitemStock()) {
                         Toast.makeText(getContext(), "Account " + ((userMain) getActivity()).getid() + " add to cart " + amount.getText().toString(), Toast.LENGTH_SHORT).show();
                         String NameItem = itemName.getText().toString();
-                        int NumberStockItem = Integer.parseInt(extractInt(itemStock.getText().toString()));
                         double PriceItem = Double.parseDouble(itemPrice.getText().toString().replaceAll("[$]", ""));
                         Item itemCart = new Item(NameItem, Integer.parseInt(amount.getText().toString()), " ", PriceItem);
                         itemListCart.add(itemCart);
                         itemList2.setItemList(itemListCart);
 
+                        ((userMain) getActivity()).isPurchase(false);
                         String listAsString = "";
-                        userMain = (com.example.r_gameshopapp.userMain) getActivity();
-                        if (!userMain.getPurchaseStatus()) {
+                        isAddToCart = true;
+                        if (!((userMain) getActivity()).getPurchaseStatus()) {
                             listAsString = new Gson().toJson(itemListCart);
-                            userMain.isPurchase(false);
+                            ((userMain) getActivity()).isPurchase(isAddToCart);
                         }
                         iSendDataListener.sendData(listAsString);
                     } else {
                         Toast.makeText(getContext(), "Buy amount over stock", Toast.LENGTH_SHORT).show();
                     }
                 }
-
-
+                isAddToCart = false;
             }
         });
     }
 
-    @Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
-
-    }
-
-    private String toJson(Object object) {
-        ObjectMapper objectMapper = new ObjectMapper();
-        try {
-            return objectMapper.writeValueAsString(object);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
-    }
     public void createContactUsDialog(Context context) {
         dialogBuilder = new AlertDialog.Builder(context);
         final View contactUsPopupView = getLayoutInflater().inflate(R.layout.contact_popup, null);
@@ -528,27 +497,6 @@ public class HomeFragment extends Fragment {
                 dialog.dismiss();
             }
         });
-    }
-
-    private void sendDataToCartFragment() {
-
-    }
-
-
-    private String extractInt(String str)
-    {
-        // Replacing every non-digit number
-        // with a space(" ")
-        str = str.replaceAll("[^0-9]", " "); // regular expression
-
-        // Replace all the consecutive white
-        // spaces with a single space
-        str = str.replaceAll(" +", "");
-
-        if (str.equals(""))
-            return "-1";
-
-        return str;
     }
 
     public static boolean isNumeric(String strNum) {

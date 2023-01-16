@@ -25,9 +25,8 @@ import java.util.Objects;
 public class userMain extends AppCompatActivity implements HomeFragment.ISendDataListener{
 
     private ActivityMainBinding binding;
-    List<Item> ItemListHome;
     private String test = "";
-    private boolean isPurchase;
+    private boolean isPurchase = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,7 +72,7 @@ public class userMain extends AppCompatActivity implements HomeFragment.ISendDat
 
     @Override
     public void sendData(String string) {
-        test = string;
+            test = string;
     }
 
     public boolean getPurchaseStatus() {
