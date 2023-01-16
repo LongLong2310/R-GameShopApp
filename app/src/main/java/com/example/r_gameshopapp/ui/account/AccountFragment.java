@@ -3,7 +3,6 @@ package com.example.r_gameshopapp.ui.account;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
-import android.media.Image;
 import android.os.Bundle;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
@@ -13,22 +12,21 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 
 import com.example.r_gameshopapp.BackgroundMusicService;
 import com.example.r_gameshopapp.DatabaseManager;
-import com.example.r_gameshopapp.Item;
 import com.example.r_gameshopapp.R;
+import com.example.r_gameshopapp.UserPurchaseHistory;
 import com.example.r_gameshopapp.databinding.FragmentAccountBinding;
 import com.example.r_gameshopapp.userMain;
+
+import java.text.DecimalFormat;
 
 public class AccountFragment extends Fragment {
     private AlertDialog.Builder dialogBuilder;
@@ -36,10 +34,11 @@ public class AccountFragment extends Fragment {
     private TextView current_balance_popup, user_name, current_balance;
     private ImageButton cancel_button, more_button;
     private DatabaseManager dbManager;
-    private Button add_balance, play_button, stop_button, contactConfirm;
+    private Button add_balance, play_button, stop_button, contactConfirm, purchase_history_button;
     private EditText amount, editTextContact, editTextSubject;
     private Cursor cursor;
     private FragmentAccountBinding binding;
+    private userMain userMain;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -47,6 +46,7 @@ public class AccountFragment extends Fragment {
 
         binding = FragmentAccountBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
+        userMain = (com.example.r_gameshopapp.userMain) getActivity();
         more_button = (ImageButton) root.findViewById(R.id.more_button);
         dbManager = new DatabaseManager(getActivity());
         dbManager.open();
@@ -55,7 +55,7 @@ public class AccountFragment extends Fragment {
         cursor = dbManager.searchAccountID(Integer.toString(((userMain)getActivity()).getid()));
 
         user_name.setText(cursor.getString(1));
-        current_balance.setText("CURRENT BALANCE:  " + cursor.getString(3));
+        current_balance.setText("CURRENT BALANCE: $" + Double.parseDouble(new DecimalFormat("##.##").format(Double.parseDouble(cursor.getString(3).replaceAll("[$]", "")))));
 
         add_balance = (Button) root.findViewById(R.id.add_balance_button);
         add_balance.setOnClickListener(new View.OnClickListener() {
@@ -69,6 +69,16 @@ public class AccountFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 showMenu(v);
+            }
+        });
+
+        purchase_history_button = root.findViewById(R.id.purchase_history_button);
+        purchase_history_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getActivity(), UserPurchaseHistory.class);
+                i.putExtra("UserID", String.valueOf(((userMain) getActivity()).getid()));
+                startActivity(i);
             }
         });
 
@@ -146,7 +156,7 @@ public class AccountFragment extends Fragment {
             @Override
             public void onClick(View v){
                 if (isNumeric(amount.getText().toString()) == true) {
-                    dbManager.changeBalance(cursor.getString(1),Double.parseDouble(cursor.getString(3).replaceAll("[$]", ""))+Double.parseDouble(amount.getText().toString()));
+                    dbManager.changeBalance(cursor.getString(1),Double.parseDouble(cursor.getString(3).replaceAll("[$]", ""))+Double.parseDouble(new DecimalFormat("##.##").format(Double.parseDouble(amount.getText().toString()))));
                 }
                 dialog.dismiss();
             }

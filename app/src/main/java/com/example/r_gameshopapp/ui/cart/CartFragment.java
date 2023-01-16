@@ -43,6 +43,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -57,26 +58,11 @@ public class CartFragment extends Fragment{
     private DatabaseManager dbManager;
     private TextView balanceTextView, totalTextView;
     private double balance, total = 0;
-    ObjectMapper mapper = new ObjectMapper();
     ListView cartList;
-//    ArrayList<Item> itemCartList;
-    private String string;
-//    private List<Item> itemListCart;
-    private List<Item> itemListCart = new ArrayList<>();
-    private userMain userMain;
     private ArrayList<Item> itemCartList;
 
     public CartFragment() {
 
-    }
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (savedInstanceState!=null) {
-            System.out.println("098");
-            string = savedInstanceState.getString("outState");
-        }
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -91,13 +77,40 @@ public class CartFragment extends Fragment{
 
         cartList = root.findViewById(R.id.cart_list);
 
-        userMain = (com.example.r_gameshopapp.userMain) getActivity();
-        List<Item> list = new Gson().fromJson(userMain.getTest(), new TypeToken<List<Item>>(){}.getType());
-        itemCartList = new ArrayList<Item>(list);
-        System.out.println(itemCartList);
+        if (((userMain) getActivity()).getPurchaseStatus()) {
+            List<Item> list = new Gson().fromJson(((userMain) getActivity()).getTest(), new TypeToken<List<Item>>(){}.getType());
+            itemCartList = new ArrayList<Item>(list);
+            ListAdapter listAdapter = new ListAdapter(context, R.layout.fragment_cart_item, itemCartList);
+            cartList.setAdapter(listAdapter);
 
-        ListAdapter listAdapter = new ListAdapter(context, R.layout.fragment_cart_item, itemCartList);
-        cartList.setAdapter(listAdapter);
+            totalTextView = root.findViewById(R.id.total_price);
+            for (int i = 0; i < itemCartList.size(); i++) {
+                total += itemCartList.get(i).getitemPrice()*itemCartList.get(i).getitemStock();
+            }
+            totalTextView.setText("TOTAL:  $" + Double.parseDouble(new DecimalFormat("##.##").format(total)));
+
+            purchase_button = root.findViewById(R.id.purchase_button);
+            purchase_button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (Double.parseDouble(u.getString(3).replaceAll("[$]", "")) - total>=0) {
+                        for (int i = 0; i < list.size(); i++) {
+                            String s = list.get(i).getitemName();
+                            Cursor c = dbManager.searchStockName(s);
+                            dbManager.buy(s, c.getInt(4) - list.get(i).getitemStock());
+                        }
+
+                        dbManager.BuyBalance(u.getString(1), Double.parseDouble(u.getString(3).replaceAll("[$]", "")) - Double.parseDouble(new DecimalFormat("##.##").format(total)));
+                        dbManager.insertHistory(((userMain) getActivity()).getid(),itemCartList,Double.parseDouble(new DecimalFormat("##.##").format(total)));
+                        ((userMain) getActivity()).isPurchase(false);
+                        cartList.setAdapter(null);
+                        itemCartList.clear();
+                    } else {
+                        Toast.makeText(getContext(), " over balance", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+        }
 
         more_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -107,65 +120,9 @@ public class CartFragment extends Fragment{
         });
 
         balanceTextView = root.findViewById(R.id.balance);
-        balanceTextView.setText("CURRENT BALANCE:  "+u.getString(3));
-        totalTextView = root.findViewById(R.id.total_price);
-        for (int i = 0; i < itemCartList.size(); i++) {
-            total += itemCartList.get(i).getitemPrice()*itemCartList.get(i).getitemStock();
-        }
-        totalTextView.setText("TOTAL:  $" + total);
-        purchase_button = root.findViewById(R.id.purchase_button);
-        purchase_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (Double.parseDouble(u.getString(3).replaceAll("[$]", "")) - total>=0) {
-                    for (int i = 0; i < list.size(); i++) {
-                        System.out.println(list.get(i).getitemName());
-                        String s = list.get(i).getitemName();
-                        Cursor c = dbManager.searchStockName(s);
-                        dbManager.buy(s, c.getInt(4) - list.get(i).getitemStock());
-                    }
-
-                    dbManager.BuyBalance(u.getString(1), Double.parseDouble(u.getString(3).replaceAll("[$]", "")) - total);
-                    dbManager.insertCart(1, itemCartList);
-                    dbManager.insertHistory(1, itemCartList);
-                }else {
-                    Toast.makeText(getContext(), " over balance", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
+        balanceTextView.setText("CURRENT BALANCE: $"+ Double.parseDouble(new DecimalFormat("##.##").format(Double.parseDouble(u.getString(3).replaceAll("[$]", "")))));
 
         return root;
-    }
-
-    @Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
-//        System.out.println(string);
-        outState.putString("outState", string);
-    }
-
-    private List<Item> toList(String jsonString) {
-        try {
-            return mapper.readValue(jsonString, new TypeReference<List<Item>>(){});
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    private String extractInt(String str)
-    {
-        // Replacing every non-digit number
-        // with a space(" ")
-        str = str.replaceAll("[^0-9]", " "); // regular expression
-
-        // Replace all the consecutive white
-        // spaces with a single space
-        str = str.replaceAll(" +", "");
-
-        if (str.equals(""))
-            return "-1";
-
-        return str;
     }
 
     private void showMenu(View v) {
@@ -255,15 +212,5 @@ public class CartFragment extends Fragment{
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
-    }
-
-//    @Override
-//    public void sendData(ItemList ItemList) {
-//        System.out.println(ItemList);
-//    }
-
-    public List<Item> receiveDataHomeFragment(List<Item> itemListHome) {
-//        itemListCart = new ArrayList<>(itemListHome);
-        return itemListHome;
     }
 }

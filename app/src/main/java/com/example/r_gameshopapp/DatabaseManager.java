@@ -6,14 +6,12 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 public class DatabaseManager {
     private DatabaseHelper dbHelper;
@@ -51,28 +49,35 @@ public class DatabaseManager {
         database.insert(DatabaseHelper.TABLE_NAME_A, null, contentValue);
     }
 
-    public void insertCart(int cusID, List<Item> productList) {
+    public void insertCart(int cusID, List<Item> productList, double total) {
         ContentValues contentValue = new ContentValues();
         contentValue.put(DatabaseHelper.CID, cusID);
-        contentValue.put(DatabaseHelper.NAME, toJson(productList));
+        contentValue.put(DatabaseHelper.NAME, new Gson().toJson(productList));
         contentValue.put(DatabaseHelper.DATE, LocalDateTime.now().toString());
+        contentValue.put(DatabaseHelper.TOTAL, total);
         database.insert(DatabaseHelper.TABLE_NAME_C, null, contentValue);
     }
 
-    private String toJson(Object object) {
-        ObjectMapper objectMapper = new ObjectMapper();
-        try {
-            return objectMapper.writeValueAsString(object);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
-    }
+//    private String toJson(Object object) {
+//        ObjectMapper objectMapper = new ObjectMapper();
+//        try {
+//            return objectMapper.writeValueAsString(object);
+//        } catch (JsonProcessingException e) {
+//            throw new RuntimeException(e);
+//        }
+//    }
 
-    public void insertHistory(int cusID, List<Item> productList) {
+    public void insertHistory(int cusID, List<Item> productList, double total) {
+        String DATE_FORMATTER= "yyyy-MM-dd";
+        LocalDateTime date = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_FORMATTER);
+        String formatDateTime = date.format(formatter);
+
         ContentValues contentValue = new ContentValues();
         contentValue.put(DatabaseHelper.CID, cusID);
-        contentValue.put(DatabaseHelper.NAME, toJson(productList));
-        contentValue.put(DatabaseHelper.DATE, LocalDateTime.now().toString());
+        contentValue.put(DatabaseHelper.PRODUCTLIST, new Gson().toJson(productList));
+        contentValue.put(DatabaseHelper.DATE, formatDateTime);
+        contentValue.put(DatabaseHelper.TOTAL, total + "$");
         database.insert(DatabaseHelper.TABLE_NAME_H, null, contentValue);
     }
 
@@ -271,6 +276,15 @@ public class DatabaseManager {
         }
         return cursor;
     }
+    public Cursor searchHistoryId(String string) {
+
+        Cursor cursor = database.rawQuery("SELECT * FROM " + DatabaseHelper.TABLE_NAME_H + " WHERE " + DatabaseHelper.CID + " LIKE ?", new String[]{"%" + string + "%"});
+
+        if (cursor != null) {
+            cursor.moveToFirst();
+        }
+        return cursor;
+    }
 
     public Cursor searchStockName(String string) {
 
@@ -325,13 +339,37 @@ public class DatabaseManager {
 
     public Cursor selectAllHistory() {
         String[] columns = new String[]{
-                DatabaseHelper.TID,
-                DatabaseHelper.DATE,
+                DatabaseHelper.ID,
                 DatabaseHelper.CID,
-                DatabaseHelper.AMOUNT
+                DatabaseHelper.PRODUCTLIST,
+                DatabaseHelper.DATE,
+                DatabaseHelper.TOTAL
         };
+
         Cursor cursor = database.query(DatabaseHelper.TABLE_NAME_H, columns,
                 null, null, null, null, null);
+
+
+        if (cursor != null) {
+            cursor.moveToFirst();
+        }
+        return cursor;
+    }
+
+    public Cursor selectUserPurchaseHistory(String CustomerID) {
+        String[] columns = new String[]{
+                DatabaseHelper.ID,
+                DatabaseHelper.CID,
+                DatabaseHelper.PRODUCTLIST,
+                DatabaseHelper.DATE,
+                DatabaseHelper.TOTAL
+        };
+//        Cursor cursor = database.query(DatabaseHelper.TABLE_NAME_H, columns,
+//                null, null, null, null, null);
+
+
+        Cursor cursor = database.rawQuery("SELECT * FROM " + DatabaseHelper.TABLE_NAME_H + " WHERE " + DatabaseHelper.CID + " LIKE ?", new String[]{"%" + CustomerID + "%"});
+
 
         if (cursor != null) {
             cursor.moveToFirst();

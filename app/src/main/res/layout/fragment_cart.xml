@@ -36,7 +36,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
-        android:text="BALANCE:  $1,000"
+        android:text="BALANCE:  $0"
         android:fontFamily="@font/oswald_regular"
         android:textColor="@color/white"
         android:textSize="25sp" />
@@ -63,7 +63,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
-                android:text="TOTAL:  $99.99"
+                android:text="TOTAL:  $0"
                 android:fontFamily="@font/oswald_regular"
                 android:textColor="@color/white"
                 android:layout_weight="1"

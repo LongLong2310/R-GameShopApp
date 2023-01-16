@@ -7,9 +7,9 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/background_color"
-    tools:context=".adminHistory">
+    tools:context=".UserPurchaseHistory">
 
-    <include layout="@layout/admin_history_screen_toolbar" />
+    <include layout="@layout/user_history_screen_toolbar" />
 
     <LinearLayout
         android:layout_width="match_parent"

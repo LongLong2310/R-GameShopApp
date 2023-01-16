@@ -36,19 +36,24 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     //Cart
     public static final String DATE = "date";
     public static final String TID = "tid";
+    public static final String TOTAL = "total";
+    public static final String PRODUCTLIST = "productlist";
 
     //create query
     private static final String CREATE_TABLE_CART =
             "create table " + TABLE_NAME_C + " (" +
                     ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
-                    NAME + " TEXT NOT NULL," +
+                    CID + " STRING," +
+                    PRODUCTLIST + " STRING," +
+                    TOTAL + " INTEGER," +
                     DATE + " STRING);";
 
     private static final String CREATE_TABLE_HISTORY =
             "create table " + TABLE_NAME_H + " (" +
                     ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                     CID + " STRING," +
-                    NAME + " TEXT NOT NULL," +
+                    PRODUCTLIST + " STRING," +
+                    TOTAL + " INTEGER," +
                     DATE + " STRING);";
 
     private static final String CREATE_TABLE_STOCK =
