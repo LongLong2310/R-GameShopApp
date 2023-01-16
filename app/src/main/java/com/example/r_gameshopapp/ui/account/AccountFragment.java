@@ -26,6 +26,8 @@ import com.example.r_gameshopapp.UserPurchaseHistory;
 import com.example.r_gameshopapp.databinding.FragmentAccountBinding;
 import com.example.r_gameshopapp.userMain;
 
+import java.text.DecimalFormat;
+
 public class AccountFragment extends Fragment {
     private AlertDialog.Builder dialogBuilder;
     private AlertDialog dialog;
@@ -53,7 +55,7 @@ public class AccountFragment extends Fragment {
         cursor = dbManager.searchAccountID(Integer.toString(((userMain)getActivity()).getid()));
 
         user_name.setText(cursor.getString(1));
-        current_balance.setText("CURRENT BALANCE:  " + cursor.getString(3));
+        current_balance.setText("CURRENT BALANCE: $" + Double.parseDouble(new DecimalFormat("##.##").format(Double.parseDouble(cursor.getString(3).replaceAll("[$]", "")))));
 
         add_balance = (Button) root.findViewById(R.id.add_balance_button);
         add_balance.setOnClickListener(new View.OnClickListener() {
@@ -154,7 +156,7 @@ public class AccountFragment extends Fragment {
             @Override
             public void onClick(View v){
                 if (isNumeric(amount.getText().toString()) == true) {
-                    dbManager.changeBalance(cursor.getString(1),Double.parseDouble(cursor.getString(3).replaceAll("[$]", ""))+Double.parseDouble(amount.getText().toString()));
+                    dbManager.changeBalance(cursor.getString(1),Double.parseDouble(cursor.getString(3).replaceAll("[$]", ""))+Double.parseDouble(new DecimalFormat("##.##").format(Double.parseDouble(amount.getText().toString()))));
                 }
                 dialog.dismiss();
             }

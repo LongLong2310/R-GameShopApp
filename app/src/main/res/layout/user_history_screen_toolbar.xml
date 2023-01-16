@@ -13,6 +13,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
             android:background= "@null"
+            android:onClick="onBackClick"
             android:src="@drawable/back_arrow"/>
 
         <TextView
@@ -21,7 +22,6 @@
             android:layout_centerVertical="true"
             android:fontFamily="@font/game_played"
             android:gravity="center"
-            android:onClick="onAddClick"
             android:text="Purchase History"
             android:textAlignment="center"
             android:textColor="#51C5D5"

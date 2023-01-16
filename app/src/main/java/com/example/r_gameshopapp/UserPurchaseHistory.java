@@ -210,7 +210,9 @@ public class UserPurchaseHistory extends AppCompatActivity {
         });
         return super.onCreateOptionsMenu(menu);
     }
-
+    public void onBackClick(View view) {
+        finish();
+    }
     private void searchStock(String string) {
         if (selectedFilter.equals("Name")) {
             cursor = dbManager.searchStockName(string);
