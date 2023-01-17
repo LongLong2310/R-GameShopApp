@@ -148,6 +148,7 @@ public class CartFragment extends Fragment{
                             totalTextView.setText("TOTAL:  $0");
                             Cursor u = dbManager.searchAccountID(Integer.toString(((userMain) getActivity()).getid()));
                             balanceTextView.setText("CURRENT BALANCE: $" + Double.parseDouble(new DecimalFormat("##.##").format(Double.parseDouble(u.getString(3).replaceAll("[$]", "")))));
+                            Toast.makeText(getContext(), " Purchase successfully!", Toast.LENGTH_SHORT).show();
                         } else {
                             Toast.makeText(getContext(), " over balance", Toast.LENGTH_SHORT).show();
                         }

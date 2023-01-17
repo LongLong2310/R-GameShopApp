@@ -12,7 +12,7 @@
         android:layout_width="100dp"
         android:layout_height="match_parent"
         android:layout_margin="15dp"
-        android:src="@drawable/accessories" />
+        android:src="@drawable/history" />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
