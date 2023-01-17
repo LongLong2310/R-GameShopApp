@@ -158,11 +158,11 @@ public class AccountFragment extends Fragment {
             public void onClick(View v){
                 if (isNumeric(amount.getText().toString()) == true) {
                     dbManager.changeBalance(cursor.getString(1),Double.parseDouble(cursor.getString(3).replaceAll("[$]", ""))+Double.parseDouble(new DecimalFormat("##.##").format(Double.parseDouble(amount.getText().toString()))));
-
-                    changeText("CURRENT BALANCE: $" + Double.parseDouble(new DecimalFormat("##.##").format(Double.parseDouble(cursor.getString(3).replaceAll("[$]", "")))));
+                    cursor = dbManager.searchAccountID(Integer.toString(((userMain)getActivity()).getid()));
+                    current_balance.setText("CURRENT BALANCE: $" + Double.parseDouble(new DecimalFormat("##.##").format(Double.parseDouble(cursor.getString(3).replaceAll("[$]", "")))));
                 }
                 dialog.dismiss();
-                current_balance.setText("CURRENT BALANCE: $" + Double.parseDouble(new DecimalFormat("##.##").format(Double.parseDouble(cursor.getString(3).replaceAll("[$]", "")))));
+
             }
         });
     }
@@ -200,9 +200,6 @@ public class AccountFragment extends Fragment {
                 dialog.dismiss();
             }
         });
-    }
-    public void changeText(String text){
-        current_balance.setText(text);
     }
     @Override
     public void onDestroyView() {

@@ -245,7 +245,6 @@ public class DatabaseManager {
         int i = database.update(DatabaseHelper.TABLE_NAME_A,
                 contentValue,
                 DatabaseHelper.NAME + " ='" + name +"'", null);
-        database.close();
         return i;
 
     }
