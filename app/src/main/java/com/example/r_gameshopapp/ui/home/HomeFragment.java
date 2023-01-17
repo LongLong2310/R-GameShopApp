@@ -346,6 +346,7 @@ public class HomeFragment extends Fragment {
 
         if (!((userMain) getActivity()).isFirstAddToCart()) {
             itemListCart = new ArrayList<Item>(((userMain) getActivity()).getCurrentItemList());
+            ((userMain) getActivity()).setFirstAddToCart(true);
         }
         listAsString = new Gson().toJson(itemListCart);
         iSendDataListener.sendData(listAsString);

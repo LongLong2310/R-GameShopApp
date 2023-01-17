@@ -140,6 +140,8 @@ public class CartFragment extends Fragment{
                         ((userMain) getActivity()).isPurchase(false);
                         cartList.setAdapter(null);
                         itemCartList.clear();
+                        ((userMain) getActivity()).setCurrentItemList(itemCartList);
+                        ((userMain) getActivity()).setFirstAddToCart(false);
                         totalTextView.setText("TOTAL:  $0");
                         Cursor u=dbManager.searchAccountID(Integer.toString(((userMain)getActivity()).getid()));
                         balanceTextView.setText("CURRENT BALANCE: $"+ Double.parseDouble(new DecimalFormat("##.##").format(Double.parseDouble(u.getString(3).replaceAll("[$]", "")))));
