@@ -451,8 +451,12 @@ public class HomeFragment extends Fragment {
                         isAddToCart = true;
                         if (!((userMain) getActivity()).getPurchaseStatus()) {
                             String NameItem = itemName.getText().toString();
-                            double PriceItem = Double.parseDouble(itemPrice.getText().toString().replaceAll("[$]", ""));
-                            Item itemCart = new Item(NameItem, Integer.parseInt(amount.getText().toString()), category_title.getText().toString(), PriceItem);
+                            String itemPriceNumber = itemPrice.getText().toString();
+                            if (itemPriceNumber.contains(",")) {
+                                itemPriceNumber = itemPriceNumber.replaceAll("[,]",".");
+                            }
+                            double PriceItem = Double.parseDouble(itemPriceNumber.replaceAll("[$]", ""));
+                            Item itemCart = new Item(NameItem, Integer.parseInt(amount.getText().toString()), item.getitemCategory(), PriceItem);
                             itemListCart.add(itemCart);
                             listAsString = new Gson().toJson(itemListCart);
                             ((userMain) getActivity()).isPurchase(isAddToCart);
