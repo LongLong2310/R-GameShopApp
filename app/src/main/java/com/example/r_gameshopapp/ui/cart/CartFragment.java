@@ -135,7 +135,8 @@ public class CartFragment extends Fragment{
                         ((userMain) getActivity()).isPurchase(false);
                         cartList.setAdapter(null);
                         itemCartList.clear();
-                        ((userMain) getActivity()).setFirstAddToCart(true);
+                        ((userMain) getActivity()).setCurrentItemList(itemCartList);
+                        ((userMain) getActivity()).setFirstAddToCart(false);
                     } else {
                         Toast.makeText(getContext(), " over balance", Toast.LENGTH_SHORT).show();
                     }
