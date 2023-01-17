@@ -245,7 +245,6 @@ public class DatabaseManager {
         int i = database.update(DatabaseHelper.TABLE_NAME_A,
                 contentValue,
                 DatabaseHelper.NAME + " ='" + name +"'", null);
-        database.close();
         return i;
 
     }
@@ -276,7 +275,7 @@ public class DatabaseManager {
         }
         return cursor;
     }
-    public Cursor searchHistoryId(String string) {
+    public Cursor searchHistoryCId(String string) {
 
         Cursor cursor = database.rawQuery("SELECT * FROM " + DatabaseHelper.TABLE_NAME_H + " WHERE " + DatabaseHelper.CID + " LIKE ?", new String[]{"%" + string + "%"});
 
@@ -285,7 +284,40 @@ public class DatabaseManager {
         }
         return cursor;
     }
+    public Cursor searchHistoryDate(String string) {
 
+        Cursor cursor = database.rawQuery("SELECT * FROM " + DatabaseHelper.TABLE_NAME_H + " WHERE " + DatabaseHelper.DATE + " LIKE ?", new String[]{"%" + string + "%"});
+
+        if (cursor != null) {
+            cursor.moveToFirst();
+        }
+        return cursor;
+    }
+    public Cursor searchHistoryDate(String string,String string2) {
+
+        Cursor cursor = database.rawQuery("SELECT * FROM " + DatabaseHelper.TABLE_NAME_H + " WHERE " + DatabaseHelper.DATE + " LIKE ?"+" AND " + DatabaseHelper.CID+ " LIKE ?", new String[]{"%" + string + "%","%" + string2 + "%"});
+        if (cursor != null) {
+            cursor.moveToFirst();
+        }
+        return cursor;
+    }
+    public Cursor searchHistoryId(String string) {
+
+        Cursor cursor = database.rawQuery("SELECT * FROM " + DatabaseHelper.TABLE_NAME_H + " WHERE " + DatabaseHelper.ID + " LIKE ?", new String[]{"%" + string + "%"});
+
+        if (cursor != null) {
+            cursor.moveToFirst();
+        }
+        return cursor;
+    }
+    public Cursor searchHistoryId(String string,String string2) {
+
+        Cursor cursor = database.rawQuery("SELECT * FROM " + DatabaseHelper.TABLE_NAME_H + " WHERE " + DatabaseHelper.ID + " LIKE ?"+" AND " + DatabaseHelper.CID+ " LIKE ?", new String[]{"%" + string + "%","%" + string2 + "%"});
+        if (cursor != null) {
+            cursor.moveToFirst();
+        }
+        return cursor;
+    }
     public Cursor searchStockName(String string) {
 
         Cursor cursor = database.rawQuery("SELECT * FROM " + DatabaseHelper.TABLE_NAME_S + " WHERE " + DatabaseHelper.NAME + " LIKE ?", new String[]{"%" + string + "%"});

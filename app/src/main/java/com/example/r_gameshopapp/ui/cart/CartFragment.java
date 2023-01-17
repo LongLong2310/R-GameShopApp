@@ -97,6 +97,11 @@ public class CartFragment extends Fragment{
                                     itemCartList.remove(itemCartList.get(position));
                                     ((userMain) getActivity()).setCurrentItemList(itemCartList);
                                     listAdapter.notifyDataSetChanged();
+                                    total=0;
+                                    for (int i = 0; i < itemCartList.size(); i++) {
+                                        total += itemCartList.get(i).getitemPrice()*itemCartList.get(i).getitemStock();
+                                    }
+                                    totalTextView.setText("TOTAL:  $" + Double.parseDouble(new DecimalFormat("##.##").format(total)));
 
                                 }
                             });
@@ -137,6 +142,10 @@ public class CartFragment extends Fragment{
                         itemCartList.clear();
                         ((userMain) getActivity()).setCurrentItemList(itemCartList);
                         ((userMain) getActivity()).setFirstAddToCart(false);
+                        totalTextView.setText("TOTAL:  $0");
+                        Cursor u=dbManager.searchAccountID(Integer.toString(((userMain)getActivity()).getid()));
+                        balanceTextView.setText("CURRENT BALANCE: $"+ Double.parseDouble(new DecimalFormat("##.##").format(Double.parseDouble(u.getString(3).replaceAll("[$]", "")))));
+                        ((userMain) getActivity()).setFirstAddToCart(true);
                     } else {
                         Toast.makeText(getContext(), " over balance", Toast.LENGTH_SHORT).show();
                     }
@@ -212,6 +221,11 @@ public class CartFragment extends Fragment{
                         updateItem = new Item(NameItem, Integer.parseInt(amount.getText().toString()),item.getitemCategory(), PriceItem);
                         itemCartList.set(position, updateItem);
                         listAdapter.notifyDataSetChanged();
+                        total=0;
+                        for (int i = 0; i < itemCartList.size(); i++) {
+                            total += itemCartList.get(i).getitemPrice()*itemCartList.get(i).getitemStock();
+                        }
+                        totalTextView.setText("TOTAL:  $" + Double.parseDouble(new DecimalFormat("##.##").format(total)));
                         dialog.dismiss();
                     } else {
                         Toast.makeText(getContext(), "Buy amount over stock", Toast.LENGTH_SHORT).show();

@@ -60,9 +60,8 @@ public class UserPurchaseHistory extends AppCompatActivity {
         spinnerFilter = (Spinner) findViewById(R.id.spinnerFilter);
         spinnerFilter.getBackground().setColorFilter(getResources().getColor(R.color.border_color), PorterDuff.Mode.SRC_ATOP);
         ArrayList<String> arrayList = new ArrayList<>();
-        arrayList.add("Name");
+        arrayList.add("Date");
         arrayList.add("ID");
-        arrayList.add("Type");
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this,R.layout.spinner_item, arrayList);
         arrayAdapter.setDropDownViewResource(R.layout.spinner_dropdown_layout);
         spinnerFilter.setAdapter(arrayAdapter);
@@ -173,13 +172,13 @@ public class UserPurchaseHistory extends AppCompatActivity {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                searchStock(query);
+                searchHistory(query);
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                searchStock(newText);
+                searchHistory(newText);
                 return false;
             }
         });
@@ -188,15 +187,14 @@ public class UserPurchaseHistory extends AppCompatActivity {
     public void onBackClick(View view) {
         finish();
     }
-    private void searchStock(String string) {
-        if (selectedFilter.equals("Name")) {
-            cursor = dbManager.searchStockName(string);
+    private void searchHistory(String string) {
+        Intent intent = getIntent();
+        String UserID = (String) intent.getExtras().get("UserID");
+        if (selectedFilter.equals("Date")) {
+            cursor = dbManager.searchHistoryDate(string,UserID);
         }
         else if (selectedFilter.equals("ID")) {
-            cursor = dbManager.searchStockID(string);
-        }
-        else {
-            cursor = dbManager.searchStockType(string);
+            cursor = dbManager.searchHistoryId(string,UserID);
         }
 
         SimpleCursorAdapter adapter = new SimpleCursorAdapter(
@@ -209,4 +207,5 @@ public class UserPurchaseHistory extends AppCompatActivity {
             listView.setAdapter(adapter);
         }
     }
+
 }

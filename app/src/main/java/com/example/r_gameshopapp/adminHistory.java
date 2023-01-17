@@ -71,6 +71,7 @@ public class adminHistory extends AppCompatActivity {
         ArrayList<String> arrayList = new ArrayList<>();
         arrayList.add("CID");
         arrayList.add("Date");
+        arrayList.add("ID");
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this,R.layout.spinner_item, arrayList);
         arrayAdapter.setDropDownViewResource(R.layout.spinner_dropdown_layout);
         spinnerFilter.setAdapter(arrayAdapter);
@@ -181,24 +182,28 @@ public class adminHistory extends AppCompatActivity {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                searchStock(query);
+                searchHistory(query);
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                searchStock(newText);
+                searchHistory(newText);
                 return false;
             }
         });
         return super.onCreateOptionsMenu(menu);
     }
 
-    private void searchStock(String string) {
+    private void searchHistory(String string) {
         if (selectedFilter.equals("CID")) {
-            cursor = dbManager.searchHistoryId(string);
+            cursor = dbManager.searchHistoryCId(string);
         }
         else if (selectedFilter.equals("Date")) {
+            cursor = dbManager.searchHistoryDate(string);
+        }
+        else if (selectedFilter.equals("ID")) {
+            cursor = dbManager.searchHistoryId(string);
         }
 
         SimpleCursorAdapter adapter = new SimpleCursorAdapter(
