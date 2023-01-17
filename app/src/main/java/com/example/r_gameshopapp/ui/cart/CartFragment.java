@@ -128,26 +128,29 @@ public class CartFragment extends Fragment{
             purchase_button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (Double.parseDouble(u.getString(3).replaceAll("[$]", "")) - total>=0) {
-                        for (int i = 0; i < list.size(); i++) {
-                            String s = list.get(i).getitemName();
-                            Cursor c = dbManager.searchStockName(s);
-                            dbManager.buy(s, c.getInt(4) - list.get(i).getitemStock());
-                        }
+                    if (list.size() > 0) {
+                        if (Double.parseDouble(u.getString(3).replaceAll("[$]", "")) - total >= 0) {
+                            for (int i = 0; i < list.size(); i++) {
+                                String s = list.get(i).getitemName();
+                                Cursor c = dbManager.searchStockName(s);
+                                dbManager.buy(s, c.getInt(4) - list.get(i).getitemStock());
+                            }
 
-                        dbManager.BuyBalance(u.getString(1), Double.parseDouble(u.getString(3).replaceAll("[$]", "")) - Double.parseDouble(new DecimalFormat("##.##").format(total)));
-                        dbManager.insertHistory(((userMain) getActivity()).getid(),itemCartList,Double.parseDouble(new DecimalFormat("##.##").format(total)));
-                        ((userMain) getActivity()).isPurchase(false);
-                        cartList.setAdapter(null);
-                        itemCartList.clear();
-                        ((userMain) getActivity()).setCurrentItemList(itemCartList);
-                        ((userMain) getActivity()).setFirstAddToCart(false);
-                        totalTextView.setText("TOTAL:  $0");
-                        Cursor u=dbManager.searchAccountID(Integer.toString(((userMain)getActivity()).getid()));
-                        balanceTextView.setText("CURRENT BALANCE: $"+ Double.parseDouble(new DecimalFormat("##.##").format(Double.parseDouble(u.getString(3).replaceAll("[$]", "")))));
-                        ((userMain) getActivity()).setFirstAddToCart(true);
-                    } else {
-                        Toast.makeText(getContext(), " over balance", Toast.LENGTH_SHORT).show();
+                            dbManager.BuyBalance(u.getString(1), Double.parseDouble(u.getString(3).replaceAll("[$]", "")) - Double.parseDouble(new DecimalFormat("##.##").format(total)));
+                            dbManager.insertHistory(((userMain) getActivity()).getid(), itemCartList, Double.parseDouble(new DecimalFormat("##.##").format(total)));
+                            ((userMain) getActivity()).isPurchase(false);
+                            cartList.setAdapter(null);
+                            itemCartList.clear();
+                            list.clear();
+                            ((userMain) getActivity()).setCurrentItemList(itemCartList);
+                            ((userMain) getActivity()).setFirstAddToCart(false);
+                            total = 0;
+                            totalTextView.setText("TOTAL:  $0");
+                            Cursor u = dbManager.searchAccountID(Integer.toString(((userMain) getActivity()).getid()));
+                            balanceTextView.setText("CURRENT BALANCE: $" + Double.parseDouble(new DecimalFormat("##.##").format(Double.parseDouble(u.getString(3).replaceAll("[$]", "")))));
+                        } else {
+                            Toast.makeText(getContext(), " over balance", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 }
             });
