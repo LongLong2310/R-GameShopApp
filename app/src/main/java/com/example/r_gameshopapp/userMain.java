@@ -27,6 +27,8 @@ public class userMain extends AppCompatActivity implements HomeFragment.ISendDat
     private ActivityMainBinding binding;
     private String test = "";
     private boolean isPurchase = false;
+    private boolean isFirstAddToCart = true;
+    private List<Item> currentItemList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,5 +79,21 @@ public class userMain extends AppCompatActivity implements HomeFragment.ISendDat
 
     public boolean getPurchaseStatus() {
         return isPurchase;
+    }
+
+    public List<Item> getCurrentItemList() {
+        return currentItemList;
+    }
+
+    public void setCurrentItemList(List<Item> currentItemList) {
+        this.currentItemList = currentItemList;
+    }
+
+    public boolean isFirstAddToCart() {
+        return isFirstAddToCart;
+    }
+
+    public void setFirstAddToCart(boolean firstAddToCart) {
+        isFirstAddToCart = firstAddToCart;
     }
 }
