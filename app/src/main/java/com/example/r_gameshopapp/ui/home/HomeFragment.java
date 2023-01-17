@@ -36,7 +36,6 @@ import com.example.r_gameshopapp.BackgroundMusicService;
 import com.example.r_gameshopapp.DatabaseManager;
 import com.example.r_gameshopapp.GridAdapter;
 import com.example.r_gameshopapp.Item;
-import com.example.r_gameshopapp.ItemList;
 import com.example.r_gameshopapp.databinding.FragmentHomeBinding;
 import com.example.r_gameshopapp.userMain;
 import com.example.r_gameshopapp.R;
@@ -63,13 +62,13 @@ public class HomeFragment extends Fragment {
     private SearchView searchView;
     private Cursor cursor;
     private String selected_category = "ALL";
+    private String listAsString = "";
     ArrayList<Item> displayList = new ArrayList<>();
 
     private FragmentHomeBinding binding;
     GridView gridList;
     ArrayList<Item> itemList = new ArrayList<>();
     List<Item> itemListCart = new ArrayList<>();
-    ItemList itemList2 = new ItemList(itemListCart);
     boolean isAddToCart = false;
 
     private ISendDataListener iSendDataListener;
@@ -345,6 +344,11 @@ public class HomeFragment extends Fragment {
             }
         });
 
+        if (!((userMain) getActivity()).isFirstAddToCart()) {
+            itemListCart = new ArrayList<Item>(((userMain) getActivity()).getCurrentItemList());
+        }
+        listAsString = new Gson().toJson(itemListCart);
+        iSendDataListener.sendData(listAsString);
         return root;
     }
 
@@ -441,18 +445,17 @@ public class HomeFragment extends Fragment {
                 if (isNumeric(amount.getText().toString())) {
                     if (Integer.parseInt(amount.getText().toString()) <= item.getitemStock()) {
                         Toast.makeText(getContext(),  "add to cart " + amount.getText().toString()+" "+itemName.getText().toString(), Toast.LENGTH_SHORT).show();
-                        String NameItem = itemName.getText().toString();
-                        double PriceItem = Double.parseDouble(itemPrice.getText().toString().replaceAll("[$]", ""));
-                        Item itemCart = new Item(NameItem, Integer.parseInt(amount.getText().toString()), " ", PriceItem);
-                        itemListCart.add(itemCart);
-                        itemList2.setItemList(itemListCart);
 
                         ((userMain) getActivity()).isPurchase(false);
-                        String listAsString = "";
                         isAddToCart = true;
                         if (!((userMain) getActivity()).getPurchaseStatus()) {
+                            String NameItem = itemName.getText().toString();
+                            double PriceItem = Double.parseDouble(itemPrice.getText().toString().replaceAll("[$]", ""));
+                            Item itemCart = new Item(NameItem, Integer.parseInt(amount.getText().toString()), category_title.getText().toString(), PriceItem);
+                            itemListCart.add(itemCart);
                             listAsString = new Gson().toJson(itemListCart);
                             ((userMain) getActivity()).isPurchase(isAddToCart);
+                            ((userMain) getActivity()).setFirstAddToCart(false);
                         }
                         iSendDataListener.sendData(listAsString);
                         dialog.dismiss();
