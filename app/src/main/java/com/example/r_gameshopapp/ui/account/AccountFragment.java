@@ -18,6 +18,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import com.example.r_gameshopapp.BackgroundMusicService;
 import com.example.r_gameshopapp.DatabaseManager;
@@ -138,7 +139,7 @@ public class AccountFragment extends Fragment {
         dialogBuilder = new AlertDialog.Builder(context);
         final View addBalancePopupView = getLayoutInflater().inflate(R.layout.add_balance_popup, null);
         current_balance_popup = (TextView) addBalancePopupView.findViewById(R.id.current_balance_popup);
-        current_balance_popup.setText("CURRENT BALANCE:  " + cursor.getString(3));
+        current_balance_popup.setText("CURRENT BALANCE: $" + String.format("%.2f", Double.parseDouble(cursor.getString(3).replaceAll("[$]", ""))));
 
         dialogBuilder.setView(addBalancePopupView);
         dialog = dialogBuilder.create();
@@ -157,8 +158,11 @@ public class AccountFragment extends Fragment {
             public void onClick(View v){
                 if (isNumeric(amount.getText().toString()) == true) {
                     dbManager.changeBalance(cursor.getString(1),Double.parseDouble(cursor.getString(3).replaceAll("[$]", ""))+Double.parseDouble(new DecimalFormat("##.##").format(Double.parseDouble(amount.getText().toString()))));
+
+                    changeText("CURRENT BALANCE: $" + Double.parseDouble(new DecimalFormat("##.##").format(Double.parseDouble(cursor.getString(3).replaceAll("[$]", "")))));
                 }
                 dialog.dismiss();
+                current_balance.setText("CURRENT BALANCE: $" + Double.parseDouble(new DecimalFormat("##.##").format(Double.parseDouble(cursor.getString(3).replaceAll("[$]", "")))));
             }
         });
     }
@@ -197,7 +201,9 @@ public class AccountFragment extends Fragment {
             }
         });
     }
-
+    public void changeText(String text){
+        current_balance.setText(text);
+    }
     @Override
     public void onDestroyView() {
         super.onDestroyView();
