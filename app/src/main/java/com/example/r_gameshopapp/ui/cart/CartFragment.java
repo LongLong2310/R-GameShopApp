@@ -1,15 +1,19 @@
 package com.example.r_gameshopapp.ui.cart;
 
+import static com.example.r_gameshopapp.ui.home.HomeFragment.isNumeric;
+
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -20,26 +24,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentResultListener;
-import androidx.lifecycle.ViewModelProvider;
 
 import com.example.r_gameshopapp.BackgroundMusicService;
 import com.example.r_gameshopapp.DatabaseManager;
-import com.example.r_gameshopapp.GridAdapter;
 import com.example.r_gameshopapp.Item;
-import com.example.r_gameshopapp.ItemList;
 import com.example.r_gameshopapp.ListAdapter;
 import com.example.r_gameshopapp.R;
 import com.example.r_gameshopapp.databinding.FragmentCartBinding;
-import com.example.r_gameshopapp.ui.home.HomeFragment;
 import com.example.r_gameshopapp.userMain;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -60,6 +54,11 @@ public class CartFragment extends Fragment{
     private double balance, total = 0;
     ListView cartList;
     private ArrayList<Item> itemCartList;
+    private TextView itemName, itemStock, itemPrice, amount;
+    private Button button_update_cart;
+    private ImageView img;
+    private Item updateItem;
+    private ListAdapter listAdapter;
 
     public CartFragment() {
 
@@ -80,9 +79,40 @@ public class CartFragment extends Fragment{
         if (((userMain) getActivity()).getPurchaseStatus()) {
             List<Item> list = new Gson().fromJson(((userMain) getActivity()).getTest(), new TypeToken<List<Item>>(){}.getType());
             itemCartList = new ArrayList<Item>(list);
-            ListAdapter listAdapter = new ListAdapter(context, R.layout.fragment_cart_item, itemCartList);
+            listAdapter = new ListAdapter(context, R.layout.fragment_cart_item, itemCartList);
             cartList.setAdapter(listAdapter);
+            cartList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    AlertDialog dialog = new
+                            AlertDialog.Builder(context).create();
+                    dialog.setTitle(itemCartList.get(position).getitemName());
+                    dialog.setMessage("Do you want to delete or update this stock?");
+                    dialog.setButton(AlertDialog.BUTTON_POSITIVE,
+                            "Delete",
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int
+                                        which) {
+                                    itemCartList.remove(itemCartList.get(position));
+                                    ((userMain) getActivity()).setCurrentItemList(itemCartList);
+                                    listAdapter.notifyDataSetChanged();
 
+                                }
+                            });
+                    dialog.setButton(AlertDialog.BUTTON_NEGATIVE,
+                            "Update",
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int
+                                        which) {
+                                    createUpdateItemDetailDialog(context,itemCartList.get(position), position);
+                                    listAdapter.notifyDataSetChanged();
+                                }
+                            });
+                    dialog.show();
+                }
+            });
             totalTextView = root.findViewById(R.id.total_price);
             for (int i = 0; i < itemCartList.size(); i++) {
                 total += itemCartList.get(i).getitemPrice()*itemCartList.get(i).getitemStock();
@@ -105,6 +135,7 @@ public class CartFragment extends Fragment{
                         ((userMain) getActivity()).isPurchase(false);
                         cartList.setAdapter(null);
                         itemCartList.clear();
+                        ((userMain) getActivity()).setFirstAddToCart(true);
                     } else {
                         Toast.makeText(getContext(), " over balance", Toast.LENGTH_SHORT).show();
                     }
@@ -122,8 +153,73 @@ public class CartFragment extends Fragment{
         balanceTextView = root.findViewById(R.id.balance);
         balanceTextView.setText("CURRENT BALANCE: $"+ Double.parseDouble(new DecimalFormat("##.##").format(Double.parseDouble(u.getString(3).replaceAll("[$]", "")))));
 
+        ((userMain) getActivity()).setCurrentItemList(itemCartList);
         return root;
     }
+
+    public void createUpdateItemDetailDialog(Context context, Item item, int position){
+        dialogBuilder = new AlertDialog.Builder(context);
+        dbManager = new DatabaseManager(getActivity());
+        dbManager.open();
+        Cursor cursor = dbManager.searchStockName(item.getitemName());
+        String itemStockDB = cursor.getString(4);
+        final View itemDetailPopupView = getLayoutInflater().inflate(R.layout.item_detail, null);
+        itemName = (TextView) itemDetailPopupView.findViewById(R.id.item_name);
+        itemName.setText(item.getitemName());
+        itemStock = (TextView) itemDetailPopupView.findViewById(R.id.item_stock);
+        itemStock.setText("STOCK: " +  itemStockDB);
+        itemPrice = (TextView) itemDetailPopupView.findViewById(R.id.item_price);
+        itemPrice.setText("$" + (item.getitemPrice()));
+        amount = (EditText) itemDetailPopupView.findViewById(R.id.amount);
+        img = (ImageView) itemDetailPopupView.findViewById(R.id.imageView);
+        if (item.getitemCategory().equals("GAME")) {
+            img.setImageResource(R.drawable.game);
+        }
+        if (item.getitemCategory().equals("CONSOLE")) {
+            img.setImageResource(R.drawable.console);
+        }
+        if (item.getitemCategory().equals("ACCESSORY")) {
+            img.setImageResource(R.drawable.accessories);
+        }
+
+        if (item.getitemStock() == 0) {
+            itemStock.setTextColor(Color.RED);
+        }
+
+        cancel_button = (ImageButton) itemDetailPopupView.findViewById(R.id.cancel_button);
+        button_update_cart = (Button) itemDetailPopupView.findViewById(R.id.button_add_to_cart);
+        button_update_cart.setText("Update");
+
+        dialogBuilder.setView(itemDetailPopupView);
+        dialog = dialogBuilder.create();
+        dialog.show();
+
+        cancel_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v){
+                dialog.dismiss();
+            }
+        });
+
+        button_update_cart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isNumeric(amount.getText().toString())) {
+                    if (Integer.parseInt(amount.getText().toString()) <= Integer.parseInt(itemStockDB)) {
+                        String NameItem = itemName.getText().toString();
+                        double PriceItem = Double.parseDouble(itemPrice.getText().toString().replaceAll("[$]", ""));
+                        updateItem = new Item(NameItem, Integer.parseInt(amount.getText().toString()),item.getitemCategory(), PriceItem);
+                        itemCartList.set(position, updateItem);
+                        listAdapter.notifyDataSetChanged();
+                        dialog.dismiss();
+                    } else {
+                        Toast.makeText(getContext(), "Buy amount over stock", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+        });
+    }
+
 
     private void showMenu(View v) {
         Context wrapper = new ContextThemeWrapper(getContext(), R.style.PopupMenu);

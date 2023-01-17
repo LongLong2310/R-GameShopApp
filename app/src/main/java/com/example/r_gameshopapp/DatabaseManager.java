@@ -390,17 +390,6 @@ public class DatabaseManager {
     }
 
     public Cursor selectUserPurchaseHistory(String CustomerID) {
-        String[] columns = new String[]{
-                DatabaseHelper.ID,
-                DatabaseHelper.CID,
-                DatabaseHelper.PRODUCTLIST,
-                DatabaseHelper.DATE,
-                DatabaseHelper.TOTAL
-        };
-//        Cursor cursor = database.query(DatabaseHelper.TABLE_NAME_H, columns,
-//                null, null, null, null, null);
-
-
         Cursor cursor = database.rawQuery("SELECT * FROM " + DatabaseHelper.TABLE_NAME_H + " WHERE " + DatabaseHelper.CID + " LIKE ?", new String[]{"%" + CustomerID + "%"});
 
 
