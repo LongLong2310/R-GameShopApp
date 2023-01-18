@@ -30,6 +30,7 @@ import com.example.r_gameshopapp.ui.cart.CartFragment;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -151,6 +152,7 @@ public class adminHistory extends AppCompatActivity {
         for (int i = 0; i < itemCartList.size(); i++) {
             total += itemCartList.get(i).getitemPrice() * itemCartList.get(i).getitemStock();
         }
+        total=Double.parseDouble(new DecimalFormat("##.##").format(total));
         totalTextView.setText(total + "$");
         ImageButton cancel_button = (ImageButton) itemDetailPopupView.findViewById(R.id.cancel_button);
         cancel_button.setOnClickListener(new View.OnClickListener() {
