@@ -59,7 +59,7 @@
             android:text="STOCK: 0"
             android:textColor="@color/white"
             android:layout_weight="1"
-            android:textSize="30sp" />
+            android:textSize="28sp" />
         <TextView
             android:id="@+id/item_price"
             android:layout_width="wrap_content"
@@ -68,7 +68,7 @@
             android:fontFamily="@font/oswald_regular"
             android:text="$0"
             android:textColor="@color/white"
-            android:textSize="30sp" />
+            android:textSize="28sp" />
     </LinearLayout>
     <LinearLayout
         android:layout_width="wrap_content"
@@ -82,14 +82,14 @@
             android:text="AMOUNT:  "
             android:textColor="@color/white"
             android:fontFamily="@font/oswald_regular"
-            android:textSize="30sp"/>
+            android:textSize="28sp"/>
         <EditText
             android:id="@+id/amount"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/edittext_bg"
             android:ems="2"
-            android:textSize="30sp"
+            android:textSize="28sp"
             android:gravity="center"
             android:textColor="@color/white"
             android:inputType="number"

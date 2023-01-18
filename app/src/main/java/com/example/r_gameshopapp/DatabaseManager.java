@@ -60,7 +60,7 @@ public class DatabaseManager {
         contentValue.put(DatabaseHelper.CID, cusID);
         contentValue.put(DatabaseHelper.PRODUCTLIST, new Gson().toJson(productList));
         contentValue.put(DatabaseHelper.DATE, formatDateTime);
-        contentValue.put(DatabaseHelper.TOTAL, total + "$");
+        contentValue.put(DatabaseHelper.TOTAL, "$" + total);
         database.insert(DatabaseHelper.TABLE_NAME_H, null, contentValue);
     }
 

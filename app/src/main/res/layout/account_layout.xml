@@ -51,7 +51,7 @@
             android:layout_marginRight="6dp"
             android:layout_toRightOf="@+id/Balance"
             android:fontFamily="@font/oswald_bold"
-            android:padding="6dp"
+            android:padding="3dp"
             android:textAlignment="textStart"
             android:textColor="@color/white"
             android:visibility="visible" />

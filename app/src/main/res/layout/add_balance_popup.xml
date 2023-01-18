@@ -5,13 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_color"
-    android:gravity="center"
+    android:gravity="center_horizontal"
     android:orientation="vertical"
     tools:context=".ui.account.AccountFragment">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="100dp">
+        android:layout_height="?attr/actionBarSize">
         <ImageButton
             android:layout_width="wrap_content"
             android:id="@+id/button_cancel"
@@ -31,55 +31,42 @@
             android:textSize="35sp" />
     </RelativeLayout>
 
-    <RelativeLayout
+    <TextView
+        android:id="@+id/current_balance_popup"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:layout_marginTop="100dp">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/oswald_regular"
+        android:gravity="center"
+        android:text="CURRENT BALANCE:  $1000"
+        android:textColor="@color/white"
+        android:textSize="28sp" />
 
-        <TextView
-            android:id="@+id/current_balance_popup"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:fontFamily="@font/oswald_regular"
-            android:gravity="center"
-            android:text="CURRENT BALANCE: $1000"
-            android:textColor="@color/white"
-            android:textSize="30sp" />
-    </RelativeLayout>
-
-    <RelativeLayout
+    <EditText
+        android:id="@+id/amount"
         android:layout_width="252dp"
         android:layout_height="53dp"
-        android:layout_marginTop="40dp">
-
-        <EditText
-            android:id="@+id/amount"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/edittext_bg"
-            android:ems="10"
-            android:fontFamily="@font/oswald_regular"
-            android:gravity="center"
-            android:hint="Enter Amount"
-            android:inputType="numberDecimal"
-            android:textColor="@color/border_color"
-            android:textColorHint="@color/border_color" />
-    </RelativeLayout>
-    <RelativeLayout
-        android:layout_width="345dp"
-        android:layout_height="58dp"
-        android:layout_marginTop="40dp"
-        android:layout_marginBottom="30dp">
+        android:layout_marginTop="20dp"
+        android:background="@drawable/edittext_bg"
+        android:ems="10"
+        android:fontFamily="@font/oswald_regular"
+        android:padding="10dp"
+        android:hint="Enter Amount"
+        android:inputType="numberDecimal"
+        android:textColor="@color/border_color"
+        android:textColorHint="@color/border_color" />
 
         <Button
             android:id="@+id/button_add"
             android:layout_width="296dp"
-            android:layout_height="match_parent"
-            android:layout_centerHorizontal="true"
+            android:layout_height="58dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="20dp"
             android:backgroundTint="@color/border_color"
             android:gravity="center"
             android:text="ADD BALANCE"
+            android:fontFamily="@font/oswald_regular"
+            android:textSize="20sp"
+            android:letterSpacing="0.1"
             android:textColor="@color/background_color" />
-    </RelativeLayout>
 </LinearLayout>

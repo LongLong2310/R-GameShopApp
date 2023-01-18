@@ -58,15 +58,12 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
         </ScrollView>
-
-
         <ListView
             android:id="@+id/list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:dividerHeight="15dp"
-            android:padding="10dp"
-            tools:layout_editor_absoluteY="643dp"></ListView>
+            android:layout_margin="10dp" />
     </RelativeLayout>
 
 </LinearLayout>

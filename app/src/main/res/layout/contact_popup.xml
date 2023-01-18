@@ -60,12 +60,15 @@
         android:textColorHint="@color/border_color" />
         <Button
             android:id="@+id/button_send"
-            android:layout_width="293dp"
+            android:layout_width="273dp"
             android:layout_height="58dp"
             android:layout_marginTop="30dp"
             android:layout_marginBottom="20dp"
             android:backgroundTint="@color/border_color"
             android:gravity="center"
             android:text="SEND"
+            android:textSize="20sp"
+            android:letterSpacing="0.1"
+            android:fontFamily="@font/oswald_regular"
             android:textColor="@color/background_color" />
 </LinearLayout>

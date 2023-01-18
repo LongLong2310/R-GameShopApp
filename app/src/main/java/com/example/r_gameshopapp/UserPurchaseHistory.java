@@ -147,7 +147,7 @@ public class UserPurchaseHistory extends AppCompatActivity {
             total += itemCartList.get(i).getitemPrice() * itemCartList.get(i).getitemStock();
         }
         total=Double.parseDouble(new DecimalFormat("##.##").format(total));
-        totalTextView.setText(total + "$");
+        totalTextView.setText("$" + total);
         dialogBuilder.setView(itemDetailPopupView);
         ImageButton cancel_button = (ImageButton) itemDetailPopupView.findViewById(R.id.cancel_button);
         cancel_button.setOnClickListener(new View.OnClickListener() {

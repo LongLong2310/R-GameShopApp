@@ -1,114 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="90dp"
     android:layout_margin="15dp"
-    android:background="@drawable/customer_border"
-    android:orientation="vertical" >
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="10dp">
-
-        <TextView
-            android:id="@+id/lTotalPrice"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/lTransactionIdTitle"
-            android:layout_toRightOf="@+id/lTotalTitle"
-            android:ellipsize="end"
-            android:fontFamily="@font/game_played"
-            android:textSize="17sp"
-            android:maxLines="3"
-            android:padding="3dp"
-            android:textAlignment="textEnd"
-            android:textColor="@color/white"
-            android:visibility="visible" />
-
-        <TextView
-            android:id="@+id/lTotalTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/lTransactionIdTitle"
-            android:layout_marginLeft="40dp"
-            android:layout_toRightOf="@+id/lDate"
-            android:ellipsize="end"
-            android:fontFamily="@font/game_played"
-            android:maxLines="3"
-            android:padding="3dp"
-            android:text="Total: "
-            android:textStyle="bold"
-            android:textAlignment="textEnd"
-            android:textColor="@color/white"
-            android:textSize="17sp"
-            android:visibility="visible" />
-
-        <TextView
-            android:id="@+id/lDate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/lTransactionIdTitle"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="6dp"
-            android:textSize="17sp"
-            android:textStyle="bold"
-            android:fontFamily="@font/game_played"
-            android:padding="3dp"
-            android:layout_toRightOf="@+id/lDateTitle"
-            android:textColor="@color/white"
-            android:visibility="visible" />
-
-        <TextView
-            android:id="@+id/lDateTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/lTransactionIdTitle"
-            android:layout_alignParentLeft="true"
-            android:fontFamily="@font/game_played"
-            android:padding="3dp"
-            android:textSize="17sp"
-            android:textStyle="bold"
-            android:text="Date: "
-
-            android:textColor="@color/white"
-            android:visibility="visible" />
-
+    android:background="@drawable/button_border"
+    android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="10dp">
         <TextView
             android:id="@+id/lTransactionIdTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:fontFamily="@font/game_played"
-            android:maxLines="1"
-            android:padding="3dp"
-            android:textColor="@color/white"
-            android:textSize="17sp"
+            android:layout_marginStart="10dp"
+            android:fontFamily="@font/oswald_bold"
+            android:letterSpacing="0.05"
+            android:textSize="18sp"
             android:layout_marginTop="10dp"
+            android:textColor="@color/white"
             android:textAlignment="textStart"
-            android:text="Transaction ID: "
-            android:textStyle="bold" />
-
+            android:text="Transaction ID: " />
         <TextView
             android:id="@+id/lTransactionId"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:fontFamily="@font/game_played"
-            android:maxLines="1"
-            android:padding="3dp"
-            android:layout_toRightOf="@+id/lTransactionIdTitle"
+            android:fontFamily="@font/oswald_regular"
+            android:letterSpacing="0.05"
             android:textColor="@color/white"
-            android:textSize="17sp"
+            android:textSize="18sp"
             android:layout_marginTop="10dp"
-            android:textAlignment="textStart"
-            android:textStyle="bold" />
-
-
-
-    </RelativeLayout>
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+            android:textAlignment="textStart" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_weight="1">
+            <TextView
+                android:id="@+id/lDateTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:fontFamily="@font/oswald_bold"
+                android:letterSpacing="0.05"
+                android:textSize="18sp"
+                android:textColor="@color/white"
+                android:text="Date: "
+                android:visibility="visible" />
+            <TextView
+                android:id="@+id/lDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:textColor="@color/white"
+                android:letterSpacing="0.05"
+                android:fontFamily="@font/oswald_regular"
+                android:visibility="visible" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+>
+            <TextView
+                android:id="@+id/lTotalTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/oswald_bold"
+                android:letterSpacing="0.05"
+                android:text="Total: "
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:visibility="visible" />
+            <TextView
+                android:id="@+id/lTotalPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/oswald_regular"
+                android:textSize="18sp"
+                android:letterSpacing="0.05"
+                android:textColor="@color/white"
+                android:layout_marginEnd="10dp"
+                android:visibility="visible" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

@@ -72,7 +72,6 @@
             android:textSize="17sp"
             android:textStyle="bold"
             android:text="Date: "
-
             android:textColor="@color/white"
             android:visibility="visible" />
 

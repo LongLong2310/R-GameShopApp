@@ -36,8 +36,9 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="230dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="30dp"
             app:srcCompat="@drawable/account" />
+
         <TextView
             android:id="@+id/user_name"
             android:layout_width="match_parent"
@@ -48,11 +49,12 @@
             android:text="USERNAME"
             android:textColor="@color/white"
             android:textSize="30sp" />
+
         <TextView
             android:id="@+id/current_balance"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="28dp"
             android:fontFamily="@font/oswald_regular"
             android:gravity="center"
             android:text="CURRENT BALANCE: $1000"
@@ -62,7 +64,7 @@
             android:id="@+id/add_balance_button"
             android:layout_width="227dp"
             android:layout_height="match_parent"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="60dp"
             android:layout_gravity="center"
             android:backgroundTint="@color/border_color"
             android:fontFamily="@font/oswald_regular"
@@ -76,7 +78,7 @@
             android:layout_height="match_parent"
             android:id="@+id/purchase_history_button"
             android:background="@drawable/button_border"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="25dp"
             android:layout_gravity="center"
             android:text="VIEW PAST PURCHASE"
             android:fontFamily="@font/oswald_regular"
