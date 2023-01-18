@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">R-GameShopApp</string>
+    <string name="app_name">R-GameShop</string>
     <string name="title_home">Home</string>
     <string name="title_account">Account</string>
     <string name="title_cart">Cart</string>
