@@ -65,7 +65,7 @@ public class stockScreen extends AppCompatActivity {
         arrayList.add("Name");
         arrayList.add("ID");
         arrayList.add("Type");
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this,R.layout.spinner_item, arrayList);
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, R.layout.spinner_item, arrayList);
         arrayAdapter.setDropDownViewResource(R.layout.spinner_dropdown_layout);
         spinnerFilter.setAdapter(arrayAdapter);
         spinnerFilter.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -84,7 +84,7 @@ public class stockScreen extends AppCompatActivity {
         arrayListType.add("GAME");
         arrayListType.add("CONSOLE");
         arrayListType.add("ACCESSORY");
-        ArrayAdapter<String> arrayAdapterType = new ArrayAdapter<String>(this,R.layout.spinner_type, arrayListType);
+        ArrayAdapter<String> arrayAdapterType = new ArrayAdapter<String>(this, R.layout.spinner_type, arrayListType);
         autoCompleteTextView = findViewById(R.id.filled_exposed);
         autoCompleteTextView.setAdapter(arrayAdapterType);
         autoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -118,13 +118,13 @@ public class stockScreen extends AppCompatActivity {
     }
 
     @Override
-    protected void onResume(){
+    protected void onResume() {
         super.onResume();
         showStockList();
     }
 
     //One method to set visibility for our widgets
-    private void setVisible(int id, boolean isVisible){
+    private void setVisible(int id, boolean isVisible) {
         View aView = findViewById(id);
         if (isVisible)
             aView.setVisibility(View.VISIBLE);
@@ -139,13 +139,12 @@ public class stockScreen extends AppCompatActivity {
         EditText tPrice = null;
 
         if (findViewById(R.id.addLayout).getVisibility() == View.VISIBLE) {
-            tName= findViewById(R.id.tName);
+            tName = findViewById(R.id.tName);
             tType = findViewById(R.id.filled_exposed);
             tStockNum = findViewById(R.id.tStockNum);
             tPrice = findViewById(R.id.tPrice);
-        }
-        else if (findViewById(R.id.updateLayout).getVisibility() == View.VISIBLE) {
-            tName= findViewById(R.id.tNameUpdate);
+        } else if (findViewById(R.id.updateLayout).getVisibility() == View.VISIBLE) {
+            tName = findViewById(R.id.tNameUpdate);
             tType = findViewById(R.id.filled_exposed_update);
             tStockNum = findViewById(R.id.tStockNumUpdate);
             tPrice = findViewById(R.id.tPriceUpdate);
@@ -163,12 +162,12 @@ public class stockScreen extends AppCompatActivity {
     }
 
     public void onAddStock(View view) {
-        EditText tName= findViewById(R.id.tName);
+        EditText tName = findViewById(R.id.tName);
         AutoCompleteTextView tType = findViewById(R.id.filled_exposed);
         EditText tStockNum = findViewById(R.id.tStockNum);
         EditText tPrice = findViewById(R.id.tPrice);
         if (tName.getText().toString().equals("") || tType.getText().toString().equals("") ||
-                tStockNum.getText().toString().equals("") || tPrice.getText().toString().equals("")){
+                tStockNum.getText().toString().equals("") || tPrice.getText().toString().equals("")) {
             AlertDialog dialog = new
                     AlertDialog.Builder(stockScreen.this).create();
             dialog.setTitle("Invalid input");
@@ -185,7 +184,7 @@ public class stockScreen extends AppCompatActivity {
             dialog.show();
             return;
         }
-        if (!isNumeric(tStockNum.getText().toString()) || !isNumeric(tPrice.getText().toString())||dbManager.checkStock(tName.getText().toString())==true) {
+        if (!isNumeric(tStockNum.getText().toString()) || !isNumeric(tPrice.getText().toString()) || dbManager.checkStock(tName.getText().toString()) == true) {
             AlertDialog dialog = new
                     AlertDialog.Builder(stockScreen.this).create();
             dialog.setTitle("Invalid input");
@@ -211,7 +210,7 @@ public class stockScreen extends AppCompatActivity {
         tStockNum.setText("");
         tPrice.setText("");
         tType.setText("");
-        setVisible(R.id.addLayout,false);
+        setVisible(R.id.addLayout, false);
         showStockList();
     }
 
@@ -219,11 +218,10 @@ public class stockScreen extends AppCompatActivity {
         setVisible(R.id.addLayout, false);
         dbManager.open();
         cursor = dbManager.selectAllStock();
-        if (cursor.getCount() == 0){
+        if (cursor.getCount() == 0) {
 //            setVisible(R.id.noRecordText, true);
             setVisible(R.id.list, false);
-        }
-        else {
+        } else {
             listView = (ListView) findViewById(R.id.list);
             setVisible(R.id.list, true);
             SimpleCursorAdapter adapter = new SimpleCursorAdapter(
@@ -263,9 +261,10 @@ public class stockScreen extends AppCompatActivity {
             });
         }
     }
+
     public void onAddClick(View view) {
         LinearLayout addLayout = findViewById(R.id.addLayout);
-        setVisible(R.id.addLayout,true);
+        setVisible(R.id.addLayout, true);
         setVisible(R.id.list, true);
     }
 
@@ -274,19 +273,19 @@ public class stockScreen extends AppCompatActivity {
     }
 
     @Override
-    protected void onDestroy(){
+    protected void onDestroy() {
         super.onDestroy();
         dbManager.close();
     }
 
     public void onUpdateStock(View view) {
-        EditText tName= findViewById(R.id.tNameUpdate);
+        EditText tName = findViewById(R.id.tNameUpdate);
         AutoCompleteTextView tType = findViewById(R.id.filled_exposed_update);
         EditText tStockNum = findViewById(R.id.tStockNumUpdate);
         EditText tPrice = findViewById(R.id.tPriceUpdate);
 
         if (tName.getText().toString().equals("") || tType.getText().toString().equals("") ||
-                tStockNum.getText().toString().equals("") || tPrice.getText().toString().equals("")){
+                tStockNum.getText().toString().equals("") || tPrice.getText().toString().equals("")) {
             AlertDialog dialog = new
                     AlertDialog.Builder(stockScreen.this).create();
             dialog.setTitle("Invalid input");
@@ -303,7 +302,7 @@ public class stockScreen extends AppCompatActivity {
             dialog.show();
             return;
         }
-        if (!isNumeric(tStockNum.getText().toString()) || !isNumeric(tPrice.getText().toString())||((dbManager.checkStock(tName.getText().toString())==true) && (!tName.getText().toString().equals(cursor.getString(1))))) {
+        if (!isNumeric(tStockNum.getText().toString()) || !isNumeric(tPrice.getText().toString()) || ((dbManager.checkStock(tName.getText().toString()) == true) && (!tName.getText().toString().equals(cursor.getString(1))))) {
             AlertDialog dialog = new
                     AlertDialog.Builder(stockScreen.this).create();
             dialog.setTitle("Invalid input");
@@ -330,7 +329,7 @@ public class stockScreen extends AppCompatActivity {
         tType.setText("");
         tStockNum.setText("");
         tPrice.setText("");
-        setVisible(R.id.updateLayout,false);
+        setVisible(R.id.updateLayout, false);
         showStockList();
     }
 
@@ -371,21 +370,18 @@ public class stockScreen extends AppCompatActivity {
     private void searchStock(String string) {
         if (selectedFilter.equals("Name")) {
             cursor = dbManager.searchStockName(string);
-        }
-        else if (selectedFilter.equals("ID")) {
+        } else if (selectedFilter.equals("ID")) {
             cursor = dbManager.searchStockID(string);
-        }
-        else {
+        } else {
             cursor = dbManager.searchStockType(string);
         }
 
         SimpleCursorAdapter adapter = new SimpleCursorAdapter(
                 this, R.layout.activity_view_record, cursor, from, to, 0);
         adapter.notifyDataSetChanged();
-        if(cursor.getCount() == 0) {
+        if (cursor.getCount() == 0) {
             Toast.makeText(this, "No match found", Toast.LENGTH_SHORT).show();
-        }
-        else {
+        } else {
             listView.setAdapter(adapter);
         }
     }

@@ -53,17 +53,17 @@ public class AccountFragment extends Fragment {
         dbManager.open();
         user_name = (TextView) root.findViewById(R.id.user_name);
         current_balance = (TextView) root.findViewById(R.id.current_balance);
-        cursor = dbManager.searchAccountID(Integer.toString(((userMain)getActivity()).getid()));
+        cursor = dbManager.searchAccountID(Integer.toString(((userMain) getActivity()).getid()));
 
         user_name.setText(cursor.getString(1));
         current_balance.setText("CURRENT BALANCE: $" + Double.parseDouble(new DecimalFormat("##.##").format(Double.parseDouble(cursor.getString(3).replaceAll("[$]", "")))));
 
         add_balance = (Button) root.findViewById(R.id.add_balance_button);
         add_balance.setOnClickListener(new View.OnClickListener() {
-               @Override
-               public void onClick(View v) {
-                    createAddBalanceDialog(inflater.getContext());
-               }
+            @Override
+            public void onClick(View v) {
+                createAddBalanceDialog(inflater.getContext());
+            }
         });
 
         more_button.setOnClickListener(new View.OnClickListener() {
@@ -94,11 +94,11 @@ public class AccountFragment extends Fragment {
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                if(item.getItemId() == R.id.music)
+                if (item.getItemId() == R.id.music)
                     createServiceDialog(getLayoutInflater().getContext());
-                if(item.getItemId() == R.id.logout)
+                if (item.getItemId() == R.id.logout)
                     requireActivity().finish();
-                if(item.getItemId() == R.id.contact)
+                if (item.getItemId() == R.id.contact)
                     createContactUsDialog(getLayoutInflater().getContext());
                 return true;
             }
@@ -129,7 +129,7 @@ public class AccountFragment extends Fragment {
         cancel_button = (ImageButton) backgroundMusicPopupView.findViewById(R.id.cancel_button);
         cancel_button.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v){
+            public void onClick(View v) {
                 dialog.dismiss();
             }
         });
@@ -144,21 +144,21 @@ public class AccountFragment extends Fragment {
         dialogBuilder.setView(addBalancePopupView);
         dialog = dialogBuilder.create();
         dialog.show();
-        amount= (EditText) addBalancePopupView.findViewById(R.id.amount);
+        amount = (EditText) addBalancePopupView.findViewById(R.id.amount);
         cancel_button = (ImageButton) addBalancePopupView.findViewById(R.id.button_cancel);
         cancel_button.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v){
+            public void onClick(View v) {
                 dialog.dismiss();
             }
         });
         add_balance = (Button) addBalancePopupView.findViewById(R.id.button_add);
         add_balance.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v){
+            public void onClick(View v) {
                 if (isNumeric(amount.getText().toString()) == true) {
-                    dbManager.changeBalance(cursor.getString(1),Double.parseDouble(cursor.getString(3).replaceAll("[$]", ""))+Double.parseDouble(new DecimalFormat("##.##").format(Double.parseDouble(amount.getText().toString()))));
-                    cursor = dbManager.searchAccountID(Integer.toString(((userMain)getActivity()).getid()));
+                    dbManager.changeBalance(cursor.getString(1), Double.parseDouble(cursor.getString(3).replaceAll("[$]", "")) + Double.parseDouble(new DecimalFormat("##.##").format(Double.parseDouble(amount.getText().toString()))));
+                    cursor = dbManager.searchAccountID(Integer.toString(((userMain) getActivity()).getid()));
                     current_balance.setText("CURRENT BALANCE: $" + Double.parseDouble(new DecimalFormat("##.##").format(Double.parseDouble(cursor.getString(3).replaceAll("[$]", "")))));
                 }
                 dialog.dismiss();
@@ -179,12 +179,12 @@ public class AccountFragment extends Fragment {
         contactConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String to="chitoan.tran@yahoo.com.vn";
+                String to = "chitoan.tran@yahoo.com.vn";
                 String subject = editTextSubject.getText().toString();
                 String message = editTextContact.getText().toString();
 
                 Intent email = new Intent(Intent.ACTION_SEND);
-                email.putExtra(Intent.EXTRA_EMAIL, new String[]{ to});
+                email.putExtra(Intent.EXTRA_EMAIL, new String[]{to});
                 email.putExtra(Intent.EXTRA_SUBJECT, subject);
                 email.putExtra(Intent.EXTRA_TEXT, message);
 
@@ -196,16 +196,18 @@ public class AccountFragment extends Fragment {
         cancel_button = (ImageButton) contactUsPopupView.findViewById(R.id.button_cancel);
         cancel_button.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v){
+            public void onClick(View v) {
                 dialog.dismiss();
             }
         });
     }
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
     }
+
     public static boolean isNumeric(String strNum) {
         if (strNum == null) {
             return false;

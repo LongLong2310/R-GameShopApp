@@ -22,7 +22,7 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 
-public class userMain extends AppCompatActivity implements HomeFragment.ISendDataListener{
+public class userMain extends AppCompatActivity implements HomeFragment.ISendDataListener {
 
     private ActivityMainBinding binding;
     private String test = "";
@@ -52,9 +52,9 @@ public class userMain extends AppCompatActivity implements HomeFragment.ISendDat
     }
 
 
-    public int getid(){
+    public int getid() {
         Bundle bundle = getIntent().getExtras();
-        int i=bundle.getInt("id");
+        int i = bundle.getInt("id");
         return i;
     }
 
@@ -74,7 +74,7 @@ public class userMain extends AppCompatActivity implements HomeFragment.ISendDat
 
     @Override
     public void sendData(String string) {
-            test = string;
+        test = string;
     }
 
     public boolean getPurchaseStatus() {

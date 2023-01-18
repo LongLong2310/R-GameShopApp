@@ -51,9 +51,9 @@ public class HomeFragment extends Fragment {
     private AlertDialog dialog;
     private TextView itemName, itemStock, itemPrice, amount, category_title, no_result, editTextContact, editTextSubject;
     private ImageButton cancel_button, more_button, search_button;
-    private Button  button_add_to_cart, game_category_button,
-                    console_category_button, accessories_category_button,
-                    all_category_button, play_button, stop_button, contactConfirm;
+    private Button button_add_to_cart, game_category_button,
+            console_category_button, accessories_category_button,
+            all_category_button, play_button, stop_button, contactConfirm;
     private ImageView img;
     private LinearLayout search_bar;
     private DatabaseManager dbManager;
@@ -73,7 +73,7 @@ public class HomeFragment extends Fragment {
 
     private ISendDataListener iSendDataListener;
 
-    public interface ISendDataListener{
+    public interface ISendDataListener {
         void sendData(String string);
     }
 
@@ -105,12 +105,12 @@ public class HomeFragment extends Fragment {
         dbManager = new DatabaseManager(getActivity());
         itemList = dbManager.getAllItem();
         dbManager.open();
-        cursor = dbManager.searchAccountID(Integer.toString(((userMain)getActivity()).getid()));
+        cursor = dbManager.searchAccountID(Integer.toString(((userMain) getActivity()).getid()));
         displayList.clear();
-        for (Item item: itemList){
-            if(item.getitemCategory().equals(selected_category)){
+        for (Item item : itemList) {
+            if (item.getitemCategory().equals(selected_category)) {
                 displayList.add(item);
-            } else if (selected_category.equals("ALL")){
+            } else if (selected_category.equals("ALL")) {
                 displayList.add(item);
             }
         }
@@ -133,8 +133,8 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 gridAdapter.clear();
-                for (Item item: itemList){
-                    if(item.getitemCategory().equals("GAME")) {
+                for (Item item : itemList) {
+                    if (item.getitemCategory().equals("GAME")) {
                         gridAdapter.add(item);
                     }
                 }
@@ -154,8 +154,8 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 gridAdapter.clear();
-                for (Item item: itemList){
-                    if(item.getitemCategory().equals("CONSOLE")) {
+                for (Item item : itemList) {
+                    if (item.getitemCategory().equals("CONSOLE")) {
                         gridAdapter.add(item);
                     }
                 }
@@ -174,8 +174,8 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 gridAdapter.clear();
-                for (Item item: itemList){
-                    if(item.getitemCategory().equals("ACCESSORY")) {
+                for (Item item : itemList) {
+                    if (item.getitemCategory().equals("ACCESSORY")) {
                         gridAdapter.add(item);
                     }
                 }
@@ -194,7 +194,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 gridAdapter.clear();
-                for (Item item: itemList){
+                for (Item item : itemList) {
                     gridAdapter.add(item);
                 }
                 gridAdapter.notifyDataSetChanged();
@@ -221,7 +221,7 @@ public class HomeFragment extends Fragment {
         arrayList.add("Name");
         arrayList.add("Max Price");
         arrayList.add("Min Price");
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getActivity(),R.layout.spinner_item, arrayList);
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getActivity(), R.layout.spinner_item, arrayList);
         arrayAdapter.setDropDownViewResource(R.layout.spinner_dropdown_layout);
         spinnerFilter.setAdapter(arrayAdapter);
         spinnerFilter.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -235,108 +235,112 @@ public class HomeFragment extends Fragment {
 
             }
         });
-            searchView = (SearchView) root.findViewById(R.id.simpleSearchView);
-            SearchManager searchManager = (SearchManager) requireActivity().getSystemService(SEARCH_SERVICE);
-            searchView.setSearchableInfo(searchManager.getSearchableInfo(requireActivity().getComponentName()));
-            searchView.setSubmitButtonEnabled(true);
-            searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-                @Override
-                public boolean onQueryTextSubmit(String query) {
-                    gridAdapter.clear();
-                    if (selectedFilter.equals("Name")) {
-                        for (Item item : itemList) {
-                            if (item.getitemName().toLowerCase(Locale.getDefault()).contains(query.toLowerCase(Locale.getDefault()))) {
-                                gridAdapter.add(item);
-                            }
-                        }
-                    } else if (selectedFilter.equals("Max Price")) {
-                        if (query.length() == 0) {
-                            for (Item item: itemList) {
-                                gridAdapter.add(item);
-                            }
-                        } if (isNumeric(query)) {
-                            for (Item item : itemList) {
-                                if (item.getitemPrice() <= Double.parseDouble(query)) {
-                                    gridAdapter.add(item);
-                                }
-                            }
-                        }
-                    } else if (selectedFilter.equals("Min Price")) {
-                        if (query.length() == 0) {
-                            for (Item item: itemList) {
-                                gridAdapter.add(item);
-                            }
-                        } if (isNumeric(query)) {
-                            for (Item item : itemList) {
-                                if (item.getitemPrice() >= Double.parseDouble(query)) {
-                                    gridAdapter.add(item);
-                                }
-                            }
-                        }
-                    }
-                    gridAdapter.notifyDataSetChanged();
-                    gridList.invalidateViews();
-                    if (gridAdapter.getCount() == 0) {
-                        no_result.setVisibility(View.VISIBLE);
-                    } else {
-                        no_result.setVisibility(View.GONE);
-                    }
-                    return false;
-                }
-
-                @Override
-                public boolean onQueryTextChange(String newText) {
-                    gridAdapter.clear();
-                    if (selectedFilter == null) {
-                        for (Item item: itemList) {
+        searchView = (SearchView) root.findViewById(R.id.simpleSearchView);
+        SearchManager searchManager = (SearchManager) requireActivity().getSystemService(SEARCH_SERVICE);
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(requireActivity().getComponentName()));
+        searchView.setSubmitButtonEnabled(true);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                gridAdapter.clear();
+                if (selectedFilter.equals("Name")) {
+                    for (Item item : itemList) {
+                        if (item.getitemName().toLowerCase(Locale.getDefault()).contains(query.toLowerCase(Locale.getDefault()))) {
                             gridAdapter.add(item);
                         }
-                    } else if (selectedFilter.equals("Name")) {
+                    }
+                } else if (selectedFilter.equals("Max Price")) {
+                    if (query.length() == 0) {
                         for (Item item : itemList) {
-                            if (item.getitemName().toLowerCase(Locale.getDefault()).contains(newText.toLowerCase(Locale.getDefault()))) {
-                                gridAdapter.add(item);
-                            }
+                            gridAdapter.add(item);
                         }
-                    } else if (selectedFilter.equals("Max Price")) {
-                        if (newText.length() == 0) {
-                            for (Item item: itemList) {
+                    }
+                    if (isNumeric(query)) {
+                        for (Item item : itemList) {
+                            if (item.getitemPrice() <= Double.parseDouble(query)) {
                                 gridAdapter.add(item);
-                            }
-                        } if (isNumeric(newText)) {
-                            for (Item item : itemList) {
-                                if (item.getitemPrice() <= Double.parseDouble(newText)) {
-                                    gridAdapter.add(item);
-                                }
-                            }
-                        }
-                    } else if (selectedFilter.equals("Min Price")) {
-                        if (newText.length() == 0) {
-                            for (Item item: itemList) {
-                                gridAdapter.add(item);
-                            }
-                        } if (isNumeric(newText)) {
-                            for (Item item : itemList) {
-                                if (item.getitemPrice() >= Double.parseDouble(newText)) {
-                                    gridAdapter.add(item);
-                                }
                             }
                         }
                     }
-                    gridAdapter.notifyDataSetChanged();
-                    gridList.invalidateViews();
-                    if (gridAdapter.getCount() == 0) {
-                        no_result.setVisibility(View.VISIBLE);
-                    } else {
-                        no_result.setVisibility(View.GONE);
+                } else if (selectedFilter.equals("Min Price")) {
+                    if (query.length() == 0) {
+                        for (Item item : itemList) {
+                            gridAdapter.add(item);
+                        }
                     }
-                    return false;
+                    if (isNumeric(query)) {
+                        for (Item item : itemList) {
+                            if (item.getitemPrice() >= Double.parseDouble(query)) {
+                                gridAdapter.add(item);
+                            }
+                        }
+                    }
                 }
-            });
+                gridAdapter.notifyDataSetChanged();
+                gridList.invalidateViews();
+                if (gridAdapter.getCount() == 0) {
+                    no_result.setVisibility(View.VISIBLE);
+                } else {
+                    no_result.setVisibility(View.GONE);
+                }
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                gridAdapter.clear();
+                if (selectedFilter == null) {
+                    for (Item item : itemList) {
+                        gridAdapter.add(item);
+                    }
+                } else if (selectedFilter.equals("Name")) {
+                    for (Item item : itemList) {
+                        if (item.getitemName().toLowerCase(Locale.getDefault()).contains(newText.toLowerCase(Locale.getDefault()))) {
+                            gridAdapter.add(item);
+                        }
+                    }
+                } else if (selectedFilter.equals("Max Price")) {
+                    if (newText.length() == 0) {
+                        for (Item item : itemList) {
+                            gridAdapter.add(item);
+                        }
+                    }
+                    if (isNumeric(newText)) {
+                        for (Item item : itemList) {
+                            if (item.getitemPrice() <= Double.parseDouble(newText)) {
+                                gridAdapter.add(item);
+                            }
+                        }
+                    }
+                } else if (selectedFilter.equals("Min Price")) {
+                    if (newText.length() == 0) {
+                        for (Item item : itemList) {
+                            gridAdapter.add(item);
+                        }
+                    }
+                    if (isNumeric(newText)) {
+                        for (Item item : itemList) {
+                            if (item.getitemPrice() >= Double.parseDouble(newText)) {
+                                gridAdapter.add(item);
+                            }
+                        }
+                    }
+                }
+                gridAdapter.notifyDataSetChanged();
+                gridList.invalidateViews();
+                if (gridAdapter.getCount() == 0) {
+                    no_result.setVisibility(View.VISIBLE);
+                } else {
+                    no_result.setVisibility(View.GONE);
+                }
+                return false;
+            }
+        });
 
         search_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(search_bar.getVisibility() == View.VISIBLE){
+                if (search_bar.getVisibility() == View.VISIBLE) {
                     search_bar.setVisibility(View.GONE);
                 } else {
                     search_bar.setVisibility(View.VISIBLE);
@@ -360,11 +364,11 @@ public class HomeFragment extends Fragment {
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                if(item.getItemId() == R.id.music)
+                if (item.getItemId() == R.id.music)
                     createServiceDialog(getLayoutInflater().getContext());
-                if(item.getItemId() == R.id.logout)
+                if (item.getItemId() == R.id.logout)
                     requireActivity().finish();
-                if(item.getItemId() == R.id.contact)
+                if (item.getItemId() == R.id.contact)
                     createContactUsDialog(getLayoutInflater().getContext());
                 return true;
             }
@@ -395,13 +399,13 @@ public class HomeFragment extends Fragment {
         cancel_button = (ImageButton) backgroundMusicPopupView.findViewById(R.id.cancel_button);
         cancel_button.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v){
+            public void onClick(View v) {
                 dialog.dismiss();
             }
         });
     }
 
-    public void createItemDetailDialog(Context context, Item item){
+    public void createItemDetailDialog(Context context, Item item) {
         dialogBuilder = new AlertDialog.Builder(context);
         final View itemDetailPopupView = getLayoutInflater().inflate(R.layout.item_detail, null);
         itemName = (TextView) itemDetailPopupView.findViewById(R.id.item_name);
@@ -428,16 +432,16 @@ public class HomeFragment extends Fragment {
 
         cancel_button = (ImageButton) itemDetailPopupView.findViewById(R.id.cancel_button);
         button_add_to_cart = (Button) itemDetailPopupView.findViewById(R.id.button_add_to_cart);
-        
+
         dialogBuilder.setView(itemDetailPopupView);
         dialog = dialogBuilder.create();
         dialog.show();
 
         cancel_button.setOnClickListener(new View.OnClickListener() {
-          @Override
-            public void onClick(View v){
-              dialog.dismiss();
-          }
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
         });
         ((userMain) getActivity()).isPurchase(isAddToCart);
         button_add_to_cart.setOnClickListener(new View.OnClickListener() {
@@ -445,7 +449,7 @@ public class HomeFragment extends Fragment {
             public void onClick(View v) {
                 if (isNumeric(amount.getText().toString())) {
                     if (Integer.parseInt(amount.getText().toString()) <= item.getitemStock()) {
-                        Toast.makeText(getContext(),  "add to cart " + amount.getText().toString()+" "+itemName.getText().toString(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "add to cart " + amount.getText().toString() + " " + itemName.getText().toString(), Toast.LENGTH_SHORT).show();
 
                         ((userMain) getActivity()).isPurchase(false);
                         isAddToCart = true;
@@ -481,12 +485,12 @@ public class HomeFragment extends Fragment {
         contactConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String to="chitoan.tran@yahoo.com.vn";
+                String to = "chitoan.tran@yahoo.com.vn";
                 String subject = editTextSubject.getText().toString();
                 String message = editTextContact.getText().toString();
 
                 Intent email = new Intent(Intent.ACTION_SEND);
-                email.putExtra(Intent.EXTRA_EMAIL, new String[]{ to});
+                email.putExtra(Intent.EXTRA_EMAIL, new String[]{to});
                 email.putExtra(Intent.EXTRA_SUBJECT, subject);
                 email.putExtra(Intent.EXTRA_TEXT, message);
 
@@ -498,7 +502,7 @@ public class HomeFragment extends Fragment {
         cancel_button = (ImageButton) contactUsPopupView.findViewById(R.id.button_cancel);
         cancel_button.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v){
+            public void onClick(View v) {
                 dialog.dismiss();
             }
         });

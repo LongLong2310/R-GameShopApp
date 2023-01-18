@@ -24,6 +24,7 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -51,6 +52,7 @@ public class UserPurchaseHistory extends AppCompatActivity {
     private String selectedFilter;
     private SearchView searchView;
     private userMain userMain;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Objects.requireNonNull(this.getSupportActionBar()).hide();
@@ -62,7 +64,7 @@ public class UserPurchaseHistory extends AppCompatActivity {
         ArrayList<String> arrayList = new ArrayList<>();
         arrayList.add("Date");
         arrayList.add("ID");
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this,R.layout.spinner_item, arrayList);
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, R.layout.spinner_item, arrayList);
         arrayAdapter.setDropDownViewResource(R.layout.spinner_dropdown_layout);
         spinnerFilter.setAdapter(arrayAdapter);
         spinnerFilter.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -81,13 +83,13 @@ public class UserPurchaseHistory extends AppCompatActivity {
     }
 
     @Override
-    protected void onResume(){
+    protected void onResume() {
         super.onResume();
         showHistoryList(this);
     }
 
     //One method to set visibility for our widgets
-    private void setVisible(int id, boolean isVisible){
+    private void setVisible(int id, boolean isVisible) {
         View aView = findViewById(id);
         if (isVisible)
             aView.setVisibility(View.VISIBLE);
@@ -107,11 +109,10 @@ public class UserPurchaseHistory extends AppCompatActivity {
         Intent intent = getIntent();
         String UserID = (String) intent.getExtras().get("UserID");
         cursor = dbManager.selectUserPurchaseHistory(UserID);
-        if (cursor.getCount() == 0){
+        if (cursor.getCount() == 0) {
 //            setVisible(R.id.noRecordText, true);
             setVisible(R.id.list, false);
-        }
-        else {
+        } else {
             listView = (ListView) findViewById(R.id.list);
             setVisible(R.id.list, true);
             SimpleCursorAdapter adapter = new SimpleCursorAdapter(
@@ -122,34 +123,36 @@ public class UserPurchaseHistory extends AppCompatActivity {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int
                         position, long id) {
-                    setVisible(R.id.detail_layout,true);
+                    setVisible(R.id.detail_layout, true);
                     createHistoryItemDetailDialog(context);
                 }
             });
         }
     }
 
-    public void createHistoryItemDetailDialog(Context context){
+    public void createHistoryItemDetailDialog(Context context) {
         dialogBuilder = new AlertDialog.Builder(context);
         final View itemDetailPopupView = getLayoutInflater().inflate(R.layout.transaction_detail, null);
 
         listViewDetail = itemDetailPopupView.findViewById(R.id.listTDetail);
         setVisible(R.id.list, true);
-        List<Item> list = new Gson().fromJson(cursor.getString(2), new TypeToken<List<Item>>(){}.getType());
+        List<Item> list = new Gson().fromJson(cursor.getString(2), new TypeToken<List<Item>>() {
+        }.getType());
         itemCartList = new ArrayList<Item>(list);
         ListAdapter listAdapter = new ListAdapter(context, R.layout.fragment_cart_item, itemCartList);
         listViewDetail.setAdapter(listAdapter);
         TextView totalTextView = (TextView) itemDetailPopupView.findViewById(R.id.textViewTotalnumber);
         double total = 0;
         for (int i = 0; i < itemCartList.size(); i++) {
-            total += itemCartList.get(i).getitemPrice()*itemCartList.get(i).getitemStock();
+            total += itemCartList.get(i).getitemPrice() * itemCartList.get(i).getitemStock();
         }
+        total=Double.parseDouble(new DecimalFormat("##.##").format(total));
         totalTextView.setText(total + "$");
         dialogBuilder.setView(itemDetailPopupView);
         ImageButton cancel_button = (ImageButton) itemDetailPopupView.findViewById(R.id.cancel_button);
         cancel_button.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v){
+            public void onClick(View v) {
                 dialog.dismiss();
             }
         });
@@ -158,7 +161,7 @@ public class UserPurchaseHistory extends AppCompatActivity {
     }
 
     @Override
-    protected void onDestroy(){
+    protected void onDestroy() {
         super.onDestroy();
         dbManager.close();
     }
@@ -184,26 +187,26 @@ public class UserPurchaseHistory extends AppCompatActivity {
         });
         return super.onCreateOptionsMenu(menu);
     }
+
     public void onBackClick(View view) {
         finish();
     }
+
     private void searchHistory(String string) {
         Intent intent = getIntent();
         String UserID = (String) intent.getExtras().get("UserID");
         if (selectedFilter.equals("Date")) {
-            cursor = dbManager.searchHistoryDate(string,UserID);
-        }
-        else if (selectedFilter.equals("ID")) {
-            cursor = dbManager.searchHistoryId(string,UserID);
+            cursor = dbManager.searchHistoryDate(string, UserID);
+        } else if (selectedFilter.equals("ID")) {
+            cursor = dbManager.searchHistoryId(string, UserID);
         }
 
         SimpleCursorAdapter adapter = new SimpleCursorAdapter(
                 this, R.layout.activity_view_record_user_history, cursor, from, to, 0);
         adapter.notifyDataSetChanged();
-        if(cursor.getCount() == 0) {
+        if (cursor.getCount() == 0) {
             Toast.makeText(this, "No match found", Toast.LENGTH_SHORT).show();
-        }
-        else {
+        } else {
             listView.setAdapter(adapter);
         }
     }

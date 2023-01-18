@@ -19,33 +19,33 @@ public class adminMenu extends AppCompatActivity {
         Objects.requireNonNull(this.getSupportActionBar()).hide();
         setContentView(R.layout.activity_admin_menu);
 
-        Button buttonS = (Button)findViewById(R.id.buttonStock);
-        Button buttonH = (Button)findViewById(R.id.buttonHistory);
-        Button buttonA = (Button)findViewById(R.id.buttonAccount);
-        Button buttonL = (Button)findViewById(R.id.buttonLogout);
+        Button buttonS = (Button) findViewById(R.id.buttonStock);
+        Button buttonH = (Button) findViewById(R.id.buttonHistory);
+        Button buttonA = (Button) findViewById(R.id.buttonAccount);
+        Button buttonL = (Button) findViewById(R.id.buttonLogout);
 
 
-        buttonS.setOnClickListener((View.OnClickListener)(new View.OnClickListener() {
-                public final void onClick(View it) {
-                    Intent i = new Intent(adminMenu.this, stockScreen.class);
-                    startActivity(i);
-                }
-            }));
-        buttonH.setOnClickListener((View.OnClickListener)(new View.OnClickListener() {
+        buttonS.setOnClickListener((View.OnClickListener) (new View.OnClickListener() {
+            public final void onClick(View it) {
+                Intent i = new Intent(adminMenu.this, stockScreen.class);
+                startActivity(i);
+            }
+        }));
+        buttonH.setOnClickListener((View.OnClickListener) (new View.OnClickListener() {
             public final void onClick(View it) {
                 Intent i = new Intent(adminMenu.this, adminHistory.class);
                 startActivity(i);
             }
         }));
-        buttonA.setOnClickListener((View.OnClickListener)(new View.OnClickListener() {
+        buttonA.setOnClickListener((View.OnClickListener) (new View.OnClickListener() {
             public final void onClick(View it) {
                 Intent i = new Intent(adminMenu.this, accountScreen.class);
                 startActivity(i);
             }
         }));
-        buttonL.setOnClickListener((View.OnClickListener)(new View.OnClickListener() {
+        buttonL.setOnClickListener((View.OnClickListener) (new View.OnClickListener() {
             public final void onClick(View it) {
-               finish();
+                finish();
             }
         }));
 

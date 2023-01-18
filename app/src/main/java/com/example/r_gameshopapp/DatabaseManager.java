@@ -49,26 +49,9 @@ public class DatabaseManager {
         database.insert(DatabaseHelper.TABLE_NAME_A, null, contentValue);
     }
 
-    public void insertCart(int cusID, List<Item> productList, double total) {
-        ContentValues contentValue = new ContentValues();
-        contentValue.put(DatabaseHelper.CID, cusID);
-        contentValue.put(DatabaseHelper.NAME, new Gson().toJson(productList));
-        contentValue.put(DatabaseHelper.DATE, LocalDateTime.now().toString());
-        contentValue.put(DatabaseHelper.TOTAL, total);
-        database.insert(DatabaseHelper.TABLE_NAME_C, null, contentValue);
-    }
-
-//    private String toJson(Object object) {
-//        ObjectMapper objectMapper = new ObjectMapper();
-//        try {
-//            return objectMapper.writeValueAsString(object);
-//        } catch (JsonProcessingException e) {
-//            throw new RuntimeException(e);
-//        }
-//    }
 
     public void insertHistory(int cusID, List<Item> productList, double total) {
-        String DATE_FORMATTER= "yyyy-MM-dd";
+        String DATE_FORMATTER = "yyyy-MM-dd";
         LocalDateTime date = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_FORMATTER);
         String formatDateTime = date.format(formatter);
@@ -104,17 +87,6 @@ public class DatabaseManager {
         return i;
     }
 
-    public int updateCart(long _id, String name, int cid, int price, int amount) {
-        ContentValues contentValue = new ContentValues();
-        contentValue.put(DatabaseHelper.NAME, name);
-        contentValue.put(DatabaseHelper.CID, cid);
-        contentValue.put(DatabaseHelper.PRICE, price);
-        contentValue.put(DatabaseHelper.AMOUNT, amount);
-        int i = database.update(DatabaseHelper.TABLE_NAME_C,
-                contentValue,
-                DatabaseHelper.ID + " =" + _id, null);
-        return i;
-    }
 
     public int updateHistory(long _id, String name, int cid, int price, int amount) {
         ContentValues contentValue = new ContentValues();
@@ -147,14 +119,6 @@ public class DatabaseManager {
                 DatabaseHelper.TABLE_NAME_S});
     }
 
-    public void deleteCart(long _id) {
-        database.delete(DatabaseHelper.TABLE_NAME_C,
-                DatabaseHelper.ID + " =" + _id, null);
-        // When deleting or adding rows with AUTOINCREMENT, use this to
-        // reserve the biggest primary key in the table
-        database.delete("SQLITE_SEQUENCE", "NAME = ?", new String[]{
-                DatabaseHelper.TABLE_NAME_C});
-    }
 
     public void deleteHistory(long _id) {
         database.delete(DatabaseHelper.TABLE_NAME_H,
@@ -165,96 +129,40 @@ public class DatabaseManager {
                 DatabaseHelper.TABLE_NAME_H});
     }
 
-    public Cursor searchName(String name) {
-        database = this.dbHelper.getReadableDatabase();
 
-        String queryString = "SELECT * FROM " + DatabaseHelper.TABLE_NAME_A + " WHERE " + DatabaseHelper.NAME + " LIKE '%" + name + "%'";
-        Cursor cursor = database.rawQuery(queryString, null);
-        return cursor;
-    }
-
-
-    public String searchAccount(long _id) {
-
-        String queryString = "SELECT * FROM " + DatabaseHelper.TABLE_NAME_A + " WHERE ID='" + _id + "'";
-
-        String returnPatientModel = "";
-
-        database = this.dbHelper.getReadableDatabase();
-
-        Cursor cursor = database.rawQuery(queryString, null);
-
-        if (cursor.moveToFirst()) {
-            String accountName = cursor.getString(1);
-            String accountPass = cursor.getString(2);
-            int accountCash = cursor.getInt(3);
-
-            returnPatientModel = accountName + " " + accountPass + " " + accountCash;
-        } else {
-            //Fail -> do not add anything
-            System.out.println("No Record Found");
-        }
-
-        cursor.close();
-        database.close();
-        return returnPatientModel;
-    }
-
-
-
-    //calculate total price of cart=amount*price of each item
-    public int total() {
-        int total = 0;
-        String[] columns = new String[]{
-                DatabaseHelper.ID,
-                DatabaseHelper.NAME,
-                DatabaseHelper.CID,
-                DatabaseHelper.PRICE,
-                DatabaseHelper.AMOUNT,
-        };
-        Cursor cursor = database.query(DatabaseHelper.TABLE_NAME_C, columns,
-                null, null, null, null, null);
-        if (cursor != null) {
-            cursor.moveToFirst();
-        }
-        while (cursor.isAfterLast() == false) {
-            total = total + cursor.getInt(3) * cursor.getInt(4);
-            cursor.moveToNext();
-        }
-        cursor.close();
-        return total;
-    }
-    public int buy(String name,int amount) {
+    public int buy(String name, int amount) {
 
         ContentValues contentValue = new ContentValues();
 
         contentValue.put(DatabaseHelper.STOCK, amount);
         int i = database.update(DatabaseHelper.TABLE_NAME_S,
                 contentValue,
-                DatabaseHelper.NAME + " ='" + name +"'", null);
+                DatabaseHelper.NAME + " ='" + name + "'", null);
 
         return i;
 
     }
-    public int changeBalance(String name,double amount) {
+
+    public int changeBalance(String name, double amount) {
         dbHelper = new DatabaseHelper(context);
         database = dbHelper.getWritableDatabase();
         ContentValues contentValue = new ContentValues();
 
-        contentValue.put(DatabaseHelper.CASH,"$" + amount);
+        contentValue.put(DatabaseHelper.CASH, "$" + amount);
         int i = database.update(DatabaseHelper.TABLE_NAME_A,
                 contentValue,
-                DatabaseHelper.NAME + " ='" + name +"'", null);
+                DatabaseHelper.NAME + " ='" + name + "'", null);
         return i;
 
     }
-    public int BuyBalance(String name,double amount) {
+
+    public int BuyBalance(String name, double amount) {
         ContentValues contentValue = new ContentValues();
 
-        contentValue.put(DatabaseHelper.CASH,"$" + amount);
+        contentValue.put(DatabaseHelper.CASH, "$" + amount);
         int i = database.update(DatabaseHelper.TABLE_NAME_A,
                 contentValue,
-                DatabaseHelper.NAME + " ='" + name +"'", null);
+                DatabaseHelper.NAME + " ='" + name + "'", null);
         return i;
 
     }
@@ -275,6 +183,7 @@ public class DatabaseManager {
         }
         return cursor;
     }
+
     public Cursor searchHistoryCId(String string) {
 
         Cursor cursor = database.rawQuery("SELECT * FROM " + DatabaseHelper.TABLE_NAME_H + " WHERE " + DatabaseHelper.CID + " LIKE ?", new String[]{"%" + string + "%"});
@@ -284,6 +193,7 @@ public class DatabaseManager {
         }
         return cursor;
     }
+
     public Cursor searchHistoryDate(String string) {
 
         Cursor cursor = database.rawQuery("SELECT * FROM " + DatabaseHelper.TABLE_NAME_H + " WHERE " + DatabaseHelper.DATE + " LIKE ?", new String[]{"%" + string + "%"});
@@ -293,14 +203,16 @@ public class DatabaseManager {
         }
         return cursor;
     }
-    public Cursor searchHistoryDate(String string,String string2) {
 
-        Cursor cursor = database.rawQuery("SELECT * FROM " + DatabaseHelper.TABLE_NAME_H + " WHERE " + DatabaseHelper.DATE + " LIKE ?"+" AND " + DatabaseHelper.CID+ " LIKE ?", new String[]{"%" + string + "%","%" + string2 + "%"});
+    public Cursor searchHistoryDate(String string, String string2) {
+
+        Cursor cursor = database.rawQuery("SELECT * FROM " + DatabaseHelper.TABLE_NAME_H + " WHERE " + DatabaseHelper.DATE + " LIKE ?" + " AND " + DatabaseHelper.CID + " LIKE ?", new String[]{"%" + string + "%", "%" + string2 + "%"});
         if (cursor != null) {
             cursor.moveToFirst();
         }
         return cursor;
     }
+
     public Cursor searchHistoryId(String string) {
 
         Cursor cursor = database.rawQuery("SELECT * FROM " + DatabaseHelper.TABLE_NAME_H + " WHERE " + DatabaseHelper.ID + " LIKE ?", new String[]{"%" + string + "%"});
@@ -310,14 +222,16 @@ public class DatabaseManager {
         }
         return cursor;
     }
-    public Cursor searchHistoryId(String string,String string2) {
 
-        Cursor cursor = database.rawQuery("SELECT * FROM " + DatabaseHelper.TABLE_NAME_H + " WHERE " + DatabaseHelper.ID + " LIKE ?"+" AND " + DatabaseHelper.CID+ " LIKE ?", new String[]{"%" + string + "%","%" + string2 + "%"});
+    public Cursor searchHistoryId(String string, String string2) {
+
+        Cursor cursor = database.rawQuery("SELECT * FROM " + DatabaseHelper.TABLE_NAME_H + " WHERE " + DatabaseHelper.ID + " LIKE ?" + " AND " + DatabaseHelper.CID + " LIKE ?", new String[]{"%" + string + "%", "%" + string2 + "%"});
         if (cursor != null) {
             cursor.moveToFirst();
         }
         return cursor;
     }
+
     public Cursor searchStockName(String string) {
 
         Cursor cursor = database.rawQuery("SELECT * FROM " + DatabaseHelper.TABLE_NAME_S + " WHERE " + DatabaseHelper.NAME + " LIKE ?", new String[]{"%" + string + "%"});
@@ -415,7 +329,9 @@ public class DatabaseManager {
     }
 
     public boolean checkUser(String username) {
-        if (username.equals("admin")){return true;}
+        if (username.equals("admin")) {
+            return true;
+        }
         // array of columns to fetch
         String[] columns = {
                 DatabaseHelper.ID
@@ -479,6 +395,7 @@ public class DatabaseManager {
         }
         return false;
     }
+
     public boolean checkStock(String name) {
 
         // array of columns to fetch

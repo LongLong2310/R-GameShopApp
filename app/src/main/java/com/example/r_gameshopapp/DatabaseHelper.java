@@ -12,7 +12,6 @@ import java.util.List;
 
 
 public class DatabaseHelper extends SQLiteOpenHelper {
-    public static final String TABLE_NAME_C = "Cart";
     public static final String TABLE_NAME_H = "History";
     public static final String TABLE_NAME_S = "Stock";
     public static final String TABLE_NAME_A = "Account";
@@ -40,13 +39,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String PRODUCTLIST = "productlist";
 
     //create query
-    private static final String CREATE_TABLE_CART =
-            "create table " + TABLE_NAME_C + " (" +
-                    ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
-                    CID + " STRING," +
-                    PRODUCTLIST + " STRING," +
-                    TOTAL + " INTEGER," +
-                    DATE + " STRING);";
+
 
     private static final String CREATE_TABLE_HISTORY =
             "create table " + TABLE_NAME_H + " (" +
@@ -81,7 +74,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL(CREATE_TABLE_CART);
         db.execSQL(CREATE_TABLE_HISTORY);
         db.execSQL(CREATE_TABLE_ACCOUNT);
         db.execSQL(CREATE_TABLE_STOCK);
@@ -89,7 +81,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_C);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_H);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_A);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_S);

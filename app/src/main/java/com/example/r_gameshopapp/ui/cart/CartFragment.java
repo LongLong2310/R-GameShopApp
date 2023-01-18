@@ -41,7 +41,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CartFragment extends Fragment{
+public class CartFragment extends Fragment {
 
     private AlertDialog.Builder dialogBuilder;
     private AlertDialog dialog;
@@ -68,7 +68,7 @@ public class CartFragment extends Fragment{
                              ViewGroup container, Bundle savedInstanceState) {
         dbManager = new DatabaseManager(getActivity());
         dbManager.open();
-        Cursor u=dbManager.searchAccountID(Integer.toString(((userMain)getActivity()).getid()));
+        Cursor u = dbManager.searchAccountID(Integer.toString(((userMain) getActivity()).getid()));
         Context context = inflater.getContext();
         binding = FragmentCartBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
@@ -77,7 +77,8 @@ public class CartFragment extends Fragment{
         cartList = root.findViewById(R.id.cart_list);
 
         if (((userMain) getActivity()).getPurchaseStatus()) {
-            List<Item> list = new Gson().fromJson(((userMain) getActivity()).getTest(), new TypeToken<List<Item>>(){}.getType());
+            List<Item> list = new Gson().fromJson(((userMain) getActivity()).getTest(), new TypeToken<List<Item>>() {
+            }.getType());
             itemCartList = new ArrayList<Item>(list);
             listAdapter = new ListAdapter(context, R.layout.fragment_cart_item, itemCartList);
             cartList.setAdapter(listAdapter);
@@ -97,9 +98,9 @@ public class CartFragment extends Fragment{
                                     itemCartList.remove(itemCartList.get(position));
                                     ((userMain) getActivity()).setCurrentItemList(itemCartList);
                                     listAdapter.notifyDataSetChanged();
-                                    total=0;
+                                    total = 0;
                                     for (int i = 0; i < itemCartList.size(); i++) {
-                                        total += itemCartList.get(i).getitemPrice()*itemCartList.get(i).getitemStock();
+                                        total += itemCartList.get(i).getitemPrice() * itemCartList.get(i).getitemStock();
                                     }
                                     totalTextView.setText("TOTAL:  $" + Double.parseDouble(new DecimalFormat("##.##").format(total)));
 
@@ -111,7 +112,7 @@ public class CartFragment extends Fragment{
                                 @Override
                                 public void onClick(DialogInterface dialog, int
                                         which) {
-                                    createUpdateItemDetailDialog(context,itemCartList.get(position), position);
+                                    createUpdateItemDetailDialog(context, itemCartList.get(position), position);
                                     listAdapter.notifyDataSetChanged();
                                 }
                             });
@@ -120,7 +121,7 @@ public class CartFragment extends Fragment{
             });
             totalTextView = root.findViewById(R.id.total_price);
             for (int i = 0; i < itemCartList.size(); i++) {
-                total += itemCartList.get(i).getitemPrice()*itemCartList.get(i).getitemStock();
+                total += itemCartList.get(i).getitemPrice() * itemCartList.get(i).getitemStock();
             }
             totalTextView.setText("TOTAL:  $" + Double.parseDouble(new DecimalFormat("##.##").format(total)));
 
@@ -165,13 +166,13 @@ public class CartFragment extends Fragment{
         });
 
         balanceTextView = root.findViewById(R.id.balance);
-        balanceTextView.setText("CURRENT BALANCE: $"+ Double.parseDouble(new DecimalFormat("##.##").format(Double.parseDouble(u.getString(3).replaceAll("[$]", "")))));
+        balanceTextView.setText("CURRENT BALANCE: $" + Double.parseDouble(new DecimalFormat("##.##").format(Double.parseDouble(u.getString(3).replaceAll("[$]", "")))));
 
         ((userMain) getActivity()).setCurrentItemList(itemCartList);
         return root;
     }
 
-    public void createUpdateItemDetailDialog(Context context, Item item, int position){
+    public void createUpdateItemDetailDialog(Context context, Item item, int position) {
         dialogBuilder = new AlertDialog.Builder(context);
         dbManager = new DatabaseManager(getActivity());
         dbManager.open();
@@ -181,7 +182,7 @@ public class CartFragment extends Fragment{
         itemName = (TextView) itemDetailPopupView.findViewById(R.id.item_name);
         itemName.setText(item.getitemName());
         itemStock = (TextView) itemDetailPopupView.findViewById(R.id.item_stock);
-        itemStock.setText("STOCK: " +  itemStockDB);
+        itemStock.setText("STOCK: " + itemStockDB);
         itemPrice = (TextView) itemDetailPopupView.findViewById(R.id.item_price);
         itemPrice.setText("$" + (item.getitemPrice()));
         amount = (EditText) itemDetailPopupView.findViewById(R.id.amount);
@@ -210,7 +211,7 @@ public class CartFragment extends Fragment{
 
         cancel_button.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v){
+            public void onClick(View v) {
                 dialog.dismiss();
             }
         });
@@ -222,12 +223,12 @@ public class CartFragment extends Fragment{
                     if (Integer.parseInt(amount.getText().toString()) <= Integer.parseInt(itemStockDB)) {
                         String NameItem = itemName.getText().toString();
                         double PriceItem = Double.parseDouble(itemPrice.getText().toString().replaceAll("[$]", ""));
-                        updateItem = new Item(NameItem, Integer.parseInt(amount.getText().toString()),item.getitemCategory(), PriceItem);
+                        updateItem = new Item(NameItem, Integer.parseInt(amount.getText().toString()), item.getitemCategory(), PriceItem);
                         itemCartList.set(position, updateItem);
                         listAdapter.notifyDataSetChanged();
-                        total=0;
+                        total = 0;
                         for (int i = 0; i < itemCartList.size(); i++) {
-                            total += itemCartList.get(i).getitemPrice()*itemCartList.get(i).getitemStock();
+                            total += itemCartList.get(i).getitemPrice() * itemCartList.get(i).getitemStock();
                         }
                         totalTextView.setText("TOTAL:  $" + Double.parseDouble(new DecimalFormat("##.##").format(total)));
                         dialog.dismiss();
@@ -247,11 +248,11 @@ public class CartFragment extends Fragment{
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                if(item.getItemId() == R.id.music)
+                if (item.getItemId() == R.id.music)
                     createServiceDialog(getLayoutInflater().getContext());
-                if(item.getItemId() == R.id.logout)
+                if (item.getItemId() == R.id.logout)
                     requireActivity().finish();
-                if(item.getItemId() == R.id.contact)
+                if (item.getItemId() == R.id.contact)
                     createContactUsDialog(getLayoutInflater().getContext());
                 return true;
             }
@@ -282,7 +283,7 @@ public class CartFragment extends Fragment{
         cancel_button = (ImageButton) backgroundMusicPopupView.findViewById(R.id.cancel_button);
         cancel_button.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v){
+            public void onClick(View v) {
                 dialog.dismiss();
             }
         });
@@ -300,12 +301,12 @@ public class CartFragment extends Fragment{
         contactConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String to="chitoan.tran@yahoo.com.vn";
+                String to = "chitoan.tran@yahoo.com.vn";
                 String subject = editTextSubject.getText().toString();
                 String message = editTextContact.getText().toString();
 
                 Intent email = new Intent(Intent.ACTION_SEND);
-                email.putExtra(Intent.EXTRA_EMAIL, new String[]{ to});
+                email.putExtra(Intent.EXTRA_EMAIL, new String[]{to});
                 email.putExtra(Intent.EXTRA_SUBJECT, subject);
                 email.putExtra(Intent.EXTRA_TEXT, message);
 
@@ -317,7 +318,7 @@ public class CartFragment extends Fragment{
         cancel_button = (ImageButton) contactUsPopupView.findViewById(R.id.button_cancel);
         cancel_button.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v){
+            public void onClick(View v) {
                 dialog.dismiss();
             }
         });

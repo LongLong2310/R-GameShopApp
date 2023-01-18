@@ -21,7 +21,7 @@ public class MyReceiver extends BroadcastReceiver {
                 }
             }
         }
-        if (intent.getAction().equals("Start_service_event")){
+        if (intent.getAction().equals("Start_service_event")) {
             AudioManager audio = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
             int currentvol = audio.getStreamVolume(AudioManager.STREAM_MUSIC);
             if (currentvol == 0) {

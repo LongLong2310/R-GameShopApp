@@ -12,15 +12,19 @@ public class Item {
         this.itemListCategory = itemCategory;
         this.itemListPrice = itemPrice;
     }
+
     public String getitemName() {
         return itemListName;
     }
+
     public int getitemStock() {
         return itemListStock;
     }
+
     public String getitemCategory() {
         return itemListCategory;
     }
+
     public double getitemPrice() {
         return itemListPrice;
     }
